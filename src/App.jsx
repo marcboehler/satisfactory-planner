@@ -53,11 +53,11 @@ const NODE_HEIGHT = 280
 
 // Tier background colors (matte dark palette)
 const TIER_COLORS = [
-  '#1e1e1e',   // Tier 1: Dark gray
-  '#1a1a1a',   // Tier 2: Darker
-  '#161616',   // Tier 3: Even darker
-  '#121212',   // Tier 4: Very dark
-  '#0f0f0f',   // Tier 5: Near black
+  '#1a1a1a',   // Tier 1: Dark gray
+  '#161616',   // Tier 2: Darker
+  '#141414',   // Tier 3: Even darker
+  '#111111',   // Tier 4: Very dark
+  '#0e0e0e',   // Tier 5: Near black
   '#0c0c0c',   // Tier 6+: Almost black
 ]
 
@@ -92,7 +92,7 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
   dagre.layout(dagreGraph)
 
   // Calculate node positions
-  const layoutedNodes = nodes.map((node) => {
+  let layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id)
     const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
 
@@ -135,6 +135,29 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
     tier.maxX = Math.max(tier.maxX, node.position.x + NODE_WIDTH)
     tier.minY = Math.min(tier.minY, node.position.y)
     tier.maxY = Math.max(tier.maxY, node.position.y + nodeHeight)
+  })
+
+  // Calculate global Y bounds for vertical centering
+  let globalMinY = Infinity
+  let globalMaxY = -Infinity
+  tierMap.forEach((tier) => {
+    globalMinY = Math.min(globalMinY, tier.minY)
+    globalMaxY = Math.max(globalMaxY, tier.maxY)
+  })
+  const globalHeight = globalMaxY - globalMinY
+
+  // Center each tier's nodes vertically within the global height
+  tierMap.forEach((tier) => {
+    const tierHeight = tier.maxY - tier.minY
+    const yOffset = (globalHeight - tierHeight) / 2 - (tier.minY - globalMinY)
+
+    tier.nodes.forEach((node) => {
+      node.position.y += yOffset
+    })
+
+    // Update tier bounds after centering
+    tier.minY += yOffset
+    tier.maxY += yOffset
   })
 
   // Convert to sorted array of tier info
