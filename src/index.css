@@ -486,3 +486,96 @@ html, body, #root {
   margin-top: 6px;
   font-style: italic;
 }
+
+/* Belt Settings Styles */
+.belt-settings {
+  padding: 1rem;
+  background: #1a1a2e;
+  border-bottom: 1px solid #333;
+}
+
+.belt-settings label {
+  font-size: 0.85rem;
+  color: #e94560;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.belt-select {
+  width: 100%;
+  padding: 0.5rem;
+  background: #16213e;
+  border: 1px solid #e94560;
+  border-radius: 4px;
+  color: #eaeaea;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.belt-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+}
+
+.belt-legend {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: #16213e;
+  border-radius: 4px;
+}
+
+.belt-legend-title {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.belt-legend-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+.belt-legend-item.active {
+  background: rgba(233, 69, 96, 0.2);
+  border-left: 2px solid #e94560;
+}
+
+.belt-legend-item.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.belt-tier {
+  color: #eaeaea;
+  font-weight: 500;
+}
+
+.belt-capacity {
+  color: #4ade80;
+}
+
+.belt-legend-item.disabled .belt-capacity {
+  color: #888;
+}
+
+/* Overloaded edge warning styles */
+.react-flow__edge.overloaded .react-flow__edge-path {
+  stroke: #ff4444 !important;
+  stroke-width: 4 !important;
+}
+
+.edge-overload-warning {
+  background: #ff4444;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
