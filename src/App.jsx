@@ -12,7 +12,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import dagre from 'dagre'
-import { Menu, X, ChevronLeft, ChevronRight, LayoutGrid } from 'lucide-react'
+import { Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
@@ -594,20 +594,16 @@ export default function App() {
     }
   }, [productionChain, minerSettings])
 
-  // Convert to flow nodes
-  const flowNodes = useMemo(() => {
-    if (!productionChain) return []
+  // Convert to flow nodes and apply auto-layout
+  const { layoutedNodes, layoutedEdges } = useMemo(() => {
+    if (!productionChain) return { layoutedNodes: [], layoutedEdges: [] }
+
     const productionTime = productionTimeInfo?.totalMinutes || 1
-    return chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTime)
-  }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTimeInfo])
+    const nodes = chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTime)
 
-  // Calculate required belt rates and determine minimum belt tier per edge
-  const flowEdges = useMemo(() => {
-    if (!productionChain) return []
-
+    // Calculate edges for layout
     const totalMinutes = productionTimeInfo?.totalMinutes || 1
-
-    return productionChain.edges.map(edge => {
+    const edges = productionChain.edges.map(edge => {
       const amount = edge.data?.amount || 0
       const requiredRate = amount / totalMinutes
       const beltInfo = getRequiredBeltTier(requiredRate)
@@ -619,7 +615,6 @@ export default function App() {
       }
 
       if (beltInfo.isOverLimit) {
-        // Rate exceeds Mk.6 - show warning
         return {
           ...edge,
           ...baseStyle,
@@ -628,12 +623,7 @@ export default function App() {
           labelBgStyle: { fill: '#cc2200', fillOpacity: 1 },
           style: { stroke: '#ff4444', strokeWidth: 5 },
           animated: true,
-          data: {
-            ...edge.data,
-            requiredRate,
-            beltTier: beltInfo.tier,
-            isOverLimit: true,
-          },
+          data: { ...edge.data, requiredRate, beltTier: beltInfo.tier, isOverLimit: true },
         }
       }
 
@@ -643,18 +633,21 @@ export default function App() {
         label: `${Math.ceil(amount)}x (${beltInfo.tier})`,
         labelBgStyle: { fill: '#1a1a1a', fillOpacity: 0.95 },
         style: { stroke: '#fa9549', strokeWidth: 2 },
-        data: {
-          ...edge.data,
-          requiredRate,
-          beltTier: beltInfo.tier,
-          isOverLimit: false,
-        },
+        data: { ...edge.data, requiredRate, beltTier: beltInfo.tier, isOverLimit: false },
       }
     })
-  }, [productionChain, productionTimeInfo, language])
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges)
+    // Apply dagre auto-layout
+    if (nodes.length > 0) {
+      const { nodes: layouted } = getLayoutedElements(nodes, edges, 'LR')
+      return { layoutedNodes: layouted, layoutedEdges: edges }
+    }
+
+    return { layoutedNodes: nodes, layoutedEdges: edges }
+  }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTimeInfo])
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges)
 
   // Update nodes when language or target changes
   const handleLanguageChange = useCallback((newLang) => {
@@ -663,28 +656,14 @@ export default function App() {
 
   // Update flow when production chain changes
   useMemo(() => {
-    setNodes(flowNodes)
-    setEdges(flowEdges)
-  }, [flowNodes, flowEdges, setNodes, setEdges])
+    setNodes(layoutedNodes)
+    setEdges(layoutedEdges)
+  }, [layoutedNodes, layoutedEdges, setNodes, setEdges])
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
     [setEdges],
   )
-
-  // Auto-layout handler using dagre
-  const onLayout = useCallback(() => {
-    if (nodes.length === 0) return
-
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-      nodes,
-      edges,
-      'LR' // Left to Right layout
-    )
-
-    setNodes([...layoutedNodes])
-    setEdges([...layoutedEdges])
-  }, [nodes, edges, setNodes, setEdges])
 
   // Handle item selection
   const handleItemClick = useCallback((itemId) => {
@@ -802,6 +781,8 @@ export default function App() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            nodesDraggable={false}
+            nodesConnectable={false}
             snapToGrid={true}
             snapGrid={[20, 20]}
             fitView
@@ -814,16 +795,6 @@ export default function App() {
             />
             <Background variant="dots" gap={20} size={1} color="#2a2a2a" />
           </ReactFlow>
-          {nodes.length > 0 && (
-            <button
-              className="layout-button"
-              onClick={onLayout}
-              title={translateUI('autoLayout', language)}
-            >
-              <LayoutGrid size={18} />
-              <span>{translateUI('autoLayout', language)}</span>
-            </button>
-          )}
         </div>
       </div>
     </div>
