@@ -10,71 +10,8 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import translations from './data/translations.json'
-
-// Node data with IDs - keeps calculations separate from display
-const nodeData = [
-  {
-    id: 'miner-1',
-    buildingType: 'Miner',
-    buildingSuffix: 'Mk.1',
-    itemId: 'Iron Ore',
-    itemSuffix: '(Normal)',
-    output: 60,
-    position: { x: 50, y: 100 },
-  },
-  {
-    id: 'smelter-1',
-    buildingType: 'Smelter',
-    buildingSuffix: '',
-    itemId: 'Iron Ingot',
-    itemSuffix: '',
-    output: 30,
-    position: { x: 300, y: 100 },
-  },
-  {
-    id: 'constructor-1',
-    buildingType: 'Constructor',
-    buildingSuffix: '',
-    itemId: 'Iron Plate',
-    itemSuffix: '',
-    output: 20,
-    position: { x: 550, y: 100 },
-  },
-  {
-    id: 'miner-2',
-    buildingType: 'Miner',
-    buildingSuffix: 'Mk.2',
-    itemId: 'Copper Ore',
-    itemSuffix: '(Pure)',
-    output: 240,
-    position: { x: 50, y: 250 },
-  },
-  {
-    id: 'smelter-2',
-    buildingType: 'Smelter',
-    buildingSuffix: 'x4',
-    itemId: 'Copper Ingot',
-    itemSuffix: '',
-    output: 120,
-    position: { x: 300, y: 250 },
-  },
-  {
-    id: 'constructor-2',
-    buildingType: 'Constructor',
-    buildingSuffix: 'x2',
-    itemId: 'Wire',
-    itemSuffix: '',
-    output: 90,
-    position: { x: 550, y: 250 },
-  },
-]
-
-const initialEdges = [
-  { id: 'e1-2', source: 'miner-1', target: 'smelter-1', animated: true },
-  { id: 'e2-3', source: 'smelter-1', target: 'constructor-1', animated: true },
-  { id: 'e4-5', source: 'miner-2', target: 'smelter-2', animated: true },
-  { id: 'e5-6', source: 'smelter-2', target: 'constructor-2', animated: true },
-]
+import items from './data/items.json'
+import recipes from './data/recipes.json'
 
 // Translation helper functions
 function translateBuilding(buildingId, lang) {
@@ -83,8 +20,12 @@ function translateBuilding(buildingId, lang) {
 }
 
 function translateItem(itemId, lang) {
-  const item = translations.items[itemId]
-  return item ? item[lang] : itemId
+  // First try to find in items.json
+  const item = items.find(i => i.id === itemId)
+  if (item) return item[lang]
+  // Fallback to translations.json
+  const translatedItem = translations.items[itemId]
+  return translatedItem ? translatedItem[lang] : itemId
 }
 
 function translateUI(key, lang) {
@@ -92,79 +33,208 @@ function translateUI(key, lang) {
   return ui ? ui[lang] : key
 }
 
-// Create React Flow nodes from data with translations
-function createNodes(data, lang) {
-  return data.map((node) => {
-    const buildingName = translateBuilding(node.buildingType, lang)
-    const itemName = translateItem(node.itemId, lang)
-    const suffix = node.buildingSuffix ? ` ${node.buildingSuffix}` : ''
-    const itemSuffix = node.itemSuffix ? ` ${node.itemSuffix}` : ''
+// Get item by id
+function getItem(itemId) {
+  return items.find(i => i.id === itemId)
+}
 
-    return {
+// Get recipe for an item
+function getRecipeForItem(itemId) {
+  return recipes.find(r => r.output === itemId)
+}
+
+// Check if item is a base ore (no recipe)
+function isOre(itemId) {
+  const item = getItem(itemId)
+  return item && item.category === 'Ore'
+}
+
+// Recursive calculation of production chain
+function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCounter = { value: 0 }) {
+  const result = {
+    nodes: [],
+    edges: [],
+  }
+
+  const recipe = getRecipeForItem(itemId)
+
+  if (!recipe || isOre(itemId)) {
+    // Base case: ore or no recipe found - create a miner node
+    const nodeId = `node-${nodeIdCounter.value++}`
+    result.nodes.push({
+      id: nodeId,
+      itemId: itemId,
+      building: 'Miner',
+      rate: targetRate,
+      depth: depth,
+      isOre: true,
+    })
+    return result
+  }
+
+  // Calculate how many cycles per minute we need
+  const outputPerCycle = recipe.outputAmount
+  const cyclesPerMinute = 60 / recipe.cycleTime
+  const baseOutputPerMinute = outputPerCycle * cyclesPerMinute
+  const machinesNeeded = targetRate / baseOutputPerMinute
+
+  // Create node for this building
+  const nodeId = `node-${nodeIdCounter.value++}`
+  result.nodes.push({
+    id: nodeId,
+    itemId: itemId,
+    building: recipe.building,
+    rate: targetRate,
+    machinesNeeded: machinesNeeded,
+    depth: depth,
+  })
+
+  // Recursively calculate for each input
+  for (const input of recipe.inputs) {
+    const inputPerCycle = input.amount
+    const inputPerMinute = inputPerCycle * cyclesPerMinute * machinesNeeded
+
+    const subChain = calculateProductionChain(
+      input.itemId,
+      inputPerMinute,
+      depth + 1,
+      nodeIdCounter
+    )
+
+    // Connect the first node of the sub-chain to this node
+    if (subChain.nodes.length > 0) {
+      result.edges.push({
+        id: `edge-${subChain.nodes[0].id}-${nodeId}`,
+        source: subChain.nodes[0].id,
+        target: nodeId,
+        animated: true,
+      })
+    }
+
+    result.nodes.push(...subChain.nodes)
+    result.edges.push(...subChain.edges)
+  }
+
+  return result
+}
+
+// Convert calculated chain to React Flow nodes
+function chainToFlowNodes(chain, lang) {
+  // Group nodes by depth for positioning
+  const depthGroups = {}
+  chain.nodes.forEach(node => {
+    if (!depthGroups[node.depth]) {
+      depthGroups[node.depth] = []
+    }
+    depthGroups[node.depth].push(node)
+  })
+
+  const maxDepth = Math.max(...chain.nodes.map(n => n.depth))
+  const flowNodes = []
+
+  chain.nodes.forEach(node => {
+    const depthIndex = depthGroups[node.depth].indexOf(node)
+    const nodesAtDepth = depthGroups[node.depth].length
+
+    // Position: x based on depth (right to left), y based on index at that depth
+    const x = (maxDepth - node.depth) * 250 + 50
+    const y = depthIndex * 120 + 50 + (depthIndex > 0 ? 20 : 0)
+
+    const buildingName = translateBuilding(node.building, lang)
+    const itemName = translateItem(node.itemId, lang)
+    const rateDisplay = node.rate.toFixed(2).replace(/\.?0+$/, '')
+    const machineInfo = node.machinesNeeded
+      ? ` (${node.machinesNeeded.toFixed(2).replace(/\.?0+$/, '')}x)`
+      : ''
+
+    flowNodes.push({
       id: node.id,
       type: 'default',
-      position: node.position,
+      position: { x, y },
       data: {
         label: (
           <div className="node-content">
-            <div className="node-title">{buildingName}{suffix}</div>
-            <div className="node-info">{itemName}{itemSuffix}</div>
-            <div className="node-output">{node.output}/min</div>
+            <div className="node-title">{buildingName}{machineInfo}</div>
+            <div className="node-info">{itemName}</div>
+            <div className="node-output">{rateDisplay}/min</div>
           </div>
         ),
       },
-    }
+    })
   })
+
+  return flowNodes
+}
+
+// Group items by category
+function groupItemsByCategory(itemsList) {
+  const groups = {}
+  itemsList.forEach(item => {
+    if (!groups[item.category]) {
+      groups[item.category] = []
+    }
+    groups[item.category].push(item)
+  })
+  return groups
+}
+
+// Category order and translations
+const categoryOrder = ['Ore', 'Ingot', 'Basic', 'Advanced']
+const categoryTranslations = {
+  Ore: { de: 'Erze', en: 'Ores' },
+  Ingot: { de: 'Barren', en: 'Ingots' },
+  Basic: { de: 'Basis', en: 'Basic' },
+  Advanced: { de: 'Fortgeschritten', en: 'Advanced' },
 }
 
 export default function App() {
   const [language, setLanguage] = useState('de')
+  const [targetItem, setTargetItem] = useState(null)
+  const [targetRate, setTargetRate] = useState(10)
 
-  // Create initial nodes with current language
-  const initialNodes = useMemo(() => createNodes(nodeData, language), [language])
+  // Calculate production chain when target changes
+  const productionChain = useMemo(() => {
+    if (!targetItem) return null
+    return calculateProductionChain(targetItem, targetRate)
+  }, [targetItem, targetRate])
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  // Convert to flow nodes
+  const flowNodes = useMemo(() => {
+    if (!productionChain) return []
+    return chainToFlowNodes(productionChain, language)
+  }, [productionChain, language])
 
-  // Update nodes when language changes
+  const flowEdges = useMemo(() => {
+    if (!productionChain) return []
+    return productionChain.edges
+  }, [productionChain])
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges)
+
+  // Update nodes when language or target changes
   const handleLanguageChange = useCallback((newLang) => {
     setLanguage(newLang)
-    setNodes((currentNodes) => {
-      // Preserve positions from current nodes
-      const positionMap = {}
-      currentNodes.forEach((n) => {
-        positionMap[n.id] = n.position
-      })
+  }, [])
 
-      // Create new nodes with updated language
-      return nodeData.map((node) => {
-        const buildingName = translateBuilding(node.buildingType, newLang)
-        const itemName = translateItem(node.itemId, newLang)
-        const suffix = node.buildingSuffix ? ` ${node.buildingSuffix}` : ''
-        const itemSuffix = node.itemSuffix ? ` ${node.itemSuffix}` : ''
-
-        return {
-          id: node.id,
-          type: 'default',
-          position: positionMap[node.id] || node.position,
-          data: {
-            label: (
-              <div className="node-content">
-                <div className="node-title">{buildingName}{suffix}</div>
-                <div className="node-info">{itemName}{itemSuffix}</div>
-                <div className="node-output">{node.output}/min</div>
-              </div>
-            ),
-          },
-        }
-      })
-    })
-  }, [setNodes])
+  // Update flow when production chain changes
+  useMemo(() => {
+    setNodes(flowNodes)
+    setEdges(flowEdges)
+  }, [flowNodes, flowEdges, setNodes, setEdges])
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
     [setEdges],
   )
+
+  // Handle item selection
+  const handleItemClick = useCallback((itemId) => {
+    setTargetItem(itemId)
+  }, [])
+
+  // Group items for display
+  const groupedItems = useMemo(() => groupItemsByCategory(items), [])
 
   return (
     <div className="app">
@@ -186,23 +256,62 @@ export default function App() {
           </button>
         </div>
       </header>
-      <div className="flow-container">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          fitView
-        >
-          <Controls />
-          <MiniMap
-            nodeColor="#e94560"
-            maskColor="rgba(0, 0, 0, 0.8)"
-            style={{ background: '#16213e' }}
-          />
-          <Background variant="dots" gap={20} size={1} color="#333" />
-        </ReactFlow>
+      <div className="main-content">
+        <aside className="sidebar">
+          <div className="sidebar-header">
+            <h2>{language === 'de' ? 'Materialien' : 'Materials'}</h2>
+          </div>
+          <div className="rate-input">
+            <label>{language === 'de' ? 'Zielrate' : 'Target Rate'}:</label>
+            <input
+              type="number"
+              value={targetRate}
+              onChange={(e) => setTargetRate(Math.max(1, parseFloat(e.target.value) || 1))}
+              min="1"
+              step="1"
+            />
+            <span>/min</span>
+          </div>
+          <div className="material-grid">
+            {categoryOrder.map(category => (
+              <div key={category} className="category-section">
+                <h3 className="category-title">
+                  {categoryTranslations[category][language]}
+                </h3>
+                <div className="category-items">
+                  {(groupedItems[category] || []).map(item => (
+                    <button
+                      key={item.id}
+                      className={`material-btn ${targetItem === item.id ? 'active' : ''}`}
+                      onClick={() => handleItemClick(item.id)}
+                      title={item[language]}
+                    >
+                      {item[language]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </aside>
+        <div className="flow-container">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            fitView
+          >
+            <Controls />
+            <MiniMap
+              nodeColor="#e94560"
+              maskColor="rgba(0, 0, 0, 0.8)"
+              style={{ background: '#16213e' }}
+            />
+            <Background variant="dots" gap={20} size={1} color="#333" />
+          </ReactFlow>
+        </div>
       </div>
     </div>
   )

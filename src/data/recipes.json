@@ -1,0 +1,99 @@
+[
+  {
+    "id": "iron-ingot",
+    "output": "iron-ingot",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Smelter",
+    "inputs": [{ "itemId": "iron-ore", "amount": 1 }]
+  },
+  {
+    "id": "copper-ingot",
+    "output": "copper-ingot",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Smelter",
+    "inputs": [{ "itemId": "copper-ore", "amount": 1 }]
+  },
+  {
+    "id": "concrete",
+    "output": "concrete",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "limestone", "amount": 3 }]
+  },
+  {
+    "id": "iron-plate",
+    "output": "iron-plate",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-ingot", "amount": 3 }]
+  },
+  {
+    "id": "iron-rod",
+    "output": "iron-rod",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-ingot", "amount": 1 }]
+  },
+  {
+    "id": "wire",
+    "output": "wire",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "copper-ingot", "amount": 1 }]
+  },
+  {
+    "id": "cable",
+    "output": "cable",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "wire", "amount": 2 }]
+  },
+  {
+    "id": "screw",
+    "output": "screw",
+    "outputAmount": 4,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-rod", "amount": 1 }]
+  },
+  {
+    "id": "reinforced-iron-plate",
+    "output": "reinforced-iron-plate",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-plate", "amount": 6 },
+      { "itemId": "screw", "amount": 12 }
+    ]
+  },
+  {
+    "id": "rotor",
+    "output": "rotor",
+    "outputAmount": 1,
+    "cycleTime": 15,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-rod", "amount": 5 },
+      { "itemId": "screw", "amount": 25 }
+    ]
+  },
+  {
+    "id": "modular-frame",
+    "output": "modular-frame",
+    "outputAmount": 2,
+    "cycleTime": 60,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "reinforced-iron-plate", "amount": 3 },
+      { "itemId": "iron-rod", "amount": 12 }
+    ]
+  }
+]
