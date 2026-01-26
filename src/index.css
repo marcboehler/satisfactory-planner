@@ -395,6 +395,11 @@ html, body, #root {
   fill: inherit;
 }
 
+/* Hide React Flow attribution */
+.react-flow__attribution {
+  display: none !important;
+}
+
 .node-content {
   display: flex;
   flex-direction: column;

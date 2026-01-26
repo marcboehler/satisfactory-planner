@@ -399,12 +399,18 @@ const nodeTypes = {
   machineNode: MachineNode,
 }
 
+// Check if we're on desktop (>= 768px)
+const getInitialSidebarState = () => {
+  if (typeof window === 'undefined') return true
+  return window.innerWidth >= 768
+}
+
 export default function App() {
   const [language, setLanguage] = useState('de')
   const [targetItem, setTargetItem] = useState(null)
   const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(getInitialSidebarState)
 
   // Handlers for miner settings changes
   const handleTierChange = useCallback((nodeId, newTier) => {
