@@ -103,6 +103,30 @@
     "bottleneck": {
       "de": "Engpass",
       "en": "Bottleneck"
+    },
+    "conveyorBelt": {
+      "de": "Förderband",
+      "en": "Conveyor Belt"
+    },
+    "maxBeltTier": {
+      "de": "Max. Förderband-Stufe",
+      "en": "Max Belt Tier"
+    },
+    "beltSpeeds": {
+      "de": "Förderband-Geschwindigkeiten",
+      "en": "Belt Speeds"
+    },
+    "beltOverloaded": {
+      "de": "Band überlastet!",
+      "en": "Belt overloaded!"
+    },
+    "required": {
+      "de": "Benötigt",
+      "en": "Required"
+    },
+    "maxCapacity": {
+      "de": "Max",
+      "en": "Max"
     }
   },
   "miner": {
