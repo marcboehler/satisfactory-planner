@@ -116,17 +116,13 @@
       "de": "Förderband-Geschwindigkeiten",
       "en": "Belt Speeds"
     },
-    "beltOverloaded": {
-      "de": "Band überlastet!",
-      "en": "Belt overloaded!"
+    "limitExceeded": {
+      "de": "LIMIT ÜBERSCHRITTEN",
+      "en": "LIMIT EXCEEDED"
     },
-    "required": {
-      "de": "Benötigt",
-      "en": "Required"
-    },
-    "maxCapacity": {
-      "de": "Max",
-      "en": "Max"
+    "beltReference": {
+      "de": "Förderband-Referenz",
+      "en": "Belt Reference"
     }
   },
   "miner": {
