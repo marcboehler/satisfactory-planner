@@ -366,20 +366,32 @@ html, body, #root {
 
 .react-flow__controls {
   background: #1a1a1a;
-  border: 1px solid #fa9549;
+  border: 2px solid #fa9549;
   border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .react-flow__controls-button {
   background: #1a1a1a;
+  border: none;
   border-bottom: 1px solid #333;
-  fill: #e0e0e0;
-  width: 24px;
-  height: 24px;
+  fill: #fa9549;
+  width: 28px;
+  height: 28px;
+  transition: all 0.2s ease;
 }
 
 .react-flow__controls-button:hover {
   background: #252525;
+  fill: #ffb347;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none;
+}
+
+.react-flow__controls-button svg {
+  fill: inherit;
 }
 
 .node-content {
@@ -749,8 +761,9 @@ html, body, #root {
     font-size: 7px;
   }
 
-  /* Hide minimap on mobile */
-  .react-flow__minimap {
+  /* Hide minimap and controls on mobile - use pinch-to-zoom instead */
+  .react-flow__minimap,
+  .react-flow__controls {
     display: none;
   }
 }

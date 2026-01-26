@@ -665,7 +665,7 @@ export default function App() {
             nodeTypes={nodeTypes}
             fitView
           >
-            <Controls />
+            <Controls showInteractive={false} />
             <MiniMap
               nodeColor="#fa9549"
               maskColor="rgba(0, 0, 0, 0.85)"
