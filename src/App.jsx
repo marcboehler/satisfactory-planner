@@ -51,14 +51,14 @@ const BUILDING_IMAGES = {
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 280
 
-// Tier background colors (solid dark industrial tones)
+// Tier background colors (matte dark palette)
 const TIER_COLORS = [
-  '#2b2b2b',   // Tier 1: Dark industrial gray
-  '#242424',   // Tier 2: Darker gray
-  '#1f1f1f',   // Tier 3: Anthracite
-  '#1a1a1a',   // Tier 4: Very dark
-  '#151515',   // Tier 5: Almost black
-  '#121212',   // Tier 6+: Near black
+  '#1e1e1e',   // Tier 1: Dark gray
+  '#1a1a1a',   // Tier 2: Darker
+  '#161616',   // Tier 3: Even darker
+  '#121212',   // Tier 4: Very dark
+  '#0f0f0f',   // Tier 5: Near black
+  '#0c0c0c',   // Tier 6+: Almost black
 ]
 
 // Auto-layout function using dagre - returns nodes, edges, and tier info
@@ -158,21 +158,18 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
 function createTierBackgroundNodes(tierInfo, language) {
   if (!tierInfo || tierInfo.length === 0) return []
 
-  const padding = 30
-  const arrowWidth = 20
+  const padding = 25
 
   // Calculate global min/max Y for consistent heights
   const globalMinY = Math.min(...tierInfo.map(t => t.minY)) - padding
   const globalMaxY = Math.max(...tierInfo.map(t => t.maxY)) + padding
 
   return tierInfo.map((tier, index) => {
-    const isFirst = index === 0
-    const isLast = index === tierInfo.length - 1
     const colorIndex = index % TIER_COLORS.length
 
-    // Calculate dimensions with arrow overlap
-    const x = tier.minX - padding - (isFirst ? 0 : arrowWidth)
-    const width = tier.width + padding * 2 + arrowWidth + (isFirst ? 0 : arrowWidth)
+    // Simple rectangular columns
+    const x = tier.minX - padding
+    const width = tier.width + padding * 2
     const height = globalMaxY - globalMinY
 
     return {
@@ -180,14 +177,10 @@ function createTierBackgroundNodes(tierInfo, language) {
       type: 'tierBackground',
       position: { x, y: globalMinY },
       data: {
-        tierIndex: index,
         tierLabel: `Tier ${index + 1}`,
         colorIndex,
-        isFirst,
-        isLast,
         width,
         height,
-        language,
       },
       selectable: false,
       draggable: false,
@@ -455,17 +448,16 @@ const MachineNode = memo(({ data }) => {
 
 // Tier Background Node Component
 const TierBackgroundNode = memo(({ data }) => {
-  const { tierLabel, colorIndex, isFirst, isLast, width, height } = data
+  const { tierLabel, colorIndex, width, height } = data
   const bgColor = TIER_COLORS[colorIndex] || TIER_COLORS[0]
 
   return (
     <div
-      className={`tier-background ${isFirst ? 'tier-first' : ''} ${isLast ? 'tier-last' : ''}`}
+      className="tier-background"
       style={{
         width: `${width}px`,
         height: `${height}px`,
         backgroundColor: bgColor,
-        border: 'none',
       }}
     >
       <div className="tier-label">{tierLabel}</div>
