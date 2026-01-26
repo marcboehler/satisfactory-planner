@@ -11,7 +11,8 @@ import {
   Position,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import { Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import dagre from 'dagre'
+import { Menu, X, ChevronLeft, ChevronRight, LayoutGrid } from 'lucide-react'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
@@ -45,6 +46,52 @@ const BUILDING_IMAGES = {
   'Smelter': 'https://satisfactory.wiki.gg/images/thumb/3/30/Smelter.png/200px-Smelter.png',
   'Constructor': 'https://satisfactory.wiki.gg/images/thumb/1/1a/Constructor.png/200px-Constructor.png',
   'Assembler': 'https://satisfactory.wiki.gg/images/thumb/d/dc/Assembler.png/200px-Assembler.png',
+}
+
+// Node dimensions for dagre layout
+const NODE_WIDTH = 200
+const NODE_HEIGHT = 280
+
+// Auto-layout function using dagre
+function getLayoutedElements(nodes, edges, direction = 'LR') {
+  const dagreGraph = new dagre.graphlib.Graph()
+  dagreGraph.setDefaultEdgeLabel(() => ({}))
+
+  dagreGraph.setGraph({
+    rankdir: direction,
+    nodesep: 80,
+    ranksep: 120,
+    marginx: 50,
+    marginy: 50,
+  })
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, {
+      width: NODE_WIDTH,
+      height: node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT,
+    })
+  })
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target)
+  })
+
+  dagre.layout(dagreGraph)
+
+  const layoutedNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id)
+    const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
+
+    return {
+      ...node,
+      position: {
+        x: nodeWithPosition.x - NODE_WIDTH / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      },
+    }
+  })
+
+  return { nodes: layoutedNodes, edges }
 }
 
 // Get minimum required belt tier for a given rate
@@ -625,6 +672,20 @@ export default function App() {
     [setEdges],
   )
 
+  // Auto-layout handler using dagre
+  const onLayout = useCallback(() => {
+    if (nodes.length === 0) return
+
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+      nodes,
+      edges,
+      'LR' // Left to Right layout
+    )
+
+    setNodes([...layoutedNodes])
+    setEdges([...layoutedEdges])
+  }, [nodes, edges, setNodes, setEdges])
+
   // Handle item selection
   const handleItemClick = useCallback((itemId) => {
     setTargetItem(itemId)
@@ -741,6 +802,8 @@ export default function App() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            snapToGrid={true}
+            snapGrid={[20, 20]}
             fitView
           >
             <Controls showInteractive={false} />
@@ -751,6 +814,16 @@ export default function App() {
             />
             <Background variant="dots" gap={20} size={1} color="#2a2a2a" />
           </ReactFlow>
+          {nodes.length > 0 && (
+            <button
+              className="layout-button"
+              onClick={onLayout}
+              title={translateUI('autoLayout', language)}
+            >
+              <LayoutGrid size={18} />
+              <span>{translateUI('autoLayout', language)}</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -135,6 +135,10 @@
     "machineRate": {
       "de": "Rate/Maschine",
       "en": "Rate/Machine"
+    },
+    "autoLayout": {
+      "de": "Layout aufräumen",
+      "en": "Auto Layout"
     }
   },
   "miner": {

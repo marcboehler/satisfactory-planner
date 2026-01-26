@@ -342,6 +342,38 @@ html, body, #root {
 .flow-container {
   flex: 1;
   background-color: #0a0a0a;
+  position: relative;
+}
+
+/* Layout Button */
+.layout-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1a;
+  border: 2px solid #fa9549;
+  border-radius: 8px;
+  color: #fa9549;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.layout-button:hover {
+  background: #252525;
+  color: #ffb347;
+  border-color: #ffb347;
+}
+
+.layout-button:active {
+  transform: scale(0.98);
 }
 
 /* React Flow node styles */
@@ -769,6 +801,18 @@ html, body, #root {
 
   .flow-container {
     width: 100%;
+  }
+
+  /* Compact layout button on mobile */
+  .layout-button {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px;
+    font-size: 0;
+  }
+
+  .layout-button span {
+    display: none;
   }
 
   /* Compact node sizes for mobile */
