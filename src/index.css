@@ -103,39 +103,42 @@ html, body, #root {
   font-weight: 600;
 }
 
-.rate-input {
+.amount-input {
   padding: 1rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.5rem;
   border-bottom: 1px solid #333;
   background: #1a1a2e;
 }
 
-.rate-input label {
+.amount-input label {
   font-size: 0.85rem;
-  color: #888;
+  color: #e94560;
+  font-weight: 600;
 }
 
-.rate-input input {
-  width: 80px;
-  padding: 0.4rem 0.6rem;
+.amount-input .input-hint {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+}
+
+.amount-input input {
+  width: 100%;
+  padding: 0.6rem;
   background: #16213e;
   border: 1px solid #e94560;
   border-radius: 4px;
   color: #eaeaea;
-  font-size: 0.9rem;
-  text-align: right;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 600;
 }
 
-.rate-input input:focus {
+.amount-input input:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
-}
-
-.rate-input span {
-  font-size: 0.85rem;
-  color: #4ade80;
 }
 
 /* Material grid */
@@ -256,6 +259,12 @@ html, body, #root {
 .node-output {
   font-size: 11px;
   color: #4ade80;
+}
+
+.node-amount {
+  font-size: 14px;
+  color: #4ade80;
+  font-weight: 700;
 }
 
 /* Scrollbar styles for sidebar */

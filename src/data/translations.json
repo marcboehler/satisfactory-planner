@@ -63,6 +63,26 @@
     "subtitle": {
       "de": "Visueller Produktionsketten-Rechner",
       "en": "Visual Production Chain Calculator"
+    },
+    "materials": {
+      "de": "Materialien",
+      "en": "Materials"
+    },
+    "targetAmount": {
+      "de": "Zielmenge (Stück)",
+      "en": "Target Amount (pieces)"
+    },
+    "howMuchToProduce": {
+      "de": "Wie viel möchtest du insgesamt produzieren?",
+      "en": "How much do you want to produce in total?"
+    },
+    "totalAmount": {
+      "de": "Gesamtmenge",
+      "en": "Total Amount"
+    },
+    "pieces": {
+      "de": "Stück",
+      "en": "pieces"
     }
   },
   "miner": {
@@ -74,17 +94,9 @@
       "de": "Reinheit",
       "en": "Purity"
     },
-    "capacity": {
-      "de": "Kapazität",
-      "en": "Capacity"
-    },
-    "demand": {
-      "de": "Bedarf",
-      "en": "Demand"
-    },
-    "required": {
-      "de": "Benötigt",
-      "en": "Required"
+    "requiredAmount": {
+      "de": "Benötigte Menge",
+      "en": "Required Amount"
     },
     "impure": {
       "de": "Unrein",
