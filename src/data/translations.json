@@ -1,0 +1,68 @@
+{
+  "buildings": {
+    "Constructor": {
+      "de": "Konstruktor",
+      "en": "Constructor"
+    },
+    "Smelter": {
+      "de": "Schmelzofen",
+      "en": "Smelter"
+    },
+    "Miner": {
+      "de": "Miner",
+      "en": "Miner"
+    },
+    "Assembler": {
+      "de": "Manufaktur",
+      "en": "Assembler"
+    }
+  },
+  "items": {
+    "Iron Ore": {
+      "de": "Eisenerz",
+      "en": "Iron Ore"
+    },
+    "Iron Ingot": {
+      "de": "Eisenbarren",
+      "en": "Iron Ingot"
+    },
+    "Iron Plate": {
+      "de": "Eisenplatte",
+      "en": "Iron Plate"
+    },
+    "Iron Rod": {
+      "de": "Eisenstange",
+      "en": "Iron Rod"
+    },
+    "Screw": {
+      "de": "Schraube",
+      "en": "Screw"
+    },
+    "Reinforced Iron Plate": {
+      "de": "Verstärkte Eisenplatte",
+      "en": "Reinforced Iron Plate"
+    },
+    "Copper Ore": {
+      "de": "Kupfererz",
+      "en": "Copper Ore"
+    },
+    "Copper Ingot": {
+      "de": "Kupferbarren",
+      "en": "Copper Ingot"
+    },
+    "Wire": {
+      "de": "Draht",
+      "en": "Wire"
+    }
+  },
+  "ui": {
+    "title": {
+      "de": "Satisfactory Planner",
+      "en": "Satisfactory Planner"
+    },
+    "subtitle": {
+      "de": "Visueller Produktionsketten-Rechner",
+      "en": "Visual Production Chain Calculator"
+    }
+  }
+}
