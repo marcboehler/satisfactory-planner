@@ -71,12 +71,37 @@ function isOre(itemId) {
   return item && item.category === 'Ore'
 }
 
-// Custom Miner Node Component (batch mode - simplified)
-const MinerNode = memo(({ data }) => {
-  const { itemName, requiredAmount, language } = data
+// Helper to translate miner-specific strings
+function translateMiner(key, lang) {
+  const miner = translations.miner[key]
+  return miner ? miner[lang] : key
+}
+
+// Format time in minutes or hours
+function formatTime(minutes, lang) {
+  if (minutes < 60) {
+    return `${minutes.toFixed(1)} ${translateUI('minutes', lang)}`
+  }
+  const hours = minutes / 60
+  return `${hours.toFixed(1)} ${translateUI('hours', lang)}`
+}
+
+// Custom Miner Node Component with tier/purity settings and time calculation
+const MinerNode = memo(({ data, id }) => {
+  const {
+    itemName,
+    requiredAmount,
+    minerTier,
+    purity,
+    onTierChange,
+    onPurityChange,
+    language
+  } = data
 
   const buildingName = translateBuilding('Miner', language)
   const amountDisplay = Math.ceil(requiredAmount)
+  const outputPerMin = calculateMinerOutput(minerTier, purity)
+  const miningTimeMinutes = requiredAmount / outputPerMin
 
   return (
     <div className="miner-node">
@@ -85,6 +110,81 @@ const MinerNode = memo(({ data }) => {
         <div className="node-title">{buildingName}</div>
         <div className="node-info">{itemName}</div>
         <div className="node-amount">{amountDisplay}x</div>
+
+        <div className="miner-controls">
+          <div className="miner-select-group">
+            <label>{translateMiner('tier', language)}:</label>
+            <select
+              value={minerTier}
+              onChange={(e) => onTierChange(id, e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {Object.keys(MINER_TIERS).map(tier => (
+                <option key={tier} value={tier}>
+                  {MINER_TIERS[tier][language]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="miner-select-group">
+            <label>{translateMiner('purity', language)}:</label>
+            <select
+              value={purity}
+              onChange={(e) => onPurityChange(id, e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {Object.keys(PURITY_LEVELS).map(p => (
+                <option key={p} value={p}>
+                  {PURITY_LEVELS[p][language]}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="miner-stats">
+          <div className="stat-row">
+            <span className="stat-label">{translateMiner('outputPerMin', language)}:</span>
+            <span className="stat-value">{outputPerMin}/min</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-label">{translateMiner('miningTime', language)}:</span>
+            <span className="stat-value time-value">{formatTime(miningTimeMinutes, language)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+})
+
+// Custom Machine Node Component with inactive overclock preview
+const MachineNode = memo(({ data }) => {
+  const { buildingName, itemName, amount, language } = data
+
+  return (
+    <div className="machine-node">
+      <Handle type="target" position={Position.Left} />
+      <Handle type="source" position={Position.Right} />
+      <div className="node-content">
+        <div className="node-title">{buildingName}</div>
+        <div className="node-info">{itemName}</div>
+        <div className="node-amount">{amount}x</div>
+
+        <div className="overclock-preview">
+          <div className="overclock-label">
+            <span>{translateUI('overclock', language)}:</span>
+            <span className="overclock-value">100%</span>
+          </div>
+          <div className="overclock-slider-disabled">
+            <div className="overclock-track">
+              <div className="overclock-fill" style={{ width: '50%' }}></div>
+            </div>
+          </div>
+          <div className="overclock-hint">
+            {language === 'de' ? 'Bald verfügbar' : 'Coming soon'}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -177,9 +277,10 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     const depthIndex = depthGroups[node.depth].indexOf(node)
 
     // Position: x based on depth (right to left), y based on index at that depth
-    const x = (maxDepth - node.depth) * 280 + 50
-    const yOffset = node.isOre ? 140 : 100
-    const y = depthIndex * yOffset + 50 + (depthIndex > 0 ? 20 : 0)
+    // Miner nodes need more space due to controls, machine nodes need space for overclock preview
+    const x = (maxDepth - node.depth) * 300 + 50
+    const yOffset = node.isOre ? 220 : 180
+    const y = depthIndex * yOffset + 50
 
     const itemName = translateItem(node.itemId, lang)
     const amountDisplay = Math.ceil(node.amount)
@@ -207,16 +308,13 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
 
       flowNodes.push({
         id: node.id,
-        type: 'default',
+        type: 'machineNode',
         position: { x, y },
         data: {
-          label: (
-            <div className="node-content">
-              <div className="node-title">{buildingName}</div>
-              <div className="node-info">{itemName}</div>
-              <div className="node-amount">{amountDisplay}x</div>
-            </div>
-          ),
+          buildingName,
+          itemName,
+          amount: amountDisplay,
+          language: lang,
         },
       })
     }
@@ -249,6 +347,7 @@ const categoryTranslations = {
 // Register custom node types
 const nodeTypes = {
   minerNode: MinerNode,
+  machineNode: MachineNode,
 }
 
 export default function App() {
@@ -293,6 +392,33 @@ export default function App() {
       })
     }
   }, [productionChain])
+
+  // Calculate estimated production time based on slowest miner (bottleneck)
+  const productionTimeInfo = useMemo(() => {
+    if (!productionChain) return null
+
+    const oreNodes = productionChain.nodes.filter(n => n.isOre)
+    if (oreNodes.length === 0) return null
+
+    let maxTime = 0
+    let bottleneckItem = null
+
+    oreNodes.forEach(node => {
+      const settings = minerSettings[node.id] || { tier: 'Mk.1', purity: 'normal' }
+      const outputPerMin = calculateMinerOutput(settings.tier, settings.purity)
+      const miningTime = node.amount / outputPerMin
+
+      if (miningTime > maxTime) {
+        maxTime = miningTime
+        bottleneckItem = node.itemId
+      }
+    })
+
+    return {
+      totalMinutes: maxTime,
+      bottleneckItem,
+    }
+  }, [productionChain, minerSettings])
 
   // Convert to flow nodes
   const flowNodes = useMemo(() => {
@@ -374,6 +500,20 @@ export default function App() {
               step="1"
             />
           </div>
+          {productionTimeInfo && (
+            <div className="time-display">
+              <label>{translateUI('estimatedTime', language)}:</label>
+              <div className="time-value-large">
+                {formatTime(productionTimeInfo.totalMinutes, language)}
+              </div>
+              {productionTimeInfo.bottleneckItem && (
+                <div className="bottleneck-info">
+                  <span className="bottleneck-label">{translateUI('bottleneck', language)}:</span>
+                  <span className="bottleneck-item">{translateItem(productionTimeInfo.bottleneckItem, language)}</span>
+                </div>
+              )}
+            </div>
+          )}
           <div className="material-grid">
             {categoryOrder.map(category => (
               <div key={category} className="category-section">
