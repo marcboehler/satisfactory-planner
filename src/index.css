@@ -8,8 +8,8 @@ html, body, #root {
   width: 100%;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background-color: #1a1a2e;
-  color: #eaeaea;
+  background-color: #0d0d0d;
+  color: #e0e0e0;
 }
 
 .app {
@@ -20,9 +20,9 @@ html, body, #root {
 }
 
 .header {
-  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
   padding: 1rem 2rem;
-  border-bottom: 2px solid #e94560;
+  border-bottom: 2px solid #fa9549;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -31,7 +31,7 @@ html, body, #root {
 
 .header h1 {
   font-size: 1.5rem;
-  color: #e94560;
+  color: #fa9549;
   font-weight: 700;
 }
 
@@ -47,8 +47,8 @@ html, body, #root {
 }
 
 .lang-btn {
-  background: #16213e;
-  border: 1px solid #e94560;
+  background: #1a1a1a;
+  border: 1px solid #fa9549;
   color: #888;
   padding: 0.4rem 0.8rem;
   font-size: 0.8rem;
@@ -66,13 +66,13 @@ html, body, #root {
 }
 
 .lang-btn:hover {
-  background: #1a1a2e;
-  color: #eaeaea;
+  background: #252525;
+  color: #e0e0e0;
 }
 
 .lang-btn.active {
-  background: #e94560;
-  color: #fff;
+  background: #fa9549;
+  color: #0d0d0d;
 }
 
 /* Main content area with sidebar */
@@ -85,8 +85,8 @@ html, body, #root {
 /* Sidebar styles */
 .sidebar {
   width: 280px;
-  background: #16213e;
-  border-right: 2px solid #e94560;
+  background: #1a1a1a;
+  border-right: 2px solid #fa9549;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -99,7 +99,7 @@ html, body, #root {
 
 .sidebar-header h2 {
   font-size: 1.1rem;
-  color: #e94560;
+  color: #fa9549;
   font-weight: 600;
 }
 
@@ -109,12 +109,12 @@ html, body, #root {
   flex-direction: column;
   gap: 0.5rem;
   border-bottom: 1px solid #333;
-  background: #1a1a2e;
+  background: #151515;
 }
 
 .amount-input label {
   font-size: 0.85rem;
-  color: #e94560;
+  color: #fa9549;
   font-weight: 600;
 }
 
@@ -127,10 +127,10 @@ html, body, #root {
 .amount-input input {
   width: 100%;
   padding: 0.6rem;
-  background: #16213e;
-  border: 1px solid #e94560;
+  background: #1a1a1a;
+  border: 1px solid #fa9549;
   border-radius: 4px;
-  color: #eaeaea;
+  color: #e0e0e0;
   font-size: 1rem;
   text-align: center;
   font-weight: 600;
@@ -138,19 +138,19 @@ html, body, #root {
 
 .amount-input input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+  box-shadow: 0 0 0 2px rgba(250, 149, 73, 0.3);
 }
 
 /* Time display */
 .time-display {
   padding: 1rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(135deg, #151515 0%, #1a1a1a 100%);
   border-bottom: 1px solid #333;
 }
 
 .time-display label {
   font-size: 0.85rem;
-  color: #e94560;
+  color: #fa9549;
   font-weight: 600;
   display: block;
   margin-bottom: 0.5rem;
@@ -162,7 +162,7 @@ html, body, #root {
   color: #4ade80;
   text-align: center;
   padding: 0.5rem;
-  background: #16213e;
+  background: #1a1a1a;
   border-radius: 4px;
   border: 1px solid #333;
 }
@@ -170,9 +170,9 @@ html, body, #root {
 .bottleneck-info {
   margin-top: 0.5rem;
   padding: 0.5rem;
-  background: rgba(233, 69, 96, 0.1);
+  background: rgba(250, 149, 73, 0.1);
   border-radius: 4px;
-  border-left: 3px solid #e94560;
+  border-left: 3px solid #fa9549;
 }
 
 .bottleneck-label {
@@ -183,7 +183,7 @@ html, body, #root {
 
 .bottleneck-item {
   font-size: 0.85rem;
-  color: #fbbf24;
+  color: #fa9549;
   font-weight: 600;
 }
 
@@ -216,11 +216,11 @@ html, body, #root {
 }
 
 .material-btn {
-  background: #1a1a2e;
+  background: #151515;
   border: 1px solid #333;
   border-radius: 4px;
   padding: 0.5rem 0.4rem;
-  color: #ccc;
+  color: #bbb;
   font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -231,59 +231,59 @@ html, body, #root {
 }
 
 .material-btn:hover {
-  background: #252547;
-  border-color: #e94560;
-  color: #eaeaea;
+  background: #252525;
+  border-color: #fa9549;
+  color: #e0e0e0;
 }
 
 .material-btn.active {
-  background: #e94560;
-  border-color: #e94560;
-  color: #fff;
+  background: #fa9549;
+  border-color: #fa9549;
+  color: #0d0d0d;
   font-weight: 600;
 }
 
 /* Flow container */
 .flow-container {
   flex: 1;
-  background-color: #0f0f23;
+  background-color: #0a0a0a;
 }
 
 /* React Flow node styles */
 .react-flow__node {
-  background: #16213e;
-  border: 2px solid #e94560;
+  background: #1a1a1a;
+  border: 2px solid #fa9549;
   border-radius: 8px;
   padding: 10px 15px;
-  color: #eaeaea;
+  color: #e0e0e0;
   font-size: 12px;
   min-width: 150px;
 }
 
 .react-flow__node.selected {
-  border-color: #f39c12;
-  box-shadow: 0 0 15px rgba(243, 156, 18, 0.4);
+  border-color: #ffb347;
+  box-shadow: 0 0 15px rgba(250, 149, 73, 0.5);
 }
 
 .react-flow__edge-path {
-  stroke: #e94560;
+  stroke: #fa9549;
   stroke-width: 2;
 }
 
 .react-flow__controls {
-  background: #16213e;
-  border: 1px solid #e94560;
+  background: #1a1a1a;
+  border: 1px solid #fa9549;
   border-radius: 8px;
 }
 
 .react-flow__controls-button {
-  background: #16213e;
+  background: #1a1a1a;
   border-bottom: 1px solid #333;
-  fill: #eaeaea;
+  fill: #e0e0e0;
 }
 
 .react-flow__controls-button:hover {
-  background: #1a1a2e;
+  background: #252525;
 }
 
 .node-content {
@@ -294,7 +294,7 @@ html, body, #root {
 
 .node-title {
   font-weight: 600;
-  color: #e94560;
+  color: #fa9549;
 }
 
 .node-info {
@@ -319,25 +319,25 @@ html, body, #root {
 }
 
 .material-grid::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #151515;
 }
 
 .material-grid::-webkit-scrollbar-thumb {
-  background: #e94560;
+  background: #fa9549;
   border-radius: 3px;
 }
 
 .material-grid::-webkit-scrollbar-thumb:hover {
-  background: #ff6b8a;
+  background: #ffb347;
 }
 
 /* Miner Node Styles */
 .miner-node {
-  background: #16213e;
-  border: 2px solid #e94560;
+  background: #1a1a1a;
+  border: 2px solid #fa9549;
   border-radius: 8px;
   padding: 10px 15px;
-  color: #eaeaea;
+  color: #e0e0e0;
   font-size: 12px;
   min-width: 180px;
 }
@@ -363,7 +363,7 @@ html, body, #root {
   gap: 6px;
   margin: 8px 0;
   padding: 8px;
-  background: #1a1a2e;
+  background: #151515;
   border-radius: 4px;
 }
 
@@ -381,10 +381,10 @@ html, body, #root {
 }
 
 .miner-select-group select {
-  background: #16213e;
-  border: 1px solid #e94560;
+  background: #1a1a1a;
+  border: 1px solid #fa9549;
   border-radius: 3px;
-  color: #eaeaea;
+  color: #e0e0e0;
   font-size: 10px;
   padding: 3px 6px;
   cursor: pointer;
@@ -393,11 +393,11 @@ html, body, #root {
 
 .miner-select-group select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+  box-shadow: 0 0 0 2px rgba(250, 149, 73, 0.3);
 }
 
 .miner-select-group select:hover {
-  background: #1a1a2e;
+  background: #252525;
 }
 
 .miner-stats {
@@ -431,11 +431,11 @@ html, body, #root {
 
 /* Machine Node Styles */
 .machine-node {
-  background: #16213e;
-  border: 2px solid #e94560;
+  background: #1a1a1a;
+  border: 2px solid #fa9549;
   border-radius: 8px;
   padding: 10px 15px;
-  color: #eaeaea;
+  color: #e0e0e0;
   font-size: 12px;
   min-width: 180px;
 }
@@ -443,7 +443,7 @@ html, body, #root {
 .overclock-preview {
   margin-top: 8px;
   padding: 8px;
-  background: #1a1a2e;
+  background: #151515;
   border-radius: 4px;
   opacity: 0.6;
 }
@@ -458,7 +458,7 @@ html, body, #root {
 }
 
 .overclock-value {
-  color: #fbbf24;
+  color: #fa9549;
   font-weight: 600;
 }
 
@@ -475,7 +475,7 @@ html, body, #root {
 
 .overclock-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4ade80 0%, #fbbf24 100%);
+  background: linear-gradient(90deg, #4ade80 0%, #fa9549 100%);
   border-radius: 3px;
 }
 
@@ -485,47 +485,6 @@ html, body, #root {
   color: #666;
   margin-top: 6px;
   font-style: italic;
-}
-
-/* Belt Reference Table Styles */
-.belt-reference {
-  padding: 0.75rem 1rem;
-  background: #1a1a2e;
-  border-bottom: 1px solid #333;
-}
-
-.belt-reference-title {
-  font-size: 0.75rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.5rem;
-}
-
-.belt-reference-table {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.belt-reference-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.3rem 0.5rem;
-  background: #16213e;
-  border-radius: 3px;
-  border-left: 3px solid;
-  font-size: 0.75rem;
-}
-
-.belt-reference-row .belt-tier {
-  font-weight: 600;
-}
-
-.belt-reference-row .belt-capacity {
-  color: #888;
-  font-size: 0.7rem;
 }
 
 /* Edge limit exceeded warning styles */

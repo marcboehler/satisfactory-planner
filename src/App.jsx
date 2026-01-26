@@ -174,6 +174,21 @@ const MinerNode = memo(({ data, id }) => {
             <span className="stat-value time-value">{formatTime(miningTimeMinutes, language)}</span>
           </div>
         </div>
+
+        <div className="overclock-preview">
+          <div className="overclock-label">
+            <span>{translateUI('overclock', language)}:</span>
+            <span className="overclock-value">100%</span>
+          </div>
+          <div className="overclock-slider-disabled">
+            <div className="overclock-track">
+              <div className="overclock-fill" style={{ width: '50%' }}></div>
+            </div>
+          </div>
+          <div className="overclock-hint">
+            {language === 'de' ? 'Bald verfügbar' : 'Coming soon'}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -459,7 +474,7 @@ export default function App() {
       const beltInfo = getRequiredBeltTier(requiredRate)
 
       const baseStyle = {
-        labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 11 },
+        labelStyle: { fill: '#fa9549', fontWeight: 700, fontSize: 11 },
         labelBgPadding: [4, 6],
         labelBgBorderRadius: 4,
       }
@@ -470,7 +485,8 @@ export default function App() {
           ...edge,
           ...baseStyle,
           label: `${Math.ceil(amount)}x | ${language === 'de' ? 'LIMIT!' : 'LIMIT!'} (${requiredRate.toFixed(0)}/min)`,
-          labelBgStyle: { fill: '#ff4444', fillOpacity: 1 },
+          labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 11 },
+          labelBgStyle: { fill: '#cc2200', fillOpacity: 1 },
           style: { stroke: '#ff4444', strokeWidth: 5 },
           animated: true,
           data: {
@@ -486,8 +502,8 @@ export default function App() {
         ...edge,
         ...baseStyle,
         label: `${Math.ceil(amount)}x (${beltInfo.tier})`,
-        labelBgStyle: { fill: beltInfo.bgColor, fillOpacity: 0.95 },
-        style: { stroke: beltInfo.color, strokeWidth: 2 },
+        labelBgStyle: { fill: '#1a1a1a', fillOpacity: 0.95 },
+        style: { stroke: '#fa9549', strokeWidth: 2 },
         data: {
           ...edge.data,
           requiredRate,
@@ -575,21 +591,6 @@ export default function App() {
               )}
             </div>
           )}
-          <div className="belt-reference">
-            <div className="belt-reference-title">{translateUI('beltSpeeds', language)}</div>
-            <div className="belt-reference-table">
-              {Object.entries(BELT_TIERS).map(([tier, data]) => (
-                <div
-                  key={tier}
-                  className="belt-reference-row"
-                  style={{ borderLeftColor: data.color }}
-                >
-                  <span className="belt-tier" style={{ color: data.color }}>{tier}</span>
-                  <span className="belt-capacity">{data.capacity}/min</span>
-                </div>
-              ))}
-            </div>
-          </div>
           <div className="material-grid">
             {categoryOrder.map(category => (
               <div key={category} className="category-section">
@@ -624,11 +625,11 @@ export default function App() {
           >
             <Controls />
             <MiniMap
-              nodeColor="#e94560"
-              maskColor="rgba(0, 0, 0, 0.8)"
-              style={{ background: '#16213e' }}
+              nodeColor="#fa9549"
+              maskColor="rgba(0, 0, 0, 0.85)"
+              style={{ background: '#1a1a1a' }}
             />
-            <Background variant="dots" gap={20} size={1} color="#333" />
+            <Background variant="dots" gap={20} size={1} color="#2a2a2a" />
           </ReactFlow>
         </div>
       </div>
