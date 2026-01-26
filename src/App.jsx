@@ -52,8 +52,22 @@ const BUILDING_IMAGES = {
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 280
 
-// Auto-layout function using dagre
+// Tier background colors (Ficsit theme - subtle variations)
+const TIER_COLORS = [
+  { bg: 'rgba(139, 69, 19, 0.15)', border: 'rgba(139, 69, 19, 0.3)' },   // Tier 0: Dark rust-orange
+  { bg: 'rgba(60, 60, 70, 0.2)', border: 'rgba(80, 80, 90, 0.3)' },      // Tier 1: Industrial gray
+  { bg: 'rgba(45, 45, 55, 0.2)', border: 'rgba(65, 65, 75, 0.3)' },      // Tier 2: Dark anthracite
+  { bg: 'rgba(50, 40, 35, 0.2)', border: 'rgba(70, 55, 45, 0.3)' },      // Tier 3: Dark bronze
+  { bg: 'rgba(40, 50, 55, 0.2)', border: 'rgba(55, 70, 75, 0.3)' },      // Tier 4: Steel blue
+  { bg: 'rgba(55, 45, 50, 0.2)', border: 'rgba(75, 60, 65, 0.3)' },      // Tier 5: Dark mauve
+]
+
+// Auto-layout function using dagre - returns nodes, edges, and tier info
 function getLayoutedElements(nodes, edges, direction = 'LR') {
+  if (nodes.length === 0) {
+    return { nodes: [], edges, tierInfo: [] }
+  }
+
   const dagreGraph = new dagre.graphlib.Graph()
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
@@ -78,6 +92,7 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
 
   dagre.layout(dagreGraph)
 
+  // Calculate node positions
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id)
     const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
@@ -88,10 +103,104 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
         x: nodeWithPosition.x - NODE_WIDTH / 2,
         y: nodeWithPosition.y - nodeHeight / 2,
       },
+      measured: {
+        width: NODE_WIDTH,
+        height: nodeHeight,
+      },
     }
   })
 
-  return { nodes: layoutedNodes, edges }
+  // Calculate tier (rank) information from dagre
+  // Group nodes by their x position (rank/tier)
+  const tierMap = new Map()
+
+  layoutedNodes.forEach((node) => {
+    // Round x to group nodes in same tier
+    const tierX = Math.round(node.position.x / 50) * 50
+
+    if (!tierMap.has(tierX)) {
+      tierMap.set(tierX, {
+        nodes: [],
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity,
+      })
+    }
+
+    const tier = tierMap.get(tierX)
+    tier.nodes.push(node)
+
+    const nodeHeight = node.measured?.height || NODE_HEIGHT
+    tier.minX = Math.min(tier.minX, node.position.x)
+    tier.maxX = Math.max(tier.maxX, node.position.x + NODE_WIDTH)
+    tier.minY = Math.min(tier.minY, node.position.y)
+    tier.maxY = Math.max(tier.maxY, node.position.y + nodeHeight)
+  })
+
+  // Convert to sorted array of tier info
+  const tierInfo = Array.from(tierMap.entries())
+    .sort(([a], [b]) => a - b)
+    .map(([, info], index) => ({
+      index,
+      minX: info.minX,
+      maxX: info.maxX,
+      minY: info.minY,
+      maxY: info.maxY,
+      width: info.maxX - info.minX,
+      height: info.maxY - info.minY,
+      nodeCount: info.nodes.length,
+    }))
+
+  return { nodes: layoutedNodes, edges, tierInfo }
+}
+
+// Create tier background nodes from tier info
+function createTierBackgroundNodes(tierInfo, language) {
+  if (!tierInfo || tierInfo.length === 0) return []
+
+  const padding = 30
+  const arrowWidth = 25
+
+  // Calculate global min/max Y for consistent heights
+  const globalMinY = Math.min(...tierInfo.map(t => t.minY)) - padding
+  const globalMaxY = Math.max(...tierInfo.map(t => t.maxY)) + padding
+
+  return tierInfo.map((tier, index) => {
+    const isFirst = index === 0
+    const isLast = index === tierInfo.length - 1
+    const colorIndex = index % TIER_COLORS.length
+
+    // Calculate dimensions with arrow overlap
+    const x = tier.minX - padding - (isFirst ? 0 : arrowWidth)
+    const width = tier.width + padding * 2 + arrowWidth + (isFirst ? 0 : arrowWidth)
+    const height = globalMaxY - globalMinY
+
+    return {
+      id: `tier-bg-${index}`,
+      type: 'tierBackground',
+      position: { x, y: globalMinY },
+      data: {
+        tierIndex: index,
+        tierLabel: `Tier ${index + 1}`,
+        colorIndex,
+        isFirst,
+        isLast,
+        width,
+        height,
+        language,
+      },
+      selectable: false,
+      draggable: false,
+      connectable: false,
+      zIndex: -1,
+      style: {
+        width,
+        height,
+        zIndex: -1,
+      },
+    }
+  })
 }
 
 // Get minimum required belt tier for a given rate
@@ -345,6 +454,26 @@ const MachineNode = memo(({ data }) => {
   )
 })
 
+// Tier Background Node Component
+const TierBackgroundNode = memo(({ data }) => {
+  const { tierIndex, tierLabel, colorIndex, isFirst, isLast, width, height } = data
+  const colors = TIER_COLORS[colorIndex] || TIER_COLORS[0]
+
+  return (
+    <div
+      className={`tier-background tier-${colorIndex} ${isFirst ? 'tier-first' : ''} ${isLast ? 'tier-last' : ''}`}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        '--tier-bg': colors.bg,
+        '--tier-border': colors.border,
+      }}
+    >
+      <div className="tier-label">{tierLabel}</div>
+    </div>
+  )
+})
+
 // Recursive calculation of production chain (batch mode - absolute amounts)
 function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCounter = { value: 0 }) {
   const result = {
@@ -515,6 +644,7 @@ const categoryTranslations = {
 const nodeTypes = {
   minerNode: MinerNode,
   machineNode: MachineNode,
+  tierBackground: TierBackgroundNode,
 }
 
 // Check if we're on desktop (>= 768px)
@@ -639,8 +769,15 @@ export default function App() {
 
     // Apply dagre auto-layout
     if (nodes.length > 0) {
-      const { nodes: layouted } = getLayoutedElements(nodes, edges, 'LR')
-      return { layoutedNodes: layouted, layoutedEdges: edges }
+      const { nodes: layouted, tierInfo } = getLayoutedElements(nodes, edges, 'LR')
+
+      // Create tier background nodes
+      const tierBackgroundNodes = createTierBackgroundNodes(tierInfo, language)
+
+      // Combine: tier backgrounds first (rendered behind), then regular nodes
+      const allNodes = [...tierBackgroundNodes, ...layouted]
+
+      return { layoutedNodes: allNodes, layoutedEdges: edges }
     }
 
     return { layoutedNodes: nodes, layoutedEdges: edges }
