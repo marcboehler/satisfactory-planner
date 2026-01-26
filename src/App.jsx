@@ -52,14 +52,14 @@ const BUILDING_IMAGES = {
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 280
 
-// Tier background colors (Ficsit theme - subtle variations)
+// Tier background colors (gradient scheme - dark industrial tones)
 const TIER_COLORS = [
-  { bg: 'rgba(139, 69, 19, 0.15)', border: 'rgba(139, 69, 19, 0.3)' },   // Tier 0: Dark rust-orange
-  { bg: 'rgba(60, 60, 70, 0.2)', border: 'rgba(80, 80, 90, 0.3)' },      // Tier 1: Industrial gray
-  { bg: 'rgba(45, 45, 55, 0.2)', border: 'rgba(65, 65, 75, 0.3)' },      // Tier 2: Dark anthracite
-  { bg: 'rgba(50, 40, 35, 0.2)', border: 'rgba(70, 55, 45, 0.3)' },      // Tier 3: Dark bronze
-  { bg: 'rgba(40, 50, 55, 0.2)', border: 'rgba(55, 70, 75, 0.3)' },      // Tier 4: Steel blue
-  { bg: 'rgba(55, 45, 50, 0.2)', border: 'rgba(75, 60, 65, 0.3)' },      // Tier 5: Dark mauve
+  { from: '#4a4a4a', to: '#3b3b3b' },   // Tier 0: Dark rust-gray
+  { from: '#3b3b3b', to: '#2e2e2e' },   // Tier 1: Cool dark gray
+  { from: '#2e2e2e', to: '#1f1f1f' },   // Tier 2: Dark anthracite
+  { from: '#1f1f1f', to: '#121212' },   // Tier 3: Almost black
+  { from: '#1f1f1f', to: '#121212' },   // Tier 4+: Same as Tier 3
+  { from: '#1f1f1f', to: '#121212' },   // Tier 5+: Same as Tier 3
 ]
 
 // Auto-layout function using dagre - returns nodes, edges, and tier info
@@ -160,7 +160,7 @@ function createTierBackgroundNodes(tierInfo, language) {
   if (!tierInfo || tierInfo.length === 0) return []
 
   const padding = 30
-  const arrowWidth = 25
+  const arrowWidth = 30
 
   // Calculate global min/max Y for consistent heights
   const globalMinY = Math.min(...tierInfo.map(t => t.minY)) - padding
@@ -461,12 +461,12 @@ const TierBackgroundNode = memo(({ data }) => {
 
   return (
     <div
-      className={`tier-background tier-${colorIndex} ${isFirst ? 'tier-first' : ''} ${isLast ? 'tier-last' : ''}`}
+      className={`tier-background ${isFirst ? 'tier-first' : ''} ${isLast ? 'tier-last' : ''}`}
       style={{
         width: `${width}px`,
         height: `${height}px`,
-        '--tier-bg': colors.bg,
-        '--tier-border': colors.border,
+        '--tier-from': colors.from,
+        '--tier-to': colors.to,
       }}
     >
       <div className="tier-label">{tierLabel}</div>
