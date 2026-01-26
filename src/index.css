@@ -275,3 +275,96 @@ html, body, #root {
 .material-grid::-webkit-scrollbar-thumb:hover {
   background: #ff6b8a;
 }
+
+/* Miner Node Styles */
+.miner-node {
+  background: #16213e;
+  border: 2px solid #e94560;
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: #eaeaea;
+  font-size: 12px;
+  min-width: 180px;
+}
+
+.miner-node.overloaded {
+  border-color: #ff4444;
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.5);
+  animation: pulse-warning 1.5s infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(255, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+  }
+}
+
+.miner-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 8px;
+  background: #1a1a2e;
+  border-radius: 4px;
+}
+
+.miner-select-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.miner-select-group label {
+  font-size: 10px;
+  color: #888;
+  white-space: nowrap;
+}
+
+.miner-select-group select {
+  background: #16213e;
+  border: 1px solid #e94560;
+  border-radius: 3px;
+  color: #eaeaea;
+  font-size: 10px;
+  padding: 3px 6px;
+  cursor: pointer;
+  min-width: 80px;
+}
+
+.miner-select-group select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+}
+
+.miner-select-group select:hover {
+  background: #1a1a2e;
+}
+
+.miner-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 6px;
+  border-top: 1px solid #333;
+}
+
+.node-demand {
+  font-size: 11px;
+  color: #fbbf24;
+}
+
+.node-demand.demand-warning {
+  color: #ff4444;
+  font-weight: 600;
+}
+
+.miners-needed {
+  font-size: 11px;
+  color: #60a5fa;
+  font-weight: 500;
+}
