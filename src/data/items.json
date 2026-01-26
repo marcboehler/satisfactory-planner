@@ -1,16 +1,100 @@
 [
-  { "id": "iron-ore", "de": "Eisenerz", "en": "Iron Ore", "category": "Ore" },
-  { "id": "copper-ore", "de": "Kupfererz", "en": "Copper Ore", "category": "Ore" },
-  { "id": "limestone", "de": "Kalkstein", "en": "Limestone", "category": "Ore" },
-  { "id": "iron-ingot", "de": "Eisenbarren", "en": "Iron Ingot", "category": "Ingot" },
-  { "id": "copper-ingot", "de": "Kupferbarren", "en": "Copper Ingot", "category": "Ingot" },
-  { "id": "concrete", "de": "Beton", "en": "Concrete", "category": "Basic" },
-  { "id": "iron-plate", "de": "Eisenplatte", "en": "Iron Plate", "category": "Basic" },
-  { "id": "iron-rod", "de": "Eisenstange", "en": "Iron Rod", "category": "Basic" },
-  { "id": "wire", "de": "Draht", "en": "Wire", "category": "Basic" },
-  { "id": "cable", "de": "Kabel", "en": "Cable", "category": "Basic" },
-  { "id": "screw", "de": "Schraube", "en": "Screw", "category": "Basic" },
-  { "id": "reinforced-iron-plate", "de": "Verstärkte Eisenplatte", "en": "Reinforced Iron Plate", "category": "Advanced" },
-  { "id": "rotor", "de": "Rotor", "en": "Rotor", "category": "Advanced" },
-  { "id": "modular-frame", "de": "Modularer Rahmen", "en": "Modular Frame", "category": "Advanced" }
+  {
+    "id": "iron-ore",
+    "de": "Eisenerz",
+    "en": "Iron Ore",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/8/87/Iron_Ore.png/64px-Iron_Ore.png"
+  },
+  {
+    "id": "copper-ore",
+    "de": "Kupfererz",
+    "en": "Copper Ore",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/7/78/Copper_Ore.png/64px-Copper_Ore.png"
+  },
+  {
+    "id": "limestone",
+    "de": "Kalkstein",
+    "en": "Limestone",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/4/4e/Limestone.png/64px-Limestone.png"
+  },
+  {
+    "id": "iron-ingot",
+    "de": "Eisenbarren",
+    "en": "Iron Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0a/Iron_Ingot.png/64px-Iron_Ingot.png"
+  },
+  {
+    "id": "copper-ingot",
+    "de": "Kupferbarren",
+    "en": "Copper Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/00/Copper_Ingot.png/64px-Copper_Ingot.png"
+  },
+  {
+    "id": "concrete",
+    "de": "Beton",
+    "en": "Concrete",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6e/Concrete.png/64px-Concrete.png"
+  },
+  {
+    "id": "iron-plate",
+    "de": "Eisenplatte",
+    "en": "Iron Plate",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/a7/Iron_Plate.png/64px-Iron_Plate.png"
+  },
+  {
+    "id": "iron-rod",
+    "de": "Eisenstange",
+    "en": "Iron Rod",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/4/47/Iron_Rod.png/64px-Iron_Rod.png"
+  },
+  {
+    "id": "wire",
+    "de": "Draht",
+    "en": "Wire",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/7/77/Wire.png/64px-Wire.png"
+  },
+  {
+    "id": "cable",
+    "de": "Kabel",
+    "en": "Cable",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/97/Cable.png/64px-Cable.png"
+  },
+  {
+    "id": "screw",
+    "de": "Schraube",
+    "en": "Screw",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/59/Screw.png/64px-Screw.png"
+  },
+  {
+    "id": "reinforced-iron-plate",
+    "de": "Verstärkte Eisenplatte",
+    "en": "Reinforced Iron Plate",
+    "category": "Advanced",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/29/Reinforced_Iron_Plate.png/64px-Reinforced_Iron_Plate.png"
+  },
+  {
+    "id": "rotor",
+    "de": "Rotor",
+    "en": "Rotor",
+    "category": "Advanced",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3d/Rotor.png/64px-Rotor.png"
+  },
+  {
+    "id": "modular-frame",
+    "de": "Modularer Rahmen",
+    "en": "Modular Frame",
+    "category": "Advanced",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/af/Modular_Frame.png/64px-Modular_Frame.png"
+  }
 ]
