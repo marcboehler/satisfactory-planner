@@ -460,6 +460,25 @@ html, body, #root {
   background: #ffb347;
 }
 
+/* Node Hero Section (Building Images) */
+.node-hero {
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+  border-radius: 6px 6px 0 0;
+  margin: -8px -12px 8px -12px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+.building-image {
+  max-width: 100%;
+  max-height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
 /* Miner Node Styles */
 .miner-node {
   background: #1a1a1a;
@@ -468,7 +487,7 @@ html, body, #root {
   padding: 8px 12px;
   color: #e0e0e0;
   font-size: 11px;
-  min-width: 160px;
+  min-width: 180px;
 }
 
 .miner-controls {
