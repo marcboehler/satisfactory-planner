@@ -123,6 +123,7 @@ html, body, #root {
   flex-direction: column;
   overflow: hidden;
   flex-shrink: 0;
+  transition: width 0.3s ease, transform 0.3s ease;
 }
 
 .sidebar-header {
@@ -150,6 +151,32 @@ html, body, #root {
 
 .sidebar-close:hover {
   color: #fa9549;
+}
+
+/* Desktop sidebar toggle button */
+.sidebar-toggle-desktop {
+  display: none;
+  position: absolute;
+  left: 280px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  background: #1a1a1a;
+  border: 2px solid #fa9549;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: #fa9549;
+  padding: 0.75rem 0.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle-desktop:hover {
+  background: #252525;
+}
+
+.sidebar:not(.open) ~ .sidebar-toggle-desktop {
+  left: 0;
 }
 
 .amount-input {
@@ -271,10 +298,11 @@ html, body, #root {
   font-size: 0.7rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-align: center;
-  white-space: nowrap;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .material-btn:hover {
@@ -288,6 +316,25 @@ html, body, #root {
   border-color: #fa9549;
   color: #0d0d0d;
   font-weight: 600;
+}
+
+.material-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: #0d0d0d;
+}
+
+.material-btn.active .material-icon {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.material-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 }
 
 /* Flow container */
@@ -345,6 +392,20 @@ html, body, #root {
   font-weight: 600;
   color: #fa9549;
   font-size: 11px;
+}
+
+.node-item-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  background: #0d0d0d;
+  flex-shrink: 0;
 }
 
 .node-info {
@@ -540,9 +601,31 @@ html, body, #root {
     display: none;
   }
 
+  .sidebar-toggle-desktop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .sidebar {
     position: relative;
     transform: none;
+  }
+
+  .sidebar:not(.open) {
+    width: 0;
+    border-right: none;
+    overflow: hidden;
+  }
+
+  .sidebar:not(.open) ~ .sidebar-toggle-desktop {
+    left: 0;
+    border-left: 2px solid #fa9549;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .sidebar.open ~ .sidebar-toggle-desktop {
+    left: 280px;
   }
 
   .lang-btn {
@@ -560,6 +643,16 @@ html, body, #root {
   .machine-node {
     padding: 10px 15px;
     min-width: 180px;
+  }
+
+  .node-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .material-icon {
+    width: 28px;
+    height: 28px;
   }
 
   .react-flow__controls-button {
@@ -592,6 +685,10 @@ html, body, #root {
     display: block;
   }
 
+  .sidebar-toggle-desktop {
+    display: none;
+  }
+
   .flow-container {
     width: 100%;
   }
@@ -619,6 +716,16 @@ html, body, #root {
 
   .node-amount {
     font-size: 12px;
+  }
+
+  .node-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .material-icon {
+    width: 22px;
+    height: 22px;
   }
 
   .miner-select-group select {

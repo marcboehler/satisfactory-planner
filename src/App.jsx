@@ -11,7 +11,7 @@ import {
   Position,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
@@ -112,6 +112,7 @@ function formatTime(minutes, lang) {
 const MinerNode = memo(({ data, id }) => {
   const {
     itemName,
+    itemIcon,
     requiredAmount,
     minerTier,
     purity,
@@ -130,7 +131,10 @@ const MinerNode = memo(({ data, id }) => {
       <Handle type="source" position={Position.Right} />
       <div className="node-content">
         <div className="node-title">{buildingName}</div>
-        <div className="node-info">{itemName}</div>
+        <div className="node-item-row">
+          {itemIcon && <img src={itemIcon} alt={itemName} className="node-icon" />}
+          <span className="node-info">{itemName}</span>
+        </div>
         <div className="node-amount">{amountDisplay}x</div>
 
         <div className="miner-controls">
@@ -197,7 +201,7 @@ const MinerNode = memo(({ data, id }) => {
 
 // Custom Machine Node Component with inactive overclock preview
 const MachineNode = memo(({ data }) => {
-  const { buildingName, itemName, amount, language } = data
+  const { buildingName, itemName, itemIcon, amount, language } = data
 
   return (
     <div className="machine-node">
@@ -205,7 +209,10 @@ const MachineNode = memo(({ data }) => {
       <Handle type="source" position={Position.Right} />
       <div className="node-content">
         <div className="node-title">{buildingName}</div>
-        <div className="node-info">{itemName}</div>
+        <div className="node-item-row">
+          {itemIcon && <img src={itemIcon} alt={itemName} className="node-icon" />}
+          <span className="node-info">{itemName}</span>
+        </div>
         <div className="node-amount">{amount}x</div>
 
         <div className="overclock-preview">
@@ -322,6 +329,9 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     const itemName = translateItem(node.itemId, lang)
     const amountDisplay = Math.ceil(node.amount)
 
+    const item = getItem(node.itemId)
+    const itemIcon = item?.icon || null
+
     if (node.isOre) {
       // Get miner settings for this node
       const settings = minerSettings[node.id] || { tier: 'Mk.1', purity: 'normal' }
@@ -332,6 +342,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
         position: { x, y },
         data: {
           itemName,
+          itemIcon,
           requiredAmount: node.amount,
           minerTier: settings.tier,
           purity: settings.purity,
@@ -350,6 +361,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
         data: {
           buildingName,
           itemName,
+          itemIcon,
           amount: amountDisplay,
           language: lang,
         },
@@ -392,7 +404,7 @@ export default function App() {
   const [targetItem, setTargetItem] = useState(null)
   const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Handlers for miner settings changes
   const handleTierChange = useCallback((nodeId, newTier) => {
@@ -627,7 +639,8 @@ export default function App() {
                       onClick={() => handleItemClick(item.id)}
                       title={item[language]}
                     >
-                      {item[language]}
+                      {item.icon && <img src={item.icon} alt={item[language]} className="material-icon" />}
+                      <span className="material-name">{item[language]}</span>
                     </button>
                   ))}
                 </div>
@@ -635,6 +648,13 @@ export default function App() {
             ))}
           </div>
         </aside>
+        <button
+          className="sidebar-toggle-desktop"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle sidebar"
+        >
+          {sidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+        </button>
         <div className="flow-container">
           <ReactFlow
             nodes={nodes}
