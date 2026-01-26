@@ -1,7 +1,6 @@
 import { useCallback, useState, useMemo, memo } from 'react'
 import {
   ReactFlow,
-  MiniMap,
   Controls,
   Background,
   useNodesState,
@@ -52,14 +51,14 @@ const BUILDING_IMAGES = {
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 280
 
-// Tier background colors (gradient scheme - dark industrial tones)
+// Tier background colors (solid dark industrial tones)
 const TIER_COLORS = [
-  { from: '#4a4a4a', to: '#3b3b3b' },   // Tier 0: Dark rust-gray
-  { from: '#3b3b3b', to: '#2e2e2e' },   // Tier 1: Cool dark gray
-  { from: '#2e2e2e', to: '#1f1f1f' },   // Tier 2: Dark anthracite
-  { from: '#1f1f1f', to: '#121212' },   // Tier 3: Almost black
-  { from: '#1f1f1f', to: '#121212' },   // Tier 4+: Same as Tier 3
-  { from: '#1f1f1f', to: '#121212' },   // Tier 5+: Same as Tier 3
+  '#2b2b2b',   // Tier 1: Dark industrial gray
+  '#242424',   // Tier 2: Darker gray
+  '#1f1f1f',   // Tier 3: Anthracite
+  '#1a1a1a',   // Tier 4: Very dark
+  '#151515',   // Tier 5: Almost black
+  '#121212',   // Tier 6+: Near black
 ]
 
 // Auto-layout function using dagre - returns nodes, edges, and tier info
@@ -160,7 +159,7 @@ function createTierBackgroundNodes(tierInfo, language) {
   if (!tierInfo || tierInfo.length === 0) return []
 
   const padding = 30
-  const arrowWidth = 30
+  const arrowWidth = 20
 
   // Calculate global min/max Y for consistent heights
   const globalMinY = Math.min(...tierInfo.map(t => t.minY)) - padding
@@ -456,8 +455,8 @@ const MachineNode = memo(({ data }) => {
 
 // Tier Background Node Component
 const TierBackgroundNode = memo(({ data }) => {
-  const { tierIndex, tierLabel, colorIndex, isFirst, isLast, width, height } = data
-  const colors = TIER_COLORS[colorIndex] || TIER_COLORS[0]
+  const { tierLabel, colorIndex, isFirst, isLast, width, height } = data
+  const bgColor = TIER_COLORS[colorIndex] || TIER_COLORS[0]
 
   return (
     <div
@@ -465,8 +464,8 @@ const TierBackgroundNode = memo(({ data }) => {
       style={{
         width: `${width}px`,
         height: `${height}px`,
-        '--tier-from': colors.from,
-        '--tier-to': colors.to,
+        backgroundColor: bgColor,
+        border: 'none',
       }}
     >
       <div className="tier-label">{tierLabel}</div>
@@ -925,11 +924,6 @@ export default function App() {
             fitView
           >
             <Controls showInteractive={false} />
-            <MiniMap
-              nodeColor="#fa9549"
-              maskColor="rgba(0, 0, 0, 0.85)"
-              style={{ background: '#1a1a1a' }}
-            />
             <Background variant="dots" gap={20} size={1} color="#2a2a2a" />
           </ReactFlow>
         </div>
