@@ -1,0 +1,23 @@
+{
+  "iron-plate": {
+    "name": "Iron Plate",
+    "machine": "Constructor",
+    "time": 6,
+    "inputs": { "iron-ingot": 3 },
+    "outputs": { "iron-plate": 2 }
+  },
+  "iron-rod": {
+    "name": "Iron Rod",
+    "machine": "Constructor",
+    "time": 4,
+    "inputs": { "iron-ingot": 1 },
+    "outputs": { "iron-rod": 1 }
+  },
+  "iron-ingot": {
+    "name": "Iron Ingot",
+    "machine": "Smelter",
+    "time": 2,
+    "inputs": { "iron-ore": 1 },
+    "outputs": { "iron-ingot": 1 }
+  }
+}
