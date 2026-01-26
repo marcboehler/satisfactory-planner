@@ -547,7 +547,42 @@ html, body, #root {
   padding: 8px 12px;
   color: #e0e0e0;
   font-size: 11px;
-  min-width: 160px;
+  min-width: 180px;
+}
+
+.node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.machine-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.machine-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+  margin: 4px 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.exact-row {
+  opacity: 0.8;
+}
+
+.exact-value {
+  color: #fa9549 !important;
+  font-style: italic;
 }
 
 .overclock-preview {

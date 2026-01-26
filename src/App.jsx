@@ -108,6 +108,26 @@ function formatTime(minutes, lang) {
   return `${hours.toFixed(1)} ${translateUI('hours', lang)}`
 }
 
+// Calculate standard production rate per machine (items per minute)
+function calculateMachineRate(recipe) {
+  if (!recipe) return 0
+  return (recipe.outputAmount / recipe.cycleTime) * 60
+}
+
+// Calculate number of machines needed
+function calculateMachinesNeeded(amount, productionTimeMinutes, recipe) {
+  if (!recipe || productionTimeMinutes <= 0) return { rounded: 1, exact: 1 }
+
+  const requiredRate = amount / productionTimeMinutes  // items per minute needed
+  const machineRate = calculateMachineRate(recipe)     // items per minute per machine
+  const exactMachines = requiredRate / machineRate
+
+  return {
+    rounded: Math.ceil(exactMachines),
+    exact: exactMachines
+  }
+}
+
 // Custom Miner Node Component with tier/purity settings and time calculation
 const MinerNode = memo(({ data, id }) => {
   const {
@@ -199,21 +219,48 @@ const MinerNode = memo(({ data, id }) => {
   )
 })
 
-// Custom Machine Node Component with inactive overclock preview
+// Custom Machine Node Component with machine count calculation
 const MachineNode = memo(({ data }) => {
-  const { buildingName, itemName, itemIcon, amount, language } = data
+  const {
+    buildingName,
+    itemName,
+    itemIcon,
+    amount,
+    machineCount,
+    exactMachineCount,
+    machineRate,
+    language
+  } = data
+
+  const showExact = exactMachineCount && Math.abs(machineCount - exactMachineCount) > 0.01
 
   return (
     <div className="machine-node">
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
       <div className="node-content">
-        <div className="node-title">{buildingName}</div>
+        <div className="node-header">
+          <span className="node-title">{buildingName}</span>
+          <span className="machine-count">x{machineCount}</span>
+        </div>
         <div className="node-item-row">
           {itemIcon && <img src={itemIcon} alt={itemName} className="node-icon" />}
           <span className="node-info">{itemName}</span>
         </div>
         <div className="node-amount">{amount}x</div>
+
+        <div className="machine-stats">
+          <div className="stat-row">
+            <span className="stat-label">{translateUI('machineRate', language)}:</span>
+            <span className="stat-value">{machineRate.toFixed(1)}/min</span>
+          </div>
+          {showExact && (
+            <div className="stat-row exact-row">
+              <span className="stat-label">{translateUI('exact', language)}:</span>
+              <span className="stat-value exact-value">{exactMachineCount.toFixed(2)}</span>
+            </div>
+          )}
+        </div>
 
         <div className="overclock-preview">
           <div className="overclock-label">
@@ -304,7 +351,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
 }
 
 // Convert calculated chain to React Flow nodes (batch mode)
-function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange) {
+function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange, productionTimeMinutes) {
   // Group nodes by depth for positioning
   const depthGroups = {}
   chain.nodes.forEach(node => {
@@ -323,7 +370,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     // Position: x based on depth (right to left), y based on index at that depth
     // Miner nodes need more space due to controls, machine nodes need space for overclock preview
     const x = (maxDepth - node.depth) * 300 + 50
-    const yOffset = node.isOre ? 220 : 180
+    const yOffset = node.isOre ? 220 : 200
     const y = depthIndex * yOffset + 50
 
     const itemName = translateItem(node.itemId, lang)
@@ -353,6 +400,9 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
       })
     } else {
       const buildingName = translateBuilding(node.building, lang)
+      const recipe = getRecipeForItem(node.itemId)
+      const machineRate = calculateMachineRate(recipe)
+      const machineInfo = calculateMachinesNeeded(node.amount, productionTimeMinutes, recipe)
 
       flowNodes.push({
         id: node.id,
@@ -363,6 +413,9 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
           itemName,
           itemIcon,
           amount: amountDisplay,
+          machineCount: machineInfo.rounded,
+          exactMachineCount: machineInfo.exact,
+          machineRate: machineRate,
           language: lang,
         },
       })
@@ -479,8 +532,9 @@ export default function App() {
   // Convert to flow nodes
   const flowNodes = useMemo(() => {
     if (!productionChain) return []
-    return chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange)
-  }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange])
+    const productionTime = productionTimeInfo?.totalMinutes || 1
+    return chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTime)
+  }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange, productionTimeInfo])
 
   // Calculate required belt rates and determine minimum belt tier per edge
   const flowEdges = useMemo(() => {
