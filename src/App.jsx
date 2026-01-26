@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react'
+import { useCallback, useState, useMemo, memo } from 'react'
 import {
   ReactFlow,
   MiniMap,
@@ -7,11 +7,33 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  Handle,
+  Position,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
+
+// Miner configuration constants
+const MINER_TIERS = {
+  'Mk.1': { baseRate: 60, de: 'Mk.1', en: 'Mk.1' },
+  'Mk.2': { baseRate: 120, de: 'Mk.2', en: 'Mk.2' },
+  'Mk.3': { baseRate: 240, de: 'Mk.3', en: 'Mk.3' },
+}
+
+const PURITY_LEVELS = {
+  impure: { multiplier: 0.5, de: 'Unrein', en: 'Impure' },
+  normal: { multiplier: 1.0, de: 'Normal', en: 'Normal' },
+  pure: { multiplier: 2.0, de: 'Rein', en: 'Pure' },
+}
+
+// Calculate miner output based on tier and purity
+function calculateMinerOutput(tier, purity) {
+  const tierData = MINER_TIERS[tier]
+  const purityData = PURITY_LEVELS[purity]
+  return tierData.baseRate * purityData.multiplier
+}
 
 // Translation helper functions
 function translateBuilding(buildingId, lang) {
@@ -48,6 +70,82 @@ function isOre(itemId) {
   const item = getItem(itemId)
   return item && item.category === 'Ore'
 }
+
+// Custom Miner Node Component
+const MinerNode = memo(({ data, id }) => {
+  const {
+    itemName,
+    requiredRate,
+    minerTier,
+    purity,
+    onTierChange,
+    onPurityChange,
+    language
+  } = data
+
+  const currentOutput = calculateMinerOutput(minerTier, purity)
+  const minersNeeded = Math.ceil(requiredRate / currentOutput)
+  const totalOutput = currentOutput * minersNeeded
+  const isOverloaded = requiredRate > totalOutput || minersNeeded > 1
+
+  const buildingName = translateBuilding('Miner', language)
+
+  return (
+    <div className={`miner-node ${isOverloaded ? 'overloaded' : ''}`}>
+      <Handle type="source" position={Position.Right} />
+      <div className="node-content">
+        <div className="node-title">{buildingName}</div>
+        <div className="node-info">{itemName}</div>
+
+        <div className="miner-controls">
+          <div className="miner-select-group">
+            <label>{language === 'de' ? 'Stufe' : 'Tier'}:</label>
+            <select
+              value={minerTier}
+              onChange={(e) => onTierChange(id, e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {Object.keys(MINER_TIERS).map(tier => (
+                <option key={tier} value={tier}>
+                  {MINER_TIERS[tier][language]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="miner-select-group">
+            <label>{language === 'de' ? 'Reinheit' : 'Purity'}:</label>
+            <select
+              value={purity}
+              onChange={(e) => onPurityChange(id, e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {Object.keys(PURITY_LEVELS).map(p => (
+                <option key={p} value={p}>
+                  {PURITY_LEVELS[p][language]}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="miner-stats">
+          <div className="node-output">
+            {language === 'de' ? 'Kapazität' : 'Capacity'}: {currentOutput}/min
+          </div>
+          <div className={`node-demand ${isOverloaded ? 'demand-warning' : ''}`}>
+            {language === 'de' ? 'Bedarf' : 'Demand'}: {requiredRate.toFixed(2).replace(/\.?0+$/, '')}/min
+          </div>
+          {minersNeeded > 1 && (
+            <div className="miners-needed">
+              {language === 'de' ? 'Benötigt' : 'Required'}: {minersNeeded}x Miner
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+})
 
 // Recursive calculation of production chain
 function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCounter = { value: 0 }) {
@@ -119,7 +217,7 @@ function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCount
 }
 
 // Convert calculated chain to React Flow nodes
-function chainToFlowNodes(chain, lang) {
+function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange) {
   // Group nodes by depth for positioning
   const depthGroups = {}
   chain.nodes.forEach(node => {
@@ -134,33 +232,55 @@ function chainToFlowNodes(chain, lang) {
 
   chain.nodes.forEach(node => {
     const depthIndex = depthGroups[node.depth].indexOf(node)
-    const nodesAtDepth = depthGroups[node.depth].length
 
     // Position: x based on depth (right to left), y based on index at that depth
-    const x = (maxDepth - node.depth) * 250 + 50
-    const y = depthIndex * 120 + 50 + (depthIndex > 0 ? 20 : 0)
+    // Miner nodes need more vertical space due to controls
+    const x = (maxDepth - node.depth) * 280 + 50
+    const yOffset = node.isOre ? 180 : 120
+    const y = depthIndex * yOffset + 50 + (depthIndex > 0 ? 20 : 0)
 
-    const buildingName = translateBuilding(node.building, lang)
     const itemName = translateItem(node.itemId, lang)
-    const rateDisplay = node.rate.toFixed(2).replace(/\.?0+$/, '')
-    const machineInfo = node.machinesNeeded
-      ? ` (${node.machinesNeeded.toFixed(2).replace(/\.?0+$/, '')}x)`
-      : ''
 
-    flowNodes.push({
-      id: node.id,
-      type: 'default',
-      position: { x, y },
-      data: {
-        label: (
-          <div className="node-content">
-            <div className="node-title">{buildingName}{machineInfo}</div>
-            <div className="node-info">{itemName}</div>
-            <div className="node-output">{rateDisplay}/min</div>
-          </div>
-        ),
-      },
-    })
+    if (node.isOre) {
+      // Get miner settings for this node
+      const settings = minerSettings[node.id] || { tier: 'Mk.1', purity: 'normal' }
+
+      flowNodes.push({
+        id: node.id,
+        type: 'minerNode',
+        position: { x, y },
+        data: {
+          itemName,
+          requiredRate: node.rate,
+          minerTier: settings.tier,
+          purity: settings.purity,
+          onTierChange,
+          onPurityChange,
+          language: lang,
+        },
+      })
+    } else {
+      const buildingName = translateBuilding(node.building, lang)
+      const rateDisplay = node.rate.toFixed(2).replace(/\.?0+$/, '')
+      const machineInfo = node.machinesNeeded
+        ? ` (${node.machinesNeeded.toFixed(2).replace(/\.?0+$/, '')}x)`
+        : ''
+
+      flowNodes.push({
+        id: node.id,
+        type: 'default',
+        position: { x, y },
+        data: {
+          label: (
+            <div className="node-content">
+              <div className="node-title">{buildingName}{machineInfo}</div>
+              <div className="node-info">{itemName}</div>
+              <div className="node-output">{rateDisplay}/min</div>
+            </div>
+          ),
+        },
+      })
+    }
   })
 
   return flowNodes
@@ -187,10 +307,31 @@ const categoryTranslations = {
   Advanced: { de: 'Fortgeschritten', en: 'Advanced' },
 }
 
+// Register custom node types
+const nodeTypes = {
+  minerNode: MinerNode,
+}
+
 export default function App() {
   const [language, setLanguage] = useState('de')
   const [targetItem, setTargetItem] = useState(null)
   const [targetRate, setTargetRate] = useState(10)
+  const [minerSettings, setMinerSettings] = useState({})
+
+  // Handlers for miner settings changes
+  const handleTierChange = useCallback((nodeId, newTier) => {
+    setMinerSettings(prev => ({
+      ...prev,
+      [nodeId]: { ...prev[nodeId], tier: newTier, purity: prev[nodeId]?.purity || 'normal' }
+    }))
+  }, [])
+
+  const handlePurityChange = useCallback((nodeId, newPurity) => {
+    setMinerSettings(prev => ({
+      ...prev,
+      [nodeId]: { ...prev[nodeId], purity: newPurity, tier: prev[nodeId]?.tier || 'Mk.1' }
+    }))
+  }, [])
 
   // Calculate production chain when target changes
   const productionChain = useMemo(() => {
@@ -198,11 +339,27 @@ export default function App() {
     return calculateProductionChain(targetItem, targetRate)
   }, [targetItem, targetRate])
 
+  // Initialize miner settings for new ore nodes
+  useMemo(() => {
+    if (productionChain) {
+      const oreNodes = productionChain.nodes.filter(n => n.isOre)
+      setMinerSettings(prev => {
+        const newSettings = { ...prev }
+        oreNodes.forEach(node => {
+          if (!newSettings[node.id]) {
+            newSettings[node.id] = { tier: 'Mk.1', purity: 'normal' }
+          }
+        })
+        return newSettings
+      })
+    }
+  }, [productionChain])
+
   // Convert to flow nodes
   const flowNodes = useMemo(() => {
     if (!productionChain) return []
-    return chainToFlowNodes(productionChain, language)
-  }, [productionChain, language])
+    return chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange)
+  }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange])
 
   const flowEdges = useMemo(() => {
     if (!productionChain) return []
@@ -301,6 +458,7 @@ export default function App() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            nodeTypes={nodeTypes}
             fitView
           >
             <Controls />

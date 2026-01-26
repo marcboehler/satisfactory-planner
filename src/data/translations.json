@@ -64,5 +64,39 @@
       "de": "Visueller Produktionsketten-Rechner",
       "en": "Visual Production Chain Calculator"
     }
+  },
+  "miner": {
+    "tier": {
+      "de": "Stufe",
+      "en": "Tier"
+    },
+    "purity": {
+      "de": "Reinheit",
+      "en": "Purity"
+    },
+    "capacity": {
+      "de": "Kapazität",
+      "en": "Capacity"
+    },
+    "demand": {
+      "de": "Bedarf",
+      "en": "Demand"
+    },
+    "required": {
+      "de": "Benötigt",
+      "en": "Required"
+    },
+    "impure": {
+      "de": "Unrein",
+      "en": "Impure"
+    },
+    "normal": {
+      "de": "Normal",
+      "en": "Normal"
+    },
+    "pure": {
+      "de": "Rein",
+      "en": "Pure"
+    }
   }
 }
