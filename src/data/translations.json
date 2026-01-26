@@ -123,6 +123,18 @@
     "beltReference": {
       "de": "Förderband-Referenz",
       "en": "Belt Reference"
+    },
+    "machines": {
+      "de": "Maschinen",
+      "en": "Machines"
+    },
+    "exact": {
+      "de": "Exakt",
+      "en": "Exact"
+    },
+    "machineRate": {
+      "de": "Rate/Maschine",
+      "en": "Rate/Machine"
     }
   },
   "miner": {
