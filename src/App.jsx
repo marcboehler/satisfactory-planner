@@ -39,6 +39,14 @@ const BELT_TIERS = {
   'Mk.6': { capacity: 1200, color: '#fb923c', bgColor: '#c2410c' },
 }
 
+// Building images from Satisfactory Wiki
+const BUILDING_IMAGES = {
+  'Miner': 'https://satisfactory.wiki.gg/images/thumb/4/43/Miner_Mk.1.png/200px-Miner_Mk.1.png',
+  'Smelter': 'https://satisfactory.wiki.gg/images/thumb/3/30/Smelter.png/200px-Smelter.png',
+  'Constructor': 'https://satisfactory.wiki.gg/images/thumb/1/1a/Constructor.png/200px-Constructor.png',
+  'Assembler': 'https://satisfactory.wiki.gg/images/thumb/d/dc/Assembler.png/200px-Assembler.png',
+}
+
 // Get minimum required belt tier for a given rate
 function getRequiredBeltTier(rate) {
   for (const [tier, data] of Object.entries(BELT_TIERS)) {
@@ -142,6 +150,7 @@ const MinerNode = memo(({ data, id }) => {
   } = data
 
   const buildingName = translateBuilding('Miner', language)
+  const buildingImage = BUILDING_IMAGES['Miner']
   const amountDisplay = Math.ceil(requiredAmount)
   const outputPerMin = calculateMinerOutput(minerTier, purity)
   const miningTimeMinutes = requiredAmount / outputPerMin
@@ -149,6 +158,9 @@ const MinerNode = memo(({ data, id }) => {
   return (
     <div className="miner-node">
       <Handle type="source" position={Position.Right} />
+      <div className="node-hero">
+        <img src={buildingImage} alt={buildingName} className="building-image" />
+      </div>
       <div className="node-content">
         <div className="node-title">{buildingName}</div>
         <div className="node-item-row">
@@ -223,6 +235,7 @@ const MinerNode = memo(({ data, id }) => {
 const MachineNode = memo(({ data }) => {
   const {
     buildingName,
+    buildingType,
     itemName,
     itemIcon,
     amount,
@@ -232,12 +245,16 @@ const MachineNode = memo(({ data }) => {
     language
   } = data
 
+  const buildingImage = BUILDING_IMAGES[buildingType]
   const showExact = exactMachineCount && Math.abs(machineCount - exactMachineCount) > 0.01
 
   return (
     <div className="machine-node">
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
+      <div className="node-hero">
+        <img src={buildingImage} alt={buildingName} className="building-image" />
+      </div>
       <div className="node-content">
         <div className="node-header">
           <span className="node-title">{buildingName}</span>
@@ -368,9 +385,9 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     const depthIndex = depthGroups[node.depth].indexOf(node)
 
     // Position: x based on depth (right to left), y based on index at that depth
-    // Miner nodes need more space due to controls, machine nodes need space for overclock preview
-    const x = (maxDepth - node.depth) * 300 + 50
-    const yOffset = node.isOre ? 220 : 200
+    // Both node types now have hero images, so need more vertical space
+    const x = (maxDepth - node.depth) * 320 + 50
+    const yOffset = node.isOre ? 340 : 320
     const y = depthIndex * yOffset + 50
 
     const itemName = translateItem(node.itemId, lang)
@@ -410,6 +427,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
         position: { x, y },
         data: {
           buildingName,
+          buildingType: node.building,
           itemName,
           itemIcon,
           amount: amountDisplay,
