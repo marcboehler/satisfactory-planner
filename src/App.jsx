@@ -11,6 +11,7 @@ import {
   Position,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
+import { Menu, X } from 'lucide-react'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
@@ -391,6 +392,7 @@ export default function App() {
   const [targetItem, setTargetItem] = useState(null)
   const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Handlers for miner settings changes
   const handleTierChange = useCallback((nodeId, newTier) => {
@@ -536,6 +538,7 @@ export default function App() {
   // Handle item selection
   const handleItemClick = useCallback((itemId) => {
     setTargetItem(itemId)
+    setSidebarOpen(false) // Close sidebar on mobile after selection
   }, [])
 
   // Group items for display
@@ -544,8 +547,15 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
+        <button
+          className="menu-toggle"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle menu"
+        >
+          {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
         <h1>{translateUI('title', language)}</h1>
-        <span>{translateUI('subtitle', language)}</span>
+        <span className="header-subtitle">{translateUI('subtitle', language)}</span>
         <div className="language-switcher">
           <button
             className={`lang-btn ${language === 'de' ? 'active' : ''}`}
@@ -562,9 +572,21 @@ export default function App() {
         </div>
       </header>
       <div className="main-content">
-        <aside className="sidebar">
+        {sidebarOpen && (
+          <div
+            className="sidebar-overlay"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
           <div className="sidebar-header">
             <h2>{translateUI('materials', language)}</h2>
+            <button
+              className="sidebar-close"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X size={20} />
+            </button>
           </div>
           <div className="amount-input">
             <label>{translateUI('targetAmount', language)}:</label>
