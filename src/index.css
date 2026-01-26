@@ -39,6 +39,41 @@ html, body, #root {
   font-size: 0.9rem;
 }
 
+.language-switcher {
+  margin-left: auto;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.lang-btn {
+  background: #16213e;
+  border: 1px solid #e94560;
+  color: #888;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.lang-btn:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.lang-btn:hover {
+  background: #1a1a2e;
+  color: #eaeaea;
+}
+
+.lang-btn.active {
+  background: #e94560;
+  color: #fff;
+}
+
 .flow-container {
   flex: 1;
   background-color: #0f0f23;

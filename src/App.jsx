@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState, useMemo } from 'react'
 import {
   ReactFlow,
   MiniMap,
@@ -9,91 +9,63 @@ import {
   addEdge,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
+import translations from './data/translations.json'
 
-const initialNodes = [
+// Node data with IDs - keeps calculations separate from display
+const nodeData = [
   {
     id: 'miner-1',
-    type: 'default',
+    buildingType: 'Miner',
+    buildingSuffix: 'Mk.1',
+    itemId: 'Iron Ore',
+    itemSuffix: '(Normal)',
+    output: 60,
     position: { x: 50, y: 100 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Miner Mk.1</div>
-          <div className="node-info">Iron Ore (Normal)</div>
-          <div className="node-output">60/min</div>
-        </div>
-      ),
-    },
   },
   {
     id: 'smelter-1',
-    type: 'default',
+    buildingType: 'Smelter',
+    buildingSuffix: '',
+    itemId: 'Iron Ingot',
+    itemSuffix: '',
+    output: 30,
     position: { x: 300, y: 100 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Smelter</div>
-          <div className="node-info">Iron Ingot</div>
-          <div className="node-output">30/min</div>
-        </div>
-      ),
-    },
   },
   {
     id: 'constructor-1',
-    type: 'default',
+    buildingType: 'Constructor',
+    buildingSuffix: '',
+    itemId: 'Iron Plate',
+    itemSuffix: '',
+    output: 20,
     position: { x: 550, y: 100 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Constructor</div>
-          <div className="node-info">Iron Plate</div>
-          <div className="node-output">20/min</div>
-        </div>
-      ),
-    },
   },
   {
     id: 'miner-2',
-    type: 'default',
+    buildingType: 'Miner',
+    buildingSuffix: 'Mk.2',
+    itemId: 'Copper Ore',
+    itemSuffix: '(Pure)',
+    output: 240,
     position: { x: 50, y: 250 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Miner Mk.2</div>
-          <div className="node-info">Copper Ore (Pure)</div>
-          <div className="node-output">240/min</div>
-        </div>
-      ),
-    },
   },
   {
     id: 'smelter-2',
-    type: 'default',
+    buildingType: 'Smelter',
+    buildingSuffix: 'x4',
+    itemId: 'Copper Ingot',
+    itemSuffix: '',
+    output: 120,
     position: { x: 300, y: 250 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Smelter x4</div>
-          <div className="node-info">Copper Ingot</div>
-          <div className="node-output">120/min</div>
-        </div>
-      ),
-    },
   },
   {
     id: 'constructor-2',
-    type: 'default',
+    buildingType: 'Constructor',
+    buildingSuffix: 'x2',
+    itemId: 'Wire',
+    itemSuffix: '',
+    output: 90,
     position: { x: 550, y: 250 },
-    data: {
-      label: (
-        <div className="node-content">
-          <div className="node-title">Constructor x2</div>
-          <div className="node-info">Wire</div>
-          <div className="node-output">90/min</div>
-        </div>
-      ),
-    },
   },
 ]
 
@@ -104,9 +76,90 @@ const initialEdges = [
   { id: 'e5-6', source: 'smelter-2', target: 'constructor-2', animated: true },
 ]
 
+// Translation helper functions
+function translateBuilding(buildingId, lang) {
+  const building = translations.buildings[buildingId]
+  return building ? building[lang] : buildingId
+}
+
+function translateItem(itemId, lang) {
+  const item = translations.items[itemId]
+  return item ? item[lang] : itemId
+}
+
+function translateUI(key, lang) {
+  const ui = translations.ui[key]
+  return ui ? ui[lang] : key
+}
+
+// Create React Flow nodes from data with translations
+function createNodes(data, lang) {
+  return data.map((node) => {
+    const buildingName = translateBuilding(node.buildingType, lang)
+    const itemName = translateItem(node.itemId, lang)
+    const suffix = node.buildingSuffix ? ` ${node.buildingSuffix}` : ''
+    const itemSuffix = node.itemSuffix ? ` ${node.itemSuffix}` : ''
+
+    return {
+      id: node.id,
+      type: 'default',
+      position: node.position,
+      data: {
+        label: (
+          <div className="node-content">
+            <div className="node-title">{buildingName}{suffix}</div>
+            <div className="node-info">{itemName}{itemSuffix}</div>
+            <div className="node-output">{node.output}/min</div>
+          </div>
+        ),
+      },
+    }
+  })
+}
+
 export default function App() {
+  const [language, setLanguage] = useState('de')
+
+  // Create initial nodes with current language
+  const initialNodes = useMemo(() => createNodes(nodeData, language), [language])
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+
+  // Update nodes when language changes
+  const handleLanguageChange = useCallback((newLang) => {
+    setLanguage(newLang)
+    setNodes((currentNodes) => {
+      // Preserve positions from current nodes
+      const positionMap = {}
+      currentNodes.forEach((n) => {
+        positionMap[n.id] = n.position
+      })
+
+      // Create new nodes with updated language
+      return nodeData.map((node) => {
+        const buildingName = translateBuilding(node.buildingType, newLang)
+        const itemName = translateItem(node.itemId, newLang)
+        const suffix = node.buildingSuffix ? ` ${node.buildingSuffix}` : ''
+        const itemSuffix = node.itemSuffix ? ` ${node.itemSuffix}` : ''
+
+        return {
+          id: node.id,
+          type: 'default',
+          position: positionMap[node.id] || node.position,
+          data: {
+            label: (
+              <div className="node-content">
+                <div className="node-title">{buildingName}{suffix}</div>
+                <div className="node-info">{itemName}{itemSuffix}</div>
+                <div className="node-output">{node.output}/min</div>
+              </div>
+            ),
+          },
+        }
+      })
+    })
+  }, [setNodes])
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
@@ -116,8 +169,22 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>Satisfactory Planner</h1>
-        <span>Visual Production Chain Calculator</span>
+        <h1>{translateUI('title', language)}</h1>
+        <span>{translateUI('subtitle', language)}</span>
+        <div className="language-switcher">
+          <button
+            className={`lang-btn ${language === 'de' ? 'active' : ''}`}
+            onClick={() => handleLanguageChange('de')}
+          >
+            DE
+          </button>
+          <button
+            className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+            onClick={() => handleLanguageChange('en')}
+          >
+            EN
+          </button>
+        </div>
       </header>
       <div className="flow-container">
         <ReactFlow
