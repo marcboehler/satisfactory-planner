@@ -83,6 +83,26 @@
     "pieces": {
       "de": "Stück",
       "en": "pieces"
+    },
+    "estimatedTime": {
+      "de": "Geschätzte Produktionszeit",
+      "en": "Estimated Production Time"
+    },
+    "overclock": {
+      "de": "Übertaktung",
+      "en": "Overclock"
+    },
+    "minutes": {
+      "de": "Minuten",
+      "en": "minutes"
+    },
+    "hours": {
+      "de": "Stunden",
+      "en": "hours"
+    },
+    "bottleneck": {
+      "de": "Engpass",
+      "en": "Bottleneck"
     }
   },
   "miner": {
@@ -97,6 +117,14 @@
     "requiredAmount": {
       "de": "Benötigte Menge",
       "en": "Required Amount"
+    },
+    "outputPerMin": {
+      "de": "Förderrate",
+      "en": "Output"
+    },
+    "miningTime": {
+      "de": "Förderzeit",
+      "en": "Mining Time"
     },
     "impure": {
       "de": "Unrein",
