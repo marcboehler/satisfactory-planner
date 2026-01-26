@@ -28,14 +28,25 @@ const PURITY_LEVELS = {
   pure: { multiplier: 2.0, de: 'Rein', en: 'Pure' },
 }
 
-// Conveyor belt configuration constants
+// Conveyor belt configuration constants with colors
 const BELT_TIERS = {
-  'Mk.1': { capacity: 60 },
-  'Mk.2': { capacity: 120 },
-  'Mk.3': { capacity: 270 },
-  'Mk.4': { capacity: 480 },
-  'Mk.5': { capacity: 780 },
-  'Mk.6': { capacity: 1200 },
+  'Mk.1': { capacity: 60, color: '#888888', bgColor: '#555555' },
+  'Mk.2': { capacity: 120, color: '#aaaaaa', bgColor: '#666666' },
+  'Mk.3': { capacity: 270, color: '#60a5fa', bgColor: '#1e40af' },
+  'Mk.4': { capacity: 480, color: '#38bdf8', bgColor: '#0369a1' },
+  'Mk.5': { capacity: 780, color: '#a78bfa', bgColor: '#6d28d9' },
+  'Mk.6': { capacity: 1200, color: '#fb923c', bgColor: '#c2410c' },
+}
+
+// Get minimum required belt tier for a given rate
+function getRequiredBeltTier(rate) {
+  for (const [tier, data] of Object.entries(BELT_TIERS)) {
+    if (rate <= data.capacity) {
+      return { tier, ...data, isOverLimit: false }
+    }
+  }
+  // Rate exceeds Mk.6
+  return { tier: 'LIMIT', capacity: 1200, color: '#ff4444', bgColor: '#991b1b', isOverLimit: true }
 }
 
 // Calculate miner output based on tier and purity
@@ -365,7 +376,6 @@ export default function App() {
   const [targetItem, setTargetItem] = useState(null)
   const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
-  const [maxBeltTier, setMaxBeltTier] = useState('Mk.5')
 
   // Handlers for miner settings changes
   const handleTierChange = useCallback((nodeId, newTier) => {
@@ -437,37 +447,37 @@ export default function App() {
     return chainToFlowNodes(productionChain, language, minerSettings, handleTierChange, handlePurityChange)
   }, [productionChain, language, minerSettings, handleTierChange, handlePurityChange])
 
-  // Calculate required belt rates and check for overload
+  // Calculate required belt rates and determine minimum belt tier per edge
   const flowEdges = useMemo(() => {
     if (!productionChain) return []
 
     const totalMinutes = productionTimeInfo?.totalMinutes || 1
-    const maxBeltCapacity = BELT_TIERS[maxBeltTier].capacity
 
     return productionChain.edges.map(edge => {
       const amount = edge.data?.amount || 0
       const requiredRate = amount / totalMinutes
-      const isOverloaded = requiredRate > maxBeltCapacity
+      const beltInfo = getRequiredBeltTier(requiredRate)
 
       const baseStyle = {
-        labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 12 },
+        labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 11 },
         labelBgPadding: [4, 6],
         labelBgBorderRadius: 4,
       }
 
-      if (isOverloaded) {
+      if (beltInfo.isOverLimit) {
+        // Rate exceeds Mk.6 - show warning
         return {
           ...edge,
           ...baseStyle,
-          label: `${Math.ceil(amount)}x (${requiredRate.toFixed(0)}/min)`,
+          label: `${Math.ceil(amount)}x | ${language === 'de' ? 'LIMIT!' : 'LIMIT!'} (${requiredRate.toFixed(0)}/min)`,
           labelBgStyle: { fill: '#ff4444', fillOpacity: 1 },
-          style: { stroke: '#ff4444', strokeWidth: 4 },
+          style: { stroke: '#ff4444', strokeWidth: 5 },
           animated: true,
           data: {
             ...edge.data,
             requiredRate,
-            maxCapacity: maxBeltCapacity,
-            isOverloaded: true,
+            beltTier: beltInfo.tier,
+            isOverLimit: true,
           },
         }
       }
@@ -475,17 +485,18 @@ export default function App() {
       return {
         ...edge,
         ...baseStyle,
-        label: `${Math.ceil(amount)}x`,
-        labelBgStyle: { fill: '#e94560', fillOpacity: 0.9 },
+        label: `${Math.ceil(amount)}x (${beltInfo.tier})`,
+        labelBgStyle: { fill: beltInfo.bgColor, fillOpacity: 0.95 },
+        style: { stroke: beltInfo.color, strokeWidth: 2 },
         data: {
           ...edge.data,
           requiredRate,
-          maxCapacity: maxBeltCapacity,
-          isOverloaded: false,
+          beltTier: beltInfo.tier,
+          isOverLimit: false,
         },
       }
     })
-  }, [productionChain, productionTimeInfo, maxBeltTier])
+  }, [productionChain, productionTimeInfo, language])
 
   const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges)
@@ -564,27 +575,16 @@ export default function App() {
               )}
             </div>
           )}
-          <div className="belt-settings">
-            <label>{translateUI('maxBeltTier', language)}:</label>
-            <select
-              value={maxBeltTier}
-              onChange={(e) => setMaxBeltTier(e.target.value)}
-              className="belt-select"
-            >
-              {Object.keys(BELT_TIERS).map(tier => (
-                <option key={tier} value={tier}>
-                  {tier} ({BELT_TIERS[tier].capacity}/min)
-                </option>
-              ))}
-            </select>
-            <div className="belt-legend">
-              <div className="belt-legend-title">{translateUI('beltSpeeds', language)}:</div>
+          <div className="belt-reference">
+            <div className="belt-reference-title">{translateUI('beltSpeeds', language)}</div>
+            <div className="belt-reference-table">
               {Object.entries(BELT_TIERS).map(([tier, data]) => (
                 <div
                   key={tier}
-                  className={`belt-legend-item ${tier === maxBeltTier ? 'active' : ''} ${Object.keys(BELT_TIERS).indexOf(tier) > Object.keys(BELT_TIERS).indexOf(maxBeltTier) ? 'disabled' : ''}`}
+                  className="belt-reference-row"
+                  style={{ borderLeftColor: data.color }}
                 >
-                  <span className="belt-tier">{tier}</span>
+                  <span className="belt-tier" style={{ color: data.color }}>{tier}</span>
                   <span className="belt-capacity">{data.capacity}/min</span>
                 </div>
               ))}
