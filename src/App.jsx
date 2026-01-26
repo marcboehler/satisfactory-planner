@@ -71,84 +71,27 @@ function isOre(itemId) {
   return item && item.category === 'Ore'
 }
 
-// Custom Miner Node Component
-const MinerNode = memo(({ data, id }) => {
-  const {
-    itemName,
-    requiredRate,
-    minerTier,
-    purity,
-    onTierChange,
-    onPurityChange,
-    language
-  } = data
-
-  const currentOutput = calculateMinerOutput(minerTier, purity)
-  const minersNeeded = Math.ceil(requiredRate / currentOutput)
-  const totalOutput = currentOutput * minersNeeded
-  const isOverloaded = requiredRate > totalOutput || minersNeeded > 1
+// Custom Miner Node Component (batch mode - simplified)
+const MinerNode = memo(({ data }) => {
+  const { itemName, requiredAmount, language } = data
 
   const buildingName = translateBuilding('Miner', language)
+  const amountDisplay = Math.ceil(requiredAmount)
 
   return (
-    <div className={`miner-node ${isOverloaded ? 'overloaded' : ''}`}>
+    <div className="miner-node">
       <Handle type="source" position={Position.Right} />
       <div className="node-content">
         <div className="node-title">{buildingName}</div>
         <div className="node-info">{itemName}</div>
-
-        <div className="miner-controls">
-          <div className="miner-select-group">
-            <label>{language === 'de' ? 'Stufe' : 'Tier'}:</label>
-            <select
-              value={minerTier}
-              onChange={(e) => onTierChange(id, e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {Object.keys(MINER_TIERS).map(tier => (
-                <option key={tier} value={tier}>
-                  {MINER_TIERS[tier][language]}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="miner-select-group">
-            <label>{language === 'de' ? 'Reinheit' : 'Purity'}:</label>
-            <select
-              value={purity}
-              onChange={(e) => onPurityChange(id, e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {Object.keys(PURITY_LEVELS).map(p => (
-                <option key={p} value={p}>
-                  {PURITY_LEVELS[p][language]}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="miner-stats">
-          <div className="node-output">
-            {language === 'de' ? 'Kapazität' : 'Capacity'}: {currentOutput}/min
-          </div>
-          <div className={`node-demand ${isOverloaded ? 'demand-warning' : ''}`}>
-            {language === 'de' ? 'Bedarf' : 'Demand'}: {requiredRate.toFixed(2).replace(/\.?0+$/, '')}/min
-          </div>
-          {minersNeeded > 1 && (
-            <div className="miners-needed">
-              {language === 'de' ? 'Benötigt' : 'Required'}: {minersNeeded}x Miner
-            </div>
-          )}
-        </div>
+        <div className="node-amount">{amountDisplay}x</div>
       </div>
     </div>
   )
 })
 
-// Recursive calculation of production chain
-function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCounter = { value: 0 }) {
+// Recursive calculation of production chain (batch mode - absolute amounts)
+function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCounter = { value: 0 }) {
   const result = {
     nodes: [],
     edges: [],
@@ -163,18 +106,17 @@ function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCount
       id: nodeId,
       itemId: itemId,
       building: 'Miner',
-      rate: targetRate,
+      amount: targetAmount,
       depth: depth,
       isOre: true,
     })
     return result
   }
 
-  // Calculate how many cycles per minute we need
+  // Calculate total amount needed
+  // If recipe produces outputAmount per cycle, we need (targetAmount / outputAmount) cycles
   const outputPerCycle = recipe.outputAmount
-  const cyclesPerMinute = 60 / recipe.cycleTime
-  const baseOutputPerMinute = outputPerCycle * cyclesPerMinute
-  const machinesNeeded = targetRate / baseOutputPerMinute
+  const cyclesNeeded = targetAmount / outputPerCycle
 
   // Create node for this building
   const nodeId = `node-${nodeIdCounter.value++}`
@@ -182,19 +124,18 @@ function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCount
     id: nodeId,
     itemId: itemId,
     building: recipe.building,
-    rate: targetRate,
-    machinesNeeded: machinesNeeded,
+    amount: targetAmount,
     depth: depth,
   })
 
   // Recursively calculate for each input
   for (const input of recipe.inputs) {
-    const inputPerCycle = input.amount
-    const inputPerMinute = inputPerCycle * cyclesPerMinute * machinesNeeded
+    // Total input amount needed = input per cycle * cycles needed
+    const inputAmount = input.amount * cyclesNeeded
 
     const subChain = calculateProductionChain(
       input.itemId,
-      inputPerMinute,
+      inputAmount,
       depth + 1,
       nodeIdCounter
     )
@@ -206,6 +147,8 @@ function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCount
         source: subChain.nodes[0].id,
         target: nodeId,
         animated: true,
+        label: `${Math.ceil(inputAmount)}x`,
+        data: { amount: inputAmount },
       })
     }
 
@@ -216,7 +159,7 @@ function calculateProductionChain(itemId, targetRate = 1, depth = 0, nodeIdCount
   return result
 }
 
-// Convert calculated chain to React Flow nodes
+// Convert calculated chain to React Flow nodes (batch mode)
 function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange) {
   // Group nodes by depth for positioning
   const depthGroups = {}
@@ -234,12 +177,12 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     const depthIndex = depthGroups[node.depth].indexOf(node)
 
     // Position: x based on depth (right to left), y based on index at that depth
-    // Miner nodes need more vertical space due to controls
     const x = (maxDepth - node.depth) * 280 + 50
-    const yOffset = node.isOre ? 180 : 120
+    const yOffset = node.isOre ? 140 : 100
     const y = depthIndex * yOffset + 50 + (depthIndex > 0 ? 20 : 0)
 
     const itemName = translateItem(node.itemId, lang)
+    const amountDisplay = Math.ceil(node.amount)
 
     if (node.isOre) {
       // Get miner settings for this node
@@ -251,7 +194,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
         position: { x, y },
         data: {
           itemName,
-          requiredRate: node.rate,
+          requiredAmount: node.amount,
           minerTier: settings.tier,
           purity: settings.purity,
           onTierChange,
@@ -261,10 +204,6 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
       })
     } else {
       const buildingName = translateBuilding(node.building, lang)
-      const rateDisplay = node.rate.toFixed(2).replace(/\.?0+$/, '')
-      const machineInfo = node.machinesNeeded
-        ? ` (${node.machinesNeeded.toFixed(2).replace(/\.?0+$/, '')}x)`
-        : ''
 
       flowNodes.push({
         id: node.id,
@@ -273,9 +212,9 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
         data: {
           label: (
             <div className="node-content">
-              <div className="node-title">{buildingName}{machineInfo}</div>
+              <div className="node-title">{buildingName}</div>
               <div className="node-info">{itemName}</div>
-              <div className="node-output">{rateDisplay}/min</div>
+              <div className="node-amount">{amountDisplay}x</div>
             </div>
           ),
         },
@@ -315,7 +254,7 @@ const nodeTypes = {
 export default function App() {
   const [language, setLanguage] = useState('de')
   const [targetItem, setTargetItem] = useState(null)
-  const [targetRate, setTargetRate] = useState(10)
+  const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
 
   // Handlers for miner settings changes
@@ -336,8 +275,8 @@ export default function App() {
   // Calculate production chain when target changes
   const productionChain = useMemo(() => {
     if (!targetItem) return null
-    return calculateProductionChain(targetItem, targetRate)
-  }, [targetItem, targetRate])
+    return calculateProductionChain(targetItem, targetAmount)
+  }, [targetItem, targetAmount])
 
   // Initialize miner settings for new ore nodes
   useMemo(() => {
@@ -363,7 +302,13 @@ export default function App() {
 
   const flowEdges = useMemo(() => {
     if (!productionChain) return []
-    return productionChain.edges
+    return productionChain.edges.map(edge => ({
+      ...edge,
+      labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 12 },
+      labelBgStyle: { fill: '#e94560', fillOpacity: 0.9 },
+      labelBgPadding: [4, 6],
+      labelBgBorderRadius: 4,
+    }))
   }, [productionChain])
 
   const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes)
@@ -416,18 +361,18 @@ export default function App() {
       <div className="main-content">
         <aside className="sidebar">
           <div className="sidebar-header">
-            <h2>{language === 'de' ? 'Materialien' : 'Materials'}</h2>
+            <h2>{translateUI('materials', language)}</h2>
           </div>
-          <div className="rate-input">
-            <label>{language === 'de' ? 'Zielrate' : 'Target Rate'}:</label>
+          <div className="amount-input">
+            <label>{translateUI('targetAmount', language)}:</label>
+            <p className="input-hint">{translateUI('howMuchToProduce', language)}</p>
             <input
               type="number"
-              value={targetRate}
-              onChange={(e) => setTargetRate(Math.max(1, parseFloat(e.target.value) || 1))}
+              value={targetAmount}
+              onChange={(e) => setTargetAmount(Math.max(1, parseInt(e.target.value) || 1))}
               min="1"
               step="1"
             />
-            <span>/min</span>
           </div>
           <div className="material-grid">
             {categoryOrder.map(category => (
