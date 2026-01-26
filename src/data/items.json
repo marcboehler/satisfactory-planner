@@ -1,0 +1,16 @@
+[
+  { "id": "iron-ore", "de": "Eisenerz", "en": "Iron Ore", "category": "Ore" },
+  { "id": "copper-ore", "de": "Kupfererz", "en": "Copper Ore", "category": "Ore" },
+  { "id": "limestone", "de": "Kalkstein", "en": "Limestone", "category": "Ore" },
+  { "id": "iron-ingot", "de": "Eisenbarren", "en": "Iron Ingot", "category": "Ingot" },
+  { "id": "copper-ingot", "de": "Kupferbarren", "en": "Copper Ingot", "category": "Ingot" },
+  { "id": "concrete", "de": "Beton", "en": "Concrete", "category": "Basic" },
+  { "id": "iron-plate", "de": "Eisenplatte", "en": "Iron Plate", "category": "Basic" },
+  { "id": "iron-rod", "de": "Eisenstange", "en": "Iron Rod", "category": "Basic" },
+  { "id": "wire", "de": "Draht", "en": "Wire", "category": "Basic" },
+  { "id": "cable", "de": "Kabel", "en": "Cable", "category": "Basic" },
+  { "id": "screw", "de": "Schraube", "en": "Screw", "category": "Basic" },
+  { "id": "reinforced-iron-plate", "de": "Verstärkte Eisenplatte", "en": "Reinforced Iron Plate", "category": "Advanced" },
+  { "id": "rotor", "de": "Rotor", "en": "Rotor", "category": "Advanced" },
+  { "id": "modular-frame", "de": "Modularer Rahmen", "en": "Modular Frame", "category": "Advanced" }
+]
