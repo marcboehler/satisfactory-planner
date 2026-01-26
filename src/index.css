@@ -23,6 +23,7 @@ html, body, #root {
 .header {
   background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
   padding: 0.75rem 1rem;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
   border-bottom: 2px solid #fa9549;
   display: flex;
   align-items: center;
@@ -675,14 +676,19 @@ html, body, #root {
 
 /* Mobile styles (below 768px) */
 @media (max-width: 767px) {
+  .header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 100;
+    z-index: 200;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   .sidebar.open {
@@ -691,6 +697,7 @@ html, body, #root {
 
   .sidebar-overlay {
     display: block;
+    z-index: 150;
   }
 
   .sidebar-close {
@@ -698,7 +705,7 @@ html, body, #root {
   }
 
   .sidebar-toggle-desktop {
-    display: none;
+    display: none !important;
   }
 
   .flow-container {
