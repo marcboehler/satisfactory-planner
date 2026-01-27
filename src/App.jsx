@@ -48,6 +48,7 @@ const BUILDING_IMAGES = {
   'Smelter': 'https://satisfactory.wiki.gg/images/thumb/3/30/Smelter.png/200px-Smelter.png',
   'Constructor': 'https://satisfactory.wiki.gg/images/thumb/1/1a/Constructor.png/200px-Constructor.png',
   'Assembler': 'https://satisfactory.wiki.gg/images/thumb/d/dc/Assembler.png/200px-Assembler.png',
+  'Manufacturer': 'https://satisfactory.wiki.gg/images/thumb/a/af/Manufacturer.png/200px-Manufacturer.png',
   'Foundry': 'https://satisfactory.wiki.gg/images/thumb/5/5b/Foundry.png/200px-Foundry.png',
   'Converter': 'https://satisfactory.wiki.gg/images/thumb/b/b2/Converter.png/200px-Converter.png',
   'WaterExtractor': 'https://satisfactory.wiki.gg/images/thumb/8/80/Water_Extractor.png/200px-Water_Extractor.png',
@@ -888,12 +889,13 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
   Mineral: { de: 'Mineralien', en: 'Minerals' },
   Liquid: { de: 'Flüssigkeiten', en: 'Liquids' },
+  Standard: { de: 'Standard', en: 'Standard' },
 }
 
 // Register custom node types
