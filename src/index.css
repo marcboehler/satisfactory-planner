@@ -398,6 +398,30 @@ html, body, #root {
   stroke-width: 2;
 }
 
+/* Handle styling for smart routing */
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: #fa9549;
+  border: 2px solid #1a1a1a;
+}
+
+/* Make vertical handles smaller and less prominent */
+.react-flow__handle-top,
+.react-flow__handle-bottom {
+  width: 6px;
+  height: 6px;
+  opacity: 0.7;
+}
+
+.react-flow__handle-top {
+  top: -3px;
+}
+
+.react-flow__handle-bottom {
+  bottom: -3px;
+}
+
 .react-flow__controls {
   background: #1a1a1a;
   border: 2px solid #fa9549;
