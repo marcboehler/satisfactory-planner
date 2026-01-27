@@ -105,13 +105,6 @@
     "icon": "https://satisfactory.wiki.gg/images/thumb/4/4b/Aluminum_Ingot.png/64px-Aluminum_Ingot.png"
   },
   {
-    "id": "aluminum-scrap",
-    "de": "Aluminiumschrott",
-    "en": "Aluminum Scrap",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/c/cc/Aluminum_Scrap.png/64px-Aluminum_Scrap.png"
-  },
-  {
     "id": "ficsite-ingot",
     "de": "Ficsite-Barren",
     "en": "Ficsite Ingot",
@@ -119,101 +112,52 @@
     "icon": "https://satisfactory.wiki.gg/images/thumb/5/5c/Ficsite_Ingot.png/64px-Ficsite_Ingot.png"
   },
   {
-    "id": "steel-beam",
-    "de": "Stahlträger",
-    "en": "Steel Beam",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6f/Steel_Beam.png/64px-Steel_Beam.png"
-  },
-  {
-    "id": "steel-pipe",
-    "de": "Stahlrohr",
-    "en": "Steel Pipe",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/2/24/Steel_Pipe.png/64px-Steel_Pipe.png"
+    "id": "concrete",
+    "de": "Beton",
+    "en": "Concrete",
+    "category": "Mineral",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6e/Concrete.png/64px-Concrete.png"
   },
   {
     "id": "quartz-crystal",
     "de": "Quarzkristall",
     "en": "Quartz Crystal",
-    "category": "Basic",
+    "category": "Mineral",
     "icon": "https://satisfactory.wiki.gg/images/thumb/6/67/Quartz_Crystal.png/64px-Quartz_Crystal.png"
   },
   {
     "id": "silica",
-    "de": "Silizium",
+    "de": "Quarzsand",
     "en": "Silica",
-    "category": "Basic",
+    "category": "Mineral",
     "icon": "https://satisfactory.wiki.gg/images/thumb/c/ca/Silica.png/64px-Silica.png"
   },
   {
-    "id": "black-powder",
-    "de": "Schwarzpulver",
-    "en": "Black Powder",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/a/af/Black_Powder.png/64px-Black_Powder.png"
+    "id": "copper-powder",
+    "de": "Kupferpulver",
+    "en": "Copper Powder",
+    "category": "Mineral",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/c4/Copper_Powder.png/64px-Copper_Powder.png"
   },
   {
-    "id": "concrete",
-    "de": "Beton",
-    "en": "Concrete",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6e/Concrete.png/64px-Concrete.png"
+    "id": "polymer-resin",
+    "de": "Polymerharz",
+    "en": "Polymer Resin",
+    "category": "Mineral",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/27/Polymer_Resin.png/64px-Polymer_Resin.png"
   },
   {
-    "id": "iron-plate",
-    "de": "Eisenplatte",
-    "en": "Iron Plate",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/a/a7/Iron_Plate.png/64px-Iron_Plate.png"
+    "id": "petroleum-coke",
+    "de": "Petrolkoks",
+    "en": "Petroleum Coke",
+    "category": "Mineral",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/28/Petroleum_Coke.png/64px-Petroleum_Coke.png"
   },
   {
-    "id": "iron-rod",
-    "de": "Eisenstange",
-    "en": "Iron Rod",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/4/47/Iron_Rod.png/64px-Iron_Rod.png"
-  },
-  {
-    "id": "wire",
-    "de": "Draht",
-    "en": "Wire",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/7/77/Wire.png/64px-Wire.png"
-  },
-  {
-    "id": "cable",
-    "de": "Kabel",
-    "en": "Cable",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/9/97/Cable.png/64px-Cable.png"
-  },
-  {
-    "id": "screw",
-    "de": "Schraube",
-    "en": "Screw",
-    "category": "Basic",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5f/Screws.png/64px-Screws.png"
-  },
-  {
-    "id": "reinforced-iron-plate",
-    "de": "Verstärkte Eisenplatte",
-    "en": "Reinforced Iron Plate",
-    "category": "Advanced",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/2/29/Reinforced_Iron_Plate.png/64px-Reinforced_Iron_Plate.png"
-  },
-  {
-    "id": "rotor",
-    "de": "Rotor",
-    "en": "Rotor",
-    "category": "Advanced",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3d/Rotor.png/64px-Rotor.png"
-  },
-  {
-    "id": "modular-frame",
-    "de": "Modularer Rahmen",
-    "en": "Modular Frame",
-    "category": "Advanced",
-    "icon": "https://satisfactory.wiki.gg/images/thumb/a/af/Modular_Frame.png/64px-Modular_Frame.png"
+    "id": "aluminum-scrap",
+    "de": "Aluminiumschrott",
+    "en": "Aluminum Scrap",
+    "category": "Mineral",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/cc/Aluminum_Scrap.png/64px-Aluminum_Scrap.png"
   }
 ]
