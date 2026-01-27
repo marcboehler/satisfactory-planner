@@ -12,7 +12,7 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
 
     steps:
@@ -39,3 +39,5 @@ jobs:
           Triggered by push from @${{ github.actor }}." \
             --base main \
             --head "${{ github.ref_name }}"
+
+          gh pr merge --auto --merge --delete-branch
