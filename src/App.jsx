@@ -50,6 +50,7 @@ const BUILDING_IMAGES = {
 // Node dimensions for dagre layout
 const NODE_WIDTH = 200
 const NODE_HEIGHT = 280
+const TITLE_SAFE_AREA = 80 // Reserved space at top for tier labels
 
 // Tier background colors (matte dark palette)
 const TIER_COLORS = [
@@ -160,12 +161,16 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
     globalMinY = Math.min(globalMinY, tier.minY)
     globalMaxY = Math.max(globalMaxY, tier.maxY)
   })
-  const globalHeight = globalMaxY - globalMinY
+  const contentHeight = globalMaxY - globalMinY
 
-  // Center each tier's nodes vertically within the global height
+  // Center each tier's nodes vertically, respecting the title safe area
+  // Formula: Y_offset = TITLE_SAFE_AREA + (availableHeight - tierHeight) / 2
   tierMap.forEach((tier) => {
     const tierHeight = tier.maxY - tier.minY
-    const yOffset = (globalHeight - tierHeight) / 2 - (tier.minY - globalMinY)
+    // Calculate available space below the safe area
+    const availableHeight = contentHeight
+    // Center within available space, then add safe area offset
+    const yOffset = TITLE_SAFE_AREA + (availableHeight - tierHeight) / 2 - (tier.minY - globalMinY)
 
     tier.nodes.forEach((node) => {
       node.position.y += yOffset
@@ -200,8 +205,8 @@ function createTierBackgroundNodes(tierInfo, language) {
 
   const padding = 25
 
-  // Calculate global min/max Y for consistent heights
-  const globalMinY = Math.min(...tierInfo.map(t => t.minY)) - padding
+  // Calculate global Y bounds - start from 0 to include title safe area
+  const globalMinY = 0
   const globalMaxY = Math.max(...tierInfo.map(t => t.maxY)) + padding
 
   return tierInfo.map((tier, index) => {
@@ -209,7 +214,7 @@ function createTierBackgroundNodes(tierInfo, language) {
     // Use tier.rank if available, otherwise use index
     const tierNumber = (tier.rank ?? index) + 1
 
-    // Simple rectangular columns
+    // Simple rectangular columns - start at top (Y=0) to include title safe area
     const x = tier.minX - padding
     const width = tier.width + padding * 2
     const height = globalMaxY - globalMinY

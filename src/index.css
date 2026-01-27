@@ -689,7 +689,7 @@ html, body, #root {
 
 .tier-label {
   position: absolute;
-  top: 16px;
+  top: 28px; /* Centered in 80px title safe area: (80 - 24) / 2 = 28 */
   left: 50%;
   transform: translateX(-50%);
   font-size: 24px;
