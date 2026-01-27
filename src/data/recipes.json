@@ -130,5 +130,65 @@
       { "itemId": "reinforced-iron-plate", "amount": 3 },
       { "itemId": "iron-rod", "amount": 12 }
     ]
+  },
+  {
+    "id": "steel-ingot",
+    "output": "steel-ingot",
+    "outputAmount": 3,
+    "cycleTime": 4,
+    "building": "Foundry",
+    "inputs": [
+      { "itemId": "iron-ore", "amount": 3 },
+      { "itemId": "coal", "amount": 3 }
+    ]
+  },
+  {
+    "id": "aluminum-scrap",
+    "output": "aluminum-scrap",
+    "outputAmount": 6,
+    "cycleTime": 1,
+    "building": "Foundry",
+    "inputs": [
+      { "itemId": "bauxite", "amount": 4 },
+      { "itemId": "coal", "amount": 2 }
+    ]
+  },
+  {
+    "id": "aluminum-ingot",
+    "output": "aluminum-ingot",
+    "outputAmount": 4,
+    "cycleTime": 4,
+    "building": "Foundry",
+    "inputs": [
+      { "itemId": "aluminum-scrap", "amount": 6 },
+      { "itemId": "silica", "amount": 5 }
+    ]
+  },
+  {
+    "id": "ficsite-ingot-iron",
+    "output": "ficsite-ingot",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "sam", "amount": 2 },
+      { "itemId": "iron-ingot", "amount": 2 }
+    ]
+  },
+  {
+    "id": "steel-beam",
+    "output": "steel-beam",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "steel-ingot", "amount": 4 }]
+  },
+  {
+    "id": "steel-pipe",
+    "output": "steel-pipe",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "steel-ingot", "amount": 3 }]
   }
 ]

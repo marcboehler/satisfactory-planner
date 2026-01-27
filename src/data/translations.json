@@ -15,6 +15,14 @@
     "Assembler": {
       "de": "Manufaktur",
       "en": "Assembler"
+    },
+    "Foundry": {
+      "de": "Gießerei",
+      "en": "Foundry"
+    },
+    "Converter": {
+      "de": "Konverter",
+      "en": "Converter"
     }
   },
   "items": {

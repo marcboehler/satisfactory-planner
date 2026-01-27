@@ -63,6 +63,13 @@
     "icon": "https://satisfactory.wiki.gg/images/thumb/3/3b/Uranium.png/64px-Uranium.png"
   },
   {
+    "id": "sam",
+    "de": "SAM",
+    "en": "SAM",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/b/bf/SAM.png/64px-SAM.png"
+  },
+  {
     "id": "iron-ingot",
     "de": "Eisenbarren",
     "en": "Iron Ingot",
@@ -82,6 +89,48 @@
     "en": "Caterium Ingot",
     "category": "Ingot",
     "icon": "https://satisfactory.wiki.gg/images/thumb/0/0a/Caterium_Ingot.png/64px-Caterium_Ingot.png"
+  },
+  {
+    "id": "steel-ingot",
+    "de": "Stahlbarren",
+    "en": "Steel Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/b/bd/Steel_Ingot.png/64px-Steel_Ingot.png"
+  },
+  {
+    "id": "aluminum-ingot",
+    "de": "Aluminiumbarren",
+    "en": "Aluminum Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/4/4b/Aluminum_Ingot.png/64px-Aluminum_Ingot.png"
+  },
+  {
+    "id": "aluminum-scrap",
+    "de": "Aluminiumschrott",
+    "en": "Aluminum Scrap",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/cc/Aluminum_Scrap.png/64px-Aluminum_Scrap.png"
+  },
+  {
+    "id": "ficsite-ingot",
+    "de": "Ficsite-Barren",
+    "en": "Ficsite Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5c/Ficsite_Ingot.png/64px-Ficsite_Ingot.png"
+  },
+  {
+    "id": "steel-beam",
+    "de": "Stahlträger",
+    "en": "Steel Beam",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6f/Steel_Beam.png/64px-Steel_Beam.png"
+  },
+  {
+    "id": "steel-pipe",
+    "de": "Stahlrohr",
+    "en": "Steel Pipe",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/24/Steel_Pipe.png/64px-Steel_Pipe.png"
   },
   {
     "id": "quartz-crystal",
