@@ -376,18 +376,19 @@ html, body, #root {
   transform: scale(0.98);
 }
 
-/* React Flow node styles */
+/* React Flow node styles - remove default styling, let custom nodes handle it */
 .react-flow__node {
-  background: #1a1a1a;
-  border: 2px solid #fa9549;
-  border-radius: 8px;
-  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   color: #e0e0e0;
   font-size: 11px;
-  min-width: 140px;
+  min-width: 0;
 }
 
-.react-flow__node.selected {
+.react-flow__node.selected .miner-node,
+.react-flow__node.selected .machine-node {
   border-color: #ffb347;
   box-shadow: 0 0 15px rgba(250, 149, 73, 0.5);
 }
