@@ -159,5 +159,95 @@
     "en": "Aluminum Scrap",
     "category": "Mineral",
     "icon": "https://satisfactory.wiki.gg/images/thumb/c/cc/Aluminum_Scrap.png/64px-Aluminum_Scrap.png"
+  },
+  {
+    "id": "water",
+    "de": "Wasser",
+    "en": "Water",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#3b82f6",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/9d/Water.png/64px-Water.png"
+  },
+  {
+    "id": "crude-oil",
+    "de": "Rohöl",
+    "en": "Crude Oil",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#1a1a1a",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/60/Crude_Oil.png/64px-Crude_Oil.png"
+  },
+  {
+    "id": "heavy-oil-residue",
+    "de": "Schwerölrückstand",
+    "en": "Heavy Oil Residue",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#581c87",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6b/Heavy_Oil_Residue.png/64px-Heavy_Oil_Residue.png"
+  },
+  {
+    "id": "fuel",
+    "de": "Treibstoff",
+    "en": "Fuel",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#f59e0b",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3e/Fuel.png/64px-Fuel.png"
+  },
+  {
+    "id": "liquid-biofuel",
+    "de": "Flüssiger Biotreibstoff",
+    "en": "Liquid Biofuel",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#84cc16",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/d1/Liquid_Biofuel.png/64px-Liquid_Biofuel.png"
+  },
+  {
+    "id": "turbofuel",
+    "de": "Turbotreibstoff",
+    "en": "Turbofuel",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#ef4444",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/2c/Turbofuel.png/64px-Turbofuel.png"
+  },
+  {
+    "id": "alumina-solution",
+    "de": "Aluoxid-Lösung",
+    "en": "Alumina Solution",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#e0f2fe",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5e/Alumina_Solution.png/64px-Alumina_Solution.png"
+  },
+  {
+    "id": "sulfuric-acid",
+    "de": "Schwefelsäure",
+    "en": "Sulfuric Acid",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#fef08a",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/c7/Sulfuric_Acid.png/64px-Sulfuric_Acid.png"
+  },
+  {
+    "id": "nitric-acid",
+    "de": "Salpetersäure",
+    "en": "Nitric Acid",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#fefce8",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/6e/Nitric_Acid.png/64px-Nitric_Acid.png"
+  },
+  {
+    "id": "dissolved-silica",
+    "de": "Gelöster Quarzsand",
+    "en": "Dissolved Silica",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#d4d4d8",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/8/81/Dissolved_Silica.png/64px-Dissolved_Silica.png"
   }
 ]

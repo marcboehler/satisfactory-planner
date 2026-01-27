@@ -567,6 +567,19 @@ html, body, #root {
   box-sizing: border-box;
 }
 
+/* Liquid Extractor Styles (Water/Oil) */
+.miner-node.liquid-extractor {
+  border-color: #3b82f6;
+}
+
+.miner-node.liquid-extractor .node-title {
+  color: #60a5fa;
+}
+
+.miner-node.liquid-extractor .node-amount {
+  color: #60a5fa;
+}
+
 .miner-controls {
   display: flex;
   flex-direction: column;

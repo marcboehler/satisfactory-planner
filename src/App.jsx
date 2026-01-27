@@ -50,6 +50,16 @@ const BUILDING_IMAGES = {
   'Assembler': 'https://satisfactory.wiki.gg/images/thumb/d/dc/Assembler.png/200px-Assembler.png',
   'Foundry': 'https://satisfactory.wiki.gg/images/thumb/5/5b/Foundry.png/200px-Foundry.png',
   'Converter': 'https://satisfactory.wiki.gg/images/thumb/b/b2/Converter.png/200px-Converter.png',
+  'WaterExtractor': 'https://satisfactory.wiki.gg/images/thumb/8/80/Water_Extractor.png/200px-Water_Extractor.png',
+  'OilExtractor': 'https://satisfactory.wiki.gg/images/thumb/5/5d/Oil_Extractor.png/200px-Oil_Extractor.png',
+  'Refinery': 'https://satisfactory.wiki.gg/images/thumb/f/fc/Refinery.png/200px-Refinery.png',
+  'Blender': 'https://satisfactory.wiki.gg/images/thumb/5/5a/Blender.png/200px-Blender.png',
+}
+
+// Pipe tiers for liquids (m³/min)
+const PIPE_TIERS = {
+  'Mk.1': { capacity: 300, color: '#60a5fa', bgColor: '#1e40af' },
+  'Mk.2': { capacity: 600, color: '#38bdf8', bgColor: '#0369a1' },
 }
 
 // Node dimensions for dagre layout
@@ -367,6 +377,17 @@ function getRequiredBeltTier(rate) {
   return { tier: 'LIMIT', capacity: 1200, color: '#ff4444', bgColor: '#991b1b', isOverLimit: true }
 }
 
+// Get minimum required pipe tier for a given liquid rate
+function getRequiredPipeTier(rate) {
+  for (const [tier, data] of Object.entries(PIPE_TIERS)) {
+    if (rate <= data.capacity) {
+      return { tier, ...data, isOverLimit: false }
+    }
+  }
+  // Rate exceeds Mk.2
+  return { tier: 'LIMIT', capacity: 600, color: '#ff4444', bgColor: '#991b1b', isOverLimit: true }
+}
+
 // Calculate miner output based on tier and purity
 function calculateMinerOutput(tier, purity) {
   const tierData = MINER_TIERS[tier]
@@ -410,6 +431,17 @@ function isOre(itemId) {
   return item && item.category === 'Ore'
 }
 
+// Check if item is a liquid
+function isLiquid(itemId) {
+  const item = getItem(itemId)
+  return item && item.isLiquid === true
+}
+
+// Check if item is a base liquid source (water or crude oil - extracted, not produced)
+function isLiquidSource(itemId) {
+  return itemId === 'water' || itemId === 'crude-oil'
+}
+
 // Helper to translate miner-specific strings
 function translateMiner(key, lang) {
   const miner = translations.miner[key]
@@ -445,7 +477,7 @@ function calculateMachinesNeeded(amount, productionTimeMinutes, recipe) {
   }
 }
 
-// Custom Miner Node Component with tier/purity settings and time calculation
+// Custom Miner/Extractor Node Component with tier/purity settings and time calculation
 const MinerNode = memo(({ data, id }) => {
   const {
     itemName,
@@ -455,17 +487,23 @@ const MinerNode = memo(({ data, id }) => {
     purity,
     onTierChange,
     onPurityChange,
-    language
+    language,
+    buildingType = 'Miner',
+    isLiquidSource = false,
   } = data
 
-  const buildingName = translateBuilding('Miner', language)
-  const buildingImage = BUILDING_IMAGES['Miner']
+  const buildingName = translateBuilding(buildingType, language)
+  const buildingImage = BUILDING_IMAGES[buildingType] || BUILDING_IMAGES['Miner']
   const amountDisplay = Math.ceil(requiredAmount)
   const outputPerMin = calculateMinerOutput(minerTier, purity)
   const miningTimeMinutes = requiredAmount / outputPerMin
 
+  // Liquid sources show m³ instead of pieces
+  const unitLabel = isLiquidSource ? 'm³' : 'x'
+  const rateLabel = isLiquidSource ? 'm³/min' : '/min'
+
   return (
-    <div className="miner-node">
+    <div className={`miner-node ${isLiquidSource ? 'liquid-extractor' : ''}`}>
       {/* Standard horizontal handle */}
       <Handle type="source" position={Position.Right} id="right" />
       {/* Vertical handles for smart routing */}
@@ -480,7 +518,7 @@ const MinerNode = memo(({ data, id }) => {
           {itemIcon && <img src={itemIcon} alt={itemName} className="node-icon" />}
           <span className="node-info">{itemName}</span>
         </div>
-        <div className="node-amount">{amountDisplay}x</div>
+        <div className="node-amount">{amountDisplay}{unitLabel}</div>
 
         <div className="miner-controls">
           <div className="miner-select-group">
@@ -517,7 +555,7 @@ const MinerNode = memo(({ data, id }) => {
         <div className="miner-stats">
           <div className="stat-row">
             <span className="stat-label">{translateMiner('outputPerMin', language)}:</span>
-            <span className="stat-value">{outputPerMin}/min</span>
+            <span className="stat-value">{outputPerMin}{rateLabel}</span>
           </div>
           <div className="stat-row">
             <span className="stat-label">{translateMiner('miningTime', language)}:</span>
@@ -643,16 +681,22 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
 
   const recipe = getRecipeForItem(itemId)
 
-  if (!recipe || isOre(itemId)) {
-    // Base case: ore or no recipe found - create a miner node
+  if (!recipe || isOre(itemId) || isLiquidSource(itemId)) {
+    // Base case: ore, liquid source, or no recipe found - create an extractor node
     const nodeId = `node-${nodeIdCounter.value++}`
+    let building = 'Miner'
+    if (itemId === 'water') building = 'WaterExtractor'
+    else if (itemId === 'crude-oil') building = 'OilExtractor'
+
     result.nodes.push({
       id: nodeId,
       itemId: itemId,
-      building: 'Miner',
+      building: building,
       amount: targetAmount,
       depth: depth,
-      isOre: true,
+      isOre: isOre(itemId),
+      isLiquidSource: isLiquidSource(itemId),
+      isExtractor: true,
     })
     return result
   }
@@ -692,7 +736,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
         target: nodeId,
         animated: true,
         label: `${Math.ceil(inputAmount)}x`,
-        data: { amount: inputAmount },
+        data: { amount: inputAmount, itemId: input.itemId },
       })
     }
 
@@ -717,9 +761,9 @@ function calculateTopologicalRanks(chain) {
     incomingEdges.get(edge.target).push(edge.source)
   })
 
-  // Initialize miners (nodes with no incoming edges or isOre) with rank 0
+  // Initialize miners/extractors (nodes with no incoming edges or isOre/isExtractor) with rank 0
   nodeMap.forEach((node, id) => {
-    if (node.isOre || !incomingEdges.has(id) || incomingEdges.get(id).length === 0) {
+    if (node.isOre || node.isExtractor || !incomingEdges.has(id) || incomingEdges.get(id).length === 0) {
       node.rank = 0
     }
   })
@@ -780,8 +824,8 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
     const item = getItem(node.itemId)
     const itemIcon = item?.icon || null
 
-    if (node.isOre) {
-      // Get miner settings for this node
+    if (node.isOre || node.isExtractor) {
+      // Get miner/extractor settings for this node
       const settings = minerSettings[node.id] || { tier: 'Mk.1', purity: 'normal' }
 
       flowNodes.push({
@@ -798,6 +842,8 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
           onPurityChange,
           language: lang,
           rank: node.rank,
+          buildingType: node.building,
+          isLiquidSource: node.isLiquidSource,
         },
       })
     } else {
@@ -842,11 +888,12 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
   Mineral: { de: 'Mineralien', en: 'Minerals' },
+  Liquid: { de: 'Flüssigkeiten', en: 'Liquids' },
 }
 
 // Register custom node types
@@ -948,35 +995,49 @@ export default function App() {
     const totalMinutes = productionTimeInfo?.totalMinutes || 1
     const edges = productionChain.edges.map(edge => {
       const amount = edge.data?.amount || 0
+      const itemId = edge.data?.itemId
       const requiredRate = amount / totalMinutes
-      const beltInfo = getRequiredBeltTier(requiredRate)
+      const itemIsLiquid = isLiquid(itemId)
+      const item = getItem(itemId)
+      const liquidColor = item?.color || '#3b82f6'
+
+      // Use pipe tiers for liquids, belt tiers for solids
+      const tierInfo = itemIsLiquid
+        ? getRequiredPipeTier(requiredRate)
+        : getRequiredBeltTier(requiredRate)
+
+      // Liquid edges: thicker (4px), use item's color; Solid edges: normal (2px), orange
+      const strokeWidth = itemIsLiquid ? 4 : 2
+      const strokeColor = itemIsLiquid ? liquidColor : '#fa9549'
+      const unitLabel = itemIsLiquid ? 'm³' : 'x'
+      const labelColor = itemIsLiquid ? '#60a5fa' : '#fa9549'
 
       const baseStyle = {
-        labelStyle: { fill: '#fa9549', fontWeight: 700, fontSize: 11 },
+        labelStyle: { fill: labelColor, fontWeight: 700, fontSize: 11 },
         labelBgPadding: [4, 6],
         labelBgBorderRadius: 4,
       }
 
-      if (beltInfo.isOverLimit) {
+      if (tierInfo.isOverLimit) {
         return {
           ...edge,
           ...baseStyle,
-          label: `${Math.ceil(amount)}x | ${language === 'de' ? 'LIMIT!' : 'LIMIT!'} (${requiredRate.toFixed(0)}/min)`,
+          label: `${Math.ceil(amount)}${unitLabel} | ${language === 'de' ? 'LIMIT!' : 'LIMIT!'} (${requiredRate.toFixed(0)}/min)`,
           labelStyle: { fill: '#fff', fontWeight: 700, fontSize: 11 },
           labelBgStyle: { fill: '#cc2200', fillOpacity: 1 },
           style: { stroke: '#ff4444', strokeWidth: 5 },
           animated: true,
-          data: { ...edge.data, requiredRate, beltTier: beltInfo.tier, isOverLimit: true },
+          data: { ...edge.data, requiredRate, tier: tierInfo.tier, isOverLimit: true, isLiquid: itemIsLiquid },
         }
       }
 
       return {
         ...edge,
         ...baseStyle,
-        label: `${Math.ceil(amount)}x (${beltInfo.tier})`,
+        label: `${Math.ceil(amount)}${unitLabel} (${itemIsLiquid ? 'Pipe ' : ''}${tierInfo.tier})`,
         labelBgStyle: { fill: '#1a1a1a', fillOpacity: 0.95 },
-        style: { stroke: '#fa9549', strokeWidth: 2 },
-        data: { ...edge.data, requiredRate, beltTier: beltInfo.tier, isOverLimit: false },
+        style: { stroke: strokeColor, strokeWidth: strokeWidth },
+        data: { ...edge.data, requiredRate, tier: tierInfo.tier, isOverLimit: false, isLiquid: itemIsLiquid },
       }
     })
 
