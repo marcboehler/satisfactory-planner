@@ -24,114 +24,6 @@
     "inputs": [{ "itemId": "caterium-ore", "amount": 3 }]
   },
   {
-    "id": "quartz-crystal",
-    "output": "quartz-crystal",
-    "outputAmount": 3,
-    "cycleTime": 8,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "raw-quartz", "amount": 5 }]
-  },
-  {
-    "id": "silica",
-    "output": "silica",
-    "outputAmount": 5,
-    "cycleTime": 6,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "raw-quartz", "amount": 3 }]
-  },
-  {
-    "id": "black-powder",
-    "output": "black-powder",
-    "outputAmount": 2,
-    "cycleTime": 4,
-    "building": "Assembler",
-    "inputs": [
-      { "itemId": "coal", "amount": 1 },
-      { "itemId": "sulfur", "amount": 1 }
-    ]
-  },
-  {
-    "id": "concrete",
-    "output": "concrete",
-    "outputAmount": 1,
-    "cycleTime": 4,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "limestone", "amount": 3 }]
-  },
-  {
-    "id": "iron-plate",
-    "output": "iron-plate",
-    "outputAmount": 2,
-    "cycleTime": 6,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "iron-ingot", "amount": 3 }]
-  },
-  {
-    "id": "iron-rod",
-    "output": "iron-rod",
-    "outputAmount": 1,
-    "cycleTime": 4,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "iron-ingot", "amount": 1 }]
-  },
-  {
-    "id": "wire",
-    "output": "wire",
-    "outputAmount": 2,
-    "cycleTime": 4,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "copper-ingot", "amount": 1 }]
-  },
-  {
-    "id": "cable",
-    "output": "cable",
-    "outputAmount": 1,
-    "cycleTime": 2,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "wire", "amount": 2 }]
-  },
-  {
-    "id": "screw",
-    "output": "screw",
-    "outputAmount": 4,
-    "cycleTime": 6,
-    "building": "Constructor",
-    "inputs": [{ "itemId": "iron-rod", "amount": 1 }]
-  },
-  {
-    "id": "reinforced-iron-plate",
-    "output": "reinforced-iron-plate",
-    "outputAmount": 1,
-    "cycleTime": 12,
-    "building": "Assembler",
-    "inputs": [
-      { "itemId": "iron-plate", "amount": 6 },
-      { "itemId": "screw", "amount": 12 }
-    ]
-  },
-  {
-    "id": "rotor",
-    "output": "rotor",
-    "outputAmount": 1,
-    "cycleTime": 15,
-    "building": "Assembler",
-    "inputs": [
-      { "itemId": "iron-rod", "amount": 5 },
-      { "itemId": "screw", "amount": 25 }
-    ]
-  },
-  {
-    "id": "modular-frame",
-    "output": "modular-frame",
-    "outputAmount": 2,
-    "cycleTime": 60,
-    "building": "Assembler",
-    "inputs": [
-      { "itemId": "reinforced-iron-plate", "amount": 3 },
-      { "itemId": "iron-rod", "amount": 12 }
-    ]
-  },
-  {
     "id": "steel-ingot",
     "output": "steel-ingot",
     "outputAmount": 3,
@@ -140,17 +32,6 @@
     "inputs": [
       { "itemId": "iron-ore", "amount": 3 },
       { "itemId": "coal", "amount": 3 }
-    ]
-  },
-  {
-    "id": "aluminum-scrap",
-    "output": "aluminum-scrap",
-    "outputAmount": 6,
-    "cycleTime": 1,
-    "building": "Foundry",
-    "inputs": [
-      { "itemId": "bauxite", "amount": 4 },
-      { "itemId": "coal", "amount": 2 }
     ]
   },
   {
@@ -176,19 +57,38 @@
     ]
   },
   {
-    "id": "steel-beam",
-    "output": "steel-beam",
+    "id": "concrete",
+    "output": "concrete",
     "outputAmount": 1,
     "cycleTime": 4,
     "building": "Constructor",
-    "inputs": [{ "itemId": "steel-ingot", "amount": 4 }]
+    "inputs": [{ "itemId": "limestone", "amount": 3 }]
   },
   {
-    "id": "steel-pipe",
-    "output": "steel-pipe",
-    "outputAmount": 2,
+    "id": "quartz-crystal",
+    "output": "quartz-crystal",
+    "outputAmount": 3,
+    "cycleTime": 8,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "raw-quartz", "amount": 5 }]
+  },
+  {
+    "id": "silica",
+    "output": "silica",
+    "outputAmount": 5,
     "cycleTime": 6,
     "building": "Constructor",
-    "inputs": [{ "itemId": "steel-ingot", "amount": 3 }]
+    "inputs": [{ "itemId": "raw-quartz", "amount": 3 }]
+  },
+  {
+    "id": "aluminum-scrap",
+    "output": "aluminum-scrap",
+    "outputAmount": 6,
+    "cycleTime": 1,
+    "building": "Foundry",
+    "inputs": [
+      { "itemId": "bauxite", "amount": 4 },
+      { "itemId": "coal", "amount": 2 }
+    ]
   }
 ]

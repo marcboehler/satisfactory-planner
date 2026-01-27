@@ -842,12 +842,11 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Basic', 'Advanced']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
-  Basic: { de: 'Basis', en: 'Basic' },
-  Advanced: { de: 'Fortgeschritten', en: 'Advanced' },
+  Mineral: { de: 'Mineralien', en: 'Minerals' },
 }
 
 // Register custom node types
