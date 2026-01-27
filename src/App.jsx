@@ -48,6 +48,8 @@ const BUILDING_IMAGES = {
   'Smelter': 'https://satisfactory.wiki.gg/images/thumb/3/30/Smelter.png/200px-Smelter.png',
   'Constructor': 'https://satisfactory.wiki.gg/images/thumb/1/1a/Constructor.png/200px-Constructor.png',
   'Assembler': 'https://satisfactory.wiki.gg/images/thumb/d/dc/Assembler.png/200px-Assembler.png',
+  'Foundry': 'https://satisfactory.wiki.gg/images/thumb/5/5b/Foundry.png/200px-Foundry.png',
+  'Converter': 'https://satisfactory.wiki.gg/images/thumb/b/b2/Converter.png/200px-Converter.png',
 }
 
 // Node dimensions for dagre layout
