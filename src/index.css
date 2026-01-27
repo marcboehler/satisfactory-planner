@@ -398,23 +398,18 @@ html, body, #root {
   stroke-width: 2;
 }
 
-/* Edge label positioning - float above the line */
-.react-flow__edge-textbg {
-  fill: #1a1a1a;
-}
-
-.react-flow__edge-text {
-  fill: #fa9549;
+/* Custom edge labels rendered via EdgeLabelRenderer */
+.edge-label {
+  background: rgba(26, 26, 26, 0.9);
+  color: #fa9549;
   font-size: 11px;
   font-weight: 600;
-}
-
-.react-flow__edgelabel-renderer {
-  pointer-events: none;
-}
-
-.react-flow__edge .react-flow__edge-textwrapper {
-  transform: translateY(-15px);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #fa9549;
+  white-space: nowrap;
+  z-index: 10;
+  margin-bottom: 10px;
 }
 
 /* Handle styling for smart routing */
