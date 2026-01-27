@@ -257,6 +257,7 @@ function applySmartEdgeRouting(nodes, edges) {
 
     return {
       ...edge,
+      type: 'smoothstep',
       sourceHandle,
       targetHandle,
     }
@@ -1081,6 +1082,11 @@ export default function App() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            defaultEdgeOptions={{
+              type: 'smoothstep',
+              style: { strokeWidth: 2 },
+              pathOptions: { borderRadius: 15 },
+            }}
             nodesDraggable={false}
             nodesConnectable={false}
             snapToGrid={true}
