@@ -73,15 +73,19 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
   dagreGraph.setGraph({
     rankdir: direction,
     nodesep: 80,
-    ranksep: 120,
+    ranksep: 150,
     marginx: 50,
     marginy: 50,
   })
 
+  // Add nodes with their calculated rank to control dagre positioning
   nodes.forEach((node) => {
+    const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
     dagreGraph.setNode(node.id, {
       width: NODE_WIDTH,
-      height: node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT,
+      height: nodeHeight,
+      // Use rank from topological calculation if available
+      rank: node.data?.rank ?? 0,
     })
   })
 
@@ -95,6 +99,7 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
   let layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id)
     const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
+    const rank = node.data?.rank ?? 0
 
     return {
       ...node,
@@ -106,20 +111,23 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
         width: NODE_WIDTH,
         height: nodeHeight,
       },
+      data: {
+        ...node.data,
+        rank,
+      },
     }
   })
 
-  // Calculate tier (rank) information from dagre
-  // Group nodes by their x position (rank/tier)
+  // Group nodes by their topological rank (not x position)
   const tierMap = new Map()
 
   layoutedNodes.forEach((node) => {
-    // Round x to group nodes in same tier
-    const tierX = Math.round(node.position.x / 50) * 50
+    const rank = node.data?.rank ?? 0
 
-    if (!tierMap.has(tierX)) {
-      tierMap.set(tierX, {
+    if (!tierMap.has(rank)) {
+      tierMap.set(rank, {
         nodes: [],
+        rank,
         minX: Infinity,
         maxX: -Infinity,
         minY: Infinity,
@@ -127,7 +135,7 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
       })
     }
 
-    const tier = tierMap.get(tierX)
+    const tier = tierMap.get(rank)
     tier.nodes.push(node)
 
     const nodeHeight = node.measured?.height || NODE_HEIGHT
@@ -160,11 +168,12 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
     tier.maxY += yOffset
   })
 
-  // Convert to sorted array of tier info
+  // Convert to sorted array of tier info (sorted by rank)
   const tierInfo = Array.from(tierMap.entries())
     .sort(([a], [b]) => a - b)
-    .map(([, info], index) => ({
-      index,
+    .map(([rank, info]) => ({
+      index: rank,
+      rank,
       minX: info.minX,
       maxX: info.maxX,
       minY: info.minY,
@@ -189,6 +198,8 @@ function createTierBackgroundNodes(tierInfo, language) {
 
   return tierInfo.map((tier, index) => {
     const colorIndex = index % TIER_COLORS.length
+    // Use tier.rank if available, otherwise use index
+    const tierNumber = (tier.rank ?? index) + 1
 
     // Simple rectangular columns
     const x = tier.minX - padding
@@ -196,11 +207,11 @@ function createTierBackgroundNodes(tierInfo, language) {
     const height = globalMaxY - globalMinY
 
     return {
-      id: `tier-bg-${index}`,
+      id: `tier-bg-${tierNumber}`,
       type: 'tierBackground',
       position: { x, y: globalMinY },
       data: {
-        tierLabel: `Tier ${index + 1}`,
+        tierLabel: `Tier ${tierNumber}`,
         colorIndex,
         width,
         height,
@@ -557,28 +568,76 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
   return result
 }
 
-// Convert calculated chain to React Flow nodes (batch mode)
-function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange, productionTimeMinutes) {
-  // Group nodes by depth for positioning
-  const depthGroups = {}
-  chain.nodes.forEach(node => {
-    if (!depthGroups[node.depth]) {
-      depthGroups[node.depth] = []
+// Calculate topological ranks for nodes (miners = rank 0, others = max(input ranks) + 1)
+function calculateTopologicalRanks(chain) {
+  const nodeMap = new Map()
+  chain.nodes.forEach(node => nodeMap.set(node.id, { ...node, rank: null }))
+
+  // Build adjacency map (target -> sources)
+  const incomingEdges = new Map()
+  chain.edges.forEach(edge => {
+    if (!incomingEdges.has(edge.target)) {
+      incomingEdges.set(edge.target, [])
     }
-    depthGroups[node.depth].push(node)
+    incomingEdges.get(edge.target).push(edge.source)
   })
 
-  const maxDepth = Math.max(...chain.nodes.map(n => n.depth))
+  // Initialize miners (nodes with no incoming edges or isOre) with rank 0
+  nodeMap.forEach((node, id) => {
+    if (node.isOre || !incomingEdges.has(id) || incomingEdges.get(id).length === 0) {
+      node.rank = 0
+    }
+  })
+
+  // Iteratively calculate ranks until all nodes have a rank
+  let changed = true
+  while (changed) {
+    changed = false
+    nodeMap.forEach((node, id) => {
+      if (node.rank !== null) return
+
+      const sources = incomingEdges.get(id) || []
+      const sourceRanks = sources.map(srcId => nodeMap.get(srcId)?.rank)
+
+      // Check if all sources have ranks
+      if (sourceRanks.every(r => r !== null && r !== undefined)) {
+        node.rank = Math.max(...sourceRanks) + 1
+        changed = true
+      }
+    })
+  }
+
+  // Update original chain nodes with calculated ranks
+  return chain.nodes.map(node => ({
+    ...node,
+    rank: nodeMap.get(node.id)?.rank ?? 0
+  }))
+}
+
+// Convert calculated chain to React Flow nodes (batch mode)
+function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChange, productionTimeMinutes) {
+  // First calculate topological ranks
+  const rankedNodes = calculateTopologicalRanks(chain)
+
+  // Group nodes by rank for positioning
+  const rankGroups = {}
+  rankedNodes.forEach(node => {
+    if (!rankGroups[node.rank]) {
+      rankGroups[node.rank] = []
+    }
+    rankGroups[node.rank].push(node)
+  })
+
+  const maxRank = Math.max(...rankedNodes.map(n => n.rank))
   const flowNodes = []
 
-  chain.nodes.forEach(node => {
-    const depthIndex = depthGroups[node.depth].indexOf(node)
+  rankedNodes.forEach(node => {
+    const rankIndex = rankGroups[node.rank].indexOf(node)
 
-    // Position: x based on depth (right to left), y based on index at that depth
-    // Both node types now have hero images, so need more vertical space
-    const x = (maxDepth - node.depth) * 320 + 50
+    // Position: x based on rank (left to right), y based on index at that rank
+    const x = node.rank * 320 + 50
     const yOffset = node.isOre ? 340 : 320
-    const y = depthIndex * yOffset + 50
+    const y = rankIndex * yOffset + 50
 
     const itemName = translateItem(node.itemId, lang)
     const amountDisplay = Math.ceil(node.amount)
@@ -603,6 +662,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
           onTierChange,
           onPurityChange,
           language: lang,
+          rank: node.rank,
         },
       })
     } else {
@@ -625,6 +685,7 @@ function chainToFlowNodes(chain, lang, minerSettings, onTierChange, onPurityChan
           exactMachineCount: machineInfo.exact,
           machineRate: machineRate,
           language: lang,
+          rank: node.rank,
         },
       })
     }
