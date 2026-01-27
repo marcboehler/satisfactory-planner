@@ -172,8 +172,18 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
     // Center within available space, then add safe area offset
     const yOffset = TITLE_SAFE_AREA + (availableHeight - tierHeight) / 2 - (tier.minY - globalMinY)
 
-    tier.nodes.forEach((node) => {
+    // Sort nodes by Y position to assign vertical indices
+    tier.nodes.sort((a, b) => a.position.y - b.position.y)
+
+    tier.nodes.forEach((node, verticalIndex) => {
       node.position.y += yOffset
+      // Add tier and position metadata for smart routing
+      node.data = {
+        ...node.data,
+        tierIndex: tier.rank,
+        verticalIndex,
+        nodesInTierCount: tier.nodes.length,
+      }
     })
 
     // Update tier bounds after centering
@@ -197,6 +207,60 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
     }))
 
   return { nodes: layoutedNodes, edges, tierInfo }
+}
+
+// Apply smart edge routing based on node positions
+function applySmartEdgeRouting(nodes, edges) {
+  // Create a map of node positions for quick lookup
+  const nodeMap = new Map()
+  nodes.forEach(node => {
+    nodeMap.set(node.id, {
+      y: node.position.y,
+      height: node.measured?.height || NODE_HEIGHT,
+      tierIndex: node.data?.tierIndex ?? 0,
+      verticalIndex: node.data?.verticalIndex ?? 0,
+    })
+  })
+
+  return edges.map(edge => {
+    const sourceNode = nodeMap.get(edge.source)
+    const targetNode = nodeMap.get(edge.target)
+
+    if (!sourceNode || !targetNode) {
+      return edge
+    }
+
+    // Calculate vertical centers
+    const sourceCenter = sourceNode.y + sourceNode.height / 2
+    const targetCenter = targetNode.y + targetNode.height / 2
+    const verticalDiff = targetCenter - sourceCenter
+
+    // Threshold for considering nodes at "same" level (within 50px)
+    const SAME_LEVEL_THRESHOLD = 50
+
+    let sourceHandle = 'right'
+    let targetHandle = 'left'
+
+    if (Math.abs(verticalDiff) <= SAME_LEVEL_THRESHOLD) {
+      // Nodes are roughly at the same level - use horizontal routing
+      sourceHandle = 'right'
+      targetHandle = 'left'
+    } else if (verticalDiff > 0) {
+      // Target is BELOW source - route down
+      sourceHandle = 'right'
+      targetHandle = 'top'
+    } else {
+      // Target is ABOVE source - route up
+      sourceHandle = 'right'
+      targetHandle = 'bottom'
+    }
+
+    return {
+      ...edge,
+      sourceHandle,
+      targetHandle,
+    }
+  })
 }
 
 // Create tier background nodes from tier info
@@ -352,7 +416,11 @@ const MinerNode = memo(({ data, id }) => {
 
   return (
     <div className="miner-node">
-      <Handle type="source" position={Position.Right} />
+      {/* Standard horizontal handle */}
+      <Handle type="source" position={Position.Right} id="right" />
+      {/* Vertical handles for smart routing */}
+      <Handle type="source" position={Position.Top} id="top" />
+      <Handle type="source" position={Position.Bottom} id="bottom" />
       <div className="node-hero">
         <img src={buildingImage} alt={buildingName} className="building-image" />
       </div>
@@ -445,8 +513,12 @@ const MachineNode = memo(({ data }) => {
 
   return (
     <div className="machine-node">
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+      {/* Standard horizontal handles */}
+      <Handle type="target" position={Position.Left} id="left" />
+      <Handle type="source" position={Position.Right} id="right" />
+      {/* Vertical handles for smart routing */}
+      <Handle type="target" position={Position.Top} id="top" />
+      <Handle type="target" position={Position.Bottom} id="bottom" />
       <div className="node-hero">
         <img src={buildingImage} alt={buildingName} className="building-image" />
       </div>
@@ -859,13 +931,16 @@ export default function App() {
     if (nodes.length > 0) {
       const { nodes: layouted, tierInfo } = getLayoutedElements(nodes, edges, 'LR')
 
+      // Apply smart edge routing based on node positions
+      const smartEdges = applySmartEdgeRouting(layouted, edges)
+
       // Create tier background nodes
       const tierBackgroundNodes = createTierBackgroundNodes(tierInfo, language)
 
       // Combine: tier backgrounds first (rendered behind), then regular nodes
       const allNodes = [...tierBackgroundNodes, ...layouted]
 
-      return { layoutedNodes: allNodes, layoutedEdges: edges }
+      return { layoutedNodes: allNodes, layoutedEdges: smartEdges }
     }
 
     return { layoutedNodes: nodes, layoutedEdges: edges }
