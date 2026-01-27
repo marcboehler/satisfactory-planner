@@ -23,6 +23,22 @@
     "Converter": {
       "de": "Konverter",
       "en": "Converter"
+    },
+    "WaterExtractor": {
+      "de": "Wasser-Extraktor",
+      "en": "Water Extractor"
+    },
+    "OilExtractor": {
+      "de": "Öl-Extraktor",
+      "en": "Oil Extractor"
+    },
+    "Refinery": {
+      "de": "Raffinerie",
+      "en": "Refinery"
+    },
+    "Blender": {
+      "de": "Mischer",
+      "en": "Blender"
     }
   },
   "items": {

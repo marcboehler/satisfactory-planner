@@ -85,10 +85,114 @@
     "output": "aluminum-scrap",
     "outputAmount": 6,
     "cycleTime": 1,
-    "building": "Foundry",
+    "building": "Refinery",
     "inputs": [
-      { "itemId": "bauxite", "amount": 4 },
+      { "itemId": "alumina-solution", "amount": 4 },
       { "itemId": "coal", "amount": 2 }
+    ],
+    "byproduct": { "itemId": "water", "amount": 2 }
+  },
+  {
+    "id": "fuel",
+    "output": "fuel",
+    "outputAmount": 4,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "crude-oil", "amount": 6 }],
+    "byproduct": { "itemId": "polymer-resin", "amount": 3 }
+  },
+  {
+    "id": "fuel-from-residue",
+    "output": "fuel",
+    "outputAmount": 4,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "heavy-oil-residue", "amount": 6 }]
+  },
+  {
+    "id": "heavy-oil-residue",
+    "output": "heavy-oil-residue",
+    "outputAmount": 4,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "crude-oil", "amount": 3 }],
+    "byproduct": { "itemId": "polymer-resin", "amount": 2 }
+  },
+  {
+    "id": "petroleum-coke",
+    "output": "petroleum-coke",
+    "outputAmount": 12,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "heavy-oil-residue", "amount": 4 }]
+  },
+  {
+    "id": "turbofuel",
+    "output": "turbofuel",
+    "outputAmount": 5,
+    "cycleTime": 16,
+    "building": "Refinery",
+    "inputs": [
+      { "itemId": "fuel", "amount": 6 },
+      { "itemId": "sulfur", "amount": 4 }
+    ]
+  },
+  {
+    "id": "turbofuel-blender",
+    "output": "turbofuel",
+    "outputAmount": 6,
+    "cycleTime": 8,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "fuel", "amount": 2 },
+      { "itemId": "heavy-oil-residue", "amount": 4 },
+      { "itemId": "sulfur", "amount": 3 }
+    ]
+  },
+  {
+    "id": "alumina-solution",
+    "output": "alumina-solution",
+    "outputAmount": 12,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [
+      { "itemId": "bauxite", "amount": 12 },
+      { "itemId": "water", "amount": 18 }
+    ],
+    "byproduct": { "itemId": "silica", "amount": 5 }
+  },
+  {
+    "id": "sulfuric-acid",
+    "output": "sulfuric-acid",
+    "outputAmount": 5,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [
+      { "itemId": "sulfur", "amount": 5 },
+      { "itemId": "water", "amount": 5 }
+    ]
+  },
+  {
+    "id": "nitric-acid",
+    "output": "nitric-acid",
+    "outputAmount": 3,
+    "cycleTime": 6,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "nitrogen-gas", "amount": 12 },
+      { "itemId": "water", "amount": 3 },
+      { "itemId": "iron-ore", "amount": 1 }
+    ]
+  },
+  {
+    "id": "dissolved-silica",
+    "output": "dissolved-silica",
+    "outputAmount": 6,
+    "cycleTime": 4,
+    "building": "Refinery",
+    "inputs": [
+      { "itemId": "silica", "amount": 2 },
+      { "itemId": "water", "amount": 3 }
     ]
   }
 ]
