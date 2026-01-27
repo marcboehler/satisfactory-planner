@@ -13,8 +13,12 @@
       "en": "Miner"
     },
     "Assembler": {
-      "de": "Manufaktur",
+      "de": "Monteur",
       "en": "Assembler"
+    },
+    "Manufacturer": {
+      "de": "Manufaktur",
+      "en": "Manufacturer"
     },
     "Foundry": {
       "de": "Gießerei",

@@ -194,5 +194,170 @@
       { "itemId": "silica", "amount": 2 },
       { "itemId": "water", "amount": 3 }
     ]
+  },
+  {
+    "id": "iron-rod",
+    "output": "iron-rod",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-ingot", "amount": 1 }]
+  },
+  {
+    "id": "screw",
+    "output": "screw",
+    "outputAmount": 4,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-rod", "amount": 1 }]
+  },
+  {
+    "id": "iron-plate",
+    "output": "iron-plate",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-ingot", "amount": 3 }]
+  },
+  {
+    "id": "copper-sheet",
+    "output": "copper-sheet",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "copper-ingot", "amount": 2 }]
+  },
+  {
+    "id": "steel-pipe",
+    "output": "steel-pipe",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "steel-ingot", "amount": 3 }]
+  },
+  {
+    "id": "steel-beam",
+    "output": "steel-beam",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "steel-ingot", "amount": 4 }]
+  },
+  {
+    "id": "aluminum-casing",
+    "output": "aluminum-casing",
+    "outputAmount": 2,
+    "cycleTime": 2,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "aluminum-ingot", "amount": 3 }]
+  },
+  {
+    "id": "reinforced-iron-plate",
+    "output": "reinforced-iron-plate",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-plate", "amount": 6 },
+      { "itemId": "screw", "amount": 12 }
+    ]
+  },
+  {
+    "id": "modular-frame",
+    "output": "modular-frame",
+    "outputAmount": 2,
+    "cycleTime": 60,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "reinforced-iron-plate", "amount": 3 },
+      { "itemId": "iron-rod", "amount": 12 }
+    ]
+  },
+  {
+    "id": "encased-industrial-beam",
+    "output": "encased-industrial-beam",
+    "outputAmount": 1,
+    "cycleTime": 10,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "steel-beam", "amount": 4 },
+      { "itemId": "concrete", "amount": 5 }
+    ]
+  },
+  {
+    "id": "alclad-aluminum-sheet",
+    "output": "alclad-aluminum-sheet",
+    "outputAmount": 3,
+    "cycleTime": 6,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "aluminum-ingot", "amount": 3 },
+      { "itemId": "copper-ingot", "amount": 1 }
+    ]
+  },
+  {
+    "id": "fabric",
+    "output": "fabric",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "polymer-resin", "amount": 1 },
+      { "itemId": "water", "amount": 1 }
+    ]
+  },
+  {
+    "id": "heavy-modular-frame",
+    "output": "heavy-modular-frame",
+    "outputAmount": 1,
+    "cycleTime": 30,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "modular-frame", "amount": 5 },
+      { "itemId": "steel-pipe", "amount": 15 },
+      { "itemId": "encased-industrial-beam", "amount": 5 },
+      { "itemId": "screw", "amount": 100 }
+    ]
+  },
+  {
+    "id": "fused-modular-frame",
+    "output": "fused-modular-frame",
+    "outputAmount": 1,
+    "cycleTime": 40,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "heavy-modular-frame", "amount": 1 },
+      { "itemId": "aluminum-casing", "amount": 50 },
+      { "itemId": "water", "amount": 25 }
+    ]
+  },
+  {
+    "id": "plastic",
+    "output": "plastic",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "crude-oil", "amount": 3 }],
+    "byproduct": { "itemId": "heavy-oil-residue", "amount": 1 }
+  },
+  {
+    "id": "rubber",
+    "output": "rubber",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [{ "itemId": "crude-oil", "amount": 3 }],
+    "byproduct": { "itemId": "heavy-oil-residue", "amount": 2 }
+  },
+  {
+    "id": "ficsite-trigon",
+    "output": "ficsite-trigon",
+    "outputAmount": 3,
+    "cycleTime": 6,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "ficsite-ingot", "amount": 1 },
+      { "itemId": "sam", "amount": 4 }
+    ]
   }
 ]
