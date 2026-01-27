@@ -8,6 +8,9 @@ import {
   addEdge,
   Handle,
   Position,
+  EdgeLabelRenderer,
+  getSmoothStepPath,
+  BaseEdge,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import dagre from 'dagre'
@@ -61,6 +64,50 @@ const TIER_COLORS = [
   '#0f0f0f',   // Tier 5: Darkest (rightmost)
   '#0c0c0c',   // Tier 6+
 ]
+
+// Custom Edge with EdgeLabelRenderer for proper label positioning
+const CustomEdge = memo(({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  label,
+  style,
+  markerEnd,
+}) => {
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    borderRadius: 15,
+  })
+
+  return (
+    <>
+      <BaseEdge id={id} path={edgePath} style={style} markerEnd={markerEnd} />
+      {label && (
+        <EdgeLabelRenderer>
+          <div
+            className="edge-label"
+            style={{
+              position: 'absolute',
+              transform: `translate(-50%, -100%) translate(${labelX}px, ${labelY}px)`,
+              pointerEvents: 'none',
+            }}
+          >
+            {label}
+          </div>
+        </EdgeLabelRenderer>
+      )}
+    </>
+  )
+})
 
 // Auto-layout function using dagre - returns nodes, edges, and tier info
 function getLayoutedElements(nodes, edges, direction = 'LR') {
@@ -257,7 +304,7 @@ function applySmartEdgeRouting(nodes, edges) {
 
     return {
       ...edge,
-      type: 'smoothstep',
+      type: 'custom',
       sourceHandle,
       targetHandle,
     }
@@ -808,6 +855,10 @@ const nodeTypes = {
   tierBackground: TierBackgroundNode,
 }
 
+const edgeTypes = {
+  custom: CustomEdge,
+}
+
 // Check if we're on desktop (>= 768px)
 const getInitialSidebarState = () => {
   if (typeof window === 'undefined') return true
@@ -1082,10 +1133,9 @@ export default function App() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             defaultEdgeOptions={{
-              type: 'smoothstep',
-              style: { strokeWidth: 2 },
-              pathOptions: { borderRadius: 15 },
+              type: 'custom',
             }}
             nodesDraggable={false}
             nodesConnectable={false}
