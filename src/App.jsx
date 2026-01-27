@@ -53,12 +53,12 @@ const NODE_HEIGHT = 280
 
 // Tier background colors (matte dark palette)
 const TIER_COLORS = [
-  '#1a1a1a',   // Tier 1: Dark gray
-  '#161616',   // Tier 2: Darker
-  '#141414',   // Tier 3: Even darker
-  '#111111',   // Tier 4: Very dark
-  '#0e0e0e',   // Tier 5: Near black
-  '#0c0c0c',   // Tier 6+: Almost black
+  '#1e1e1e',   // Tier 1: Lightest (leftmost)
+  '#1a1a1a',   // Tier 2
+  '#161616',   // Tier 3
+  '#121212',   // Tier 4
+  '#0f0f0f',   // Tier 5: Darkest (rightmost)
+  '#0c0c0c',   // Tier 6+
 ]
 
 // Auto-layout function using dagre - returns nodes, edges, and tier info
@@ -95,16 +95,24 @@ function getLayoutedElements(nodes, edges, direction = 'LR') {
 
   dagre.layout(dagreGraph)
 
-  // Calculate node positions
+  // Calculate the X spacing for strict rank-based positioning
+  const RANK_SPACING = 280 // Horizontal distance between ranks/tiers
+  const START_X = 50
+
+  // Calculate node positions - use dagre for Y, but override X based on topological rank
   let layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id)
     const nodeHeight = node.type === 'minerNode' ? NODE_HEIGHT + 40 : NODE_HEIGHT
     const rank = node.data?.rank ?? 0
 
+    // Override X position to strictly follow topological rank
+    // This ensures miners (rank 0) are always in Tier 1 (leftmost)
+    const strictX = START_X + rank * RANK_SPACING
+
     return {
       ...node,
       position: {
-        x: nodeWithPosition.x - NODE_WIDTH / 2,
+        x: strictX,
         y: nodeWithPosition.y - nodeHeight / 2,
       },
       measured: {
