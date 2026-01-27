@@ -398,6 +398,25 @@ html, body, #root {
   stroke-width: 2;
 }
 
+/* Edge label positioning - float above the line */
+.react-flow__edge-textbg {
+  fill: #1a1a1a;
+}
+
+.react-flow__edge-text {
+  fill: #fa9549;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.react-flow__edgelabel-renderer {
+  pointer-events: none;
+}
+
+.react-flow__edge .react-flow__edge-textwrapper {
+  transform: translateY(-15px);
+}
+
 /* Handle styling for smart routing */
 .react-flow__handle {
   width: 8px;
