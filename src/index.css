@@ -535,18 +535,23 @@ html, body, #root {
   background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
   border-radius: 6px 6px 0 0;
   margin: -8px -12px 8px -12px;
-  padding: 8px;
+  padding: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 80px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 0;
 }
 
 .building-image {
-  max-width: 100%;
-  max-height: 70px;
+  max-width: calc(100% - 8px);
+  max-height: 65px;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  position: relative;
+  z-index: 0;
 }
 
 /* Miner Node Styles */
@@ -558,6 +563,8 @@ html, body, #root {
   color: #e0e0e0;
   font-size: 11px;
   min-width: 180px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .miner-controls {
@@ -636,6 +643,8 @@ html, body, #root {
   color: #e0e0e0;
   font-size: 11px;
   min-width: 180px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .node-header {
