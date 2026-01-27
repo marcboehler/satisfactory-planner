@@ -97,7 +97,7 @@ const CustomEdge = memo(({
             className="edge-label"
             style={{
               position: 'absolute',
-              transform: `translate(-50%, -100%) translate(${labelX}px, ${labelY}px)`,
+              transform: `translate(-50%, -100%) translate(${labelX}px, ${labelY}px) translateY(-12px)`,
               pointerEvents: 'none',
             }}
           >
