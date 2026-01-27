@@ -40,4 +40,4 @@ jobs:
             --base main \
             --head "${{ github.ref_name }}"
 
-          gh pr merge --auto --merge --delete-branch
+          gh pr merge --merge --delete-branch --admin
