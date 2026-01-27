@@ -16,6 +16,41 @@
     "inputs": [{ "itemId": "copper-ore", "amount": 1 }]
   },
   {
+    "id": "caterium-ingot",
+    "output": "caterium-ingot",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Smelter",
+    "inputs": [{ "itemId": "caterium-ore", "amount": 3 }]
+  },
+  {
+    "id": "quartz-crystal",
+    "output": "quartz-crystal",
+    "outputAmount": 3,
+    "cycleTime": 8,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "raw-quartz", "amount": 5 }]
+  },
+  {
+    "id": "silica",
+    "output": "silica",
+    "outputAmount": 5,
+    "cycleTime": 6,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "raw-quartz", "amount": 3 }]
+  },
+  {
+    "id": "black-powder",
+    "output": "black-powder",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "coal", "amount": 1 },
+      { "itemId": "sulfur", "amount": 1 }
+    ]
+  },
+  {
     "id": "concrete",
     "output": "concrete",
     "outputAmount": 1,

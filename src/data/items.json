@@ -21,6 +21,48 @@
     "icon": "https://satisfactory.wiki.gg/images/thumb/4/4e/Limestone.png/64px-Limestone.png"
   },
   {
+    "id": "coal",
+    "de": "Kohle",
+    "en": "Coal",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/a7/Coal.png/64px-Coal.png"
+  },
+  {
+    "id": "sulfur",
+    "de": "Schwefel",
+    "en": "Sulfur",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/1/1d/Sulfur.png/64px-Sulfur.png"
+  },
+  {
+    "id": "caterium-ore",
+    "de": "Caterium-Erz",
+    "en": "Caterium Ore",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/06/Caterium_Ore.png/64px-Caterium_Ore.png"
+  },
+  {
+    "id": "raw-quartz",
+    "de": "Rohquarz",
+    "en": "Raw Quartz",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/98/Raw_Quartz.png/64px-Raw_Quartz.png"
+  },
+  {
+    "id": "bauxite",
+    "de": "Bauxit",
+    "en": "Bauxite",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/09/Bauxite.png/64px-Bauxite.png"
+  },
+  {
+    "id": "uranium",
+    "de": "Uran",
+    "en": "Uranium",
+    "category": "Ore",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3b/Uranium.png/64px-Uranium.png"
+  },
+  {
     "id": "iron-ingot",
     "de": "Eisenbarren",
     "en": "Iron Ingot",
@@ -33,6 +75,34 @@
     "en": "Copper Ingot",
     "category": "Ingot",
     "icon": "https://satisfactory.wiki.gg/images/thumb/0/00/Copper_Ingot.png/64px-Copper_Ingot.png"
+  },
+  {
+    "id": "caterium-ingot",
+    "de": "Caterium-Barren",
+    "en": "Caterium Ingot",
+    "category": "Ingot",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0a/Caterium_Ingot.png/64px-Caterium_Ingot.png"
+  },
+  {
+    "id": "quartz-crystal",
+    "de": "Quarzkristall",
+    "en": "Quartz Crystal",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/6/67/Quartz_Crystal.png/64px-Quartz_Crystal.png"
+  },
+  {
+    "id": "silica",
+    "de": "Silizium",
+    "en": "Silica",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/ca/Silica.png/64px-Silica.png"
+  },
+  {
+    "id": "black-powder",
+    "de": "Schwarzpulver",
+    "en": "Black Powder",
+    "category": "Basic",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/af/Black_Powder.png/64px-Black_Powder.png"
   },
   {
     "id": "concrete",
