@@ -687,9 +687,6 @@ html, body, #root {
 .tier-background {
   position: relative;
   pointer-events: none;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
 }
 
 .tier-label {
@@ -707,12 +704,16 @@ html, body, #root {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Ensure tier backgrounds are behind other nodes */
+/* Override React Flow default node styles for tier backgrounds */
 .react-flow__node[data-id^="tier-bg-"] {
   z-index: -1 !important;
+  background: transparent !important;
   border: none !important;
+  border-radius: 0 !important;
   outline: none !important;
   box-shadow: none !important;
+  padding: 0 !important;
+  min-width: 0 !important;
 }
 
 /* Desktop styles (768px and above) */
