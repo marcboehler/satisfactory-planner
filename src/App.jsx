@@ -909,7 +909,7 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial', 'Fuel', 'Container']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial', 'Fuel', 'Container', 'Ammo']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
@@ -921,6 +921,7 @@ const categoryTranslations = {
   Industrial: { de: 'Industriezeile', en: 'Industrial' },
   Fuel: { de: 'Treibstoff', en: 'Fuel' },
   Container: { de: 'Behälter', en: 'Containers' },
+  Ammo: { de: 'Munition', en: 'Ammo' },
 }
 
 // Register custom node types
