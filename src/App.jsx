@@ -53,6 +53,7 @@ const BUILDING_IMAGES = {
   'Converter': 'https://satisfactory.wiki.gg/images/thumb/b/b2/Converter.png/200px-Converter.png',
   'WaterExtractor': 'https://satisfactory.wiki.gg/images/thumb/8/80/Water_Extractor.png/200px-Water_Extractor.png',
   'OilExtractor': 'https://satisfactory.wiki.gg/images/thumb/5/5d/Oil_Extractor.png/200px-Oil_Extractor.png',
+  'ResourceWellExtractor': 'https://satisfactory.wiki.gg/images/thumb/3/39/Resource_Well_Pressurizer.png/200px-Resource_Well_Pressurizer.png',
   'Refinery': 'https://satisfactory.wiki.gg/images/thumb/f/fc/Refinery.png/200px-Refinery.png',
   'Blender': 'https://satisfactory.wiki.gg/images/thumb/5/5a/Blender.png/200px-Blender.png',
 }
@@ -438,9 +439,9 @@ function isLiquid(itemId) {
   return item && item.isLiquid === true
 }
 
-// Check if item is a base liquid source (water or crude oil - extracted, not produced)
+// Check if item is a base liquid/gas source (water, crude oil, nitrogen gas - extracted, not produced)
 function isLiquidSource(itemId) {
-  return itemId === 'water' || itemId === 'crude-oil'
+  return itemId === 'water' || itemId === 'crude-oil' || itemId === 'nitrogen-gas'
 }
 
 // Helper to translate miner-specific strings
@@ -688,6 +689,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
     let building = 'Miner'
     if (itemId === 'water') building = 'WaterExtractor'
     else if (itemId === 'crude-oil') building = 'OilExtractor'
+    else if (itemId === 'nitrogen-gas') building = 'ResourceWellExtractor'
 
     result.nodes.push({
       id: nodeId,
@@ -889,13 +891,15 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Industrial']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
   Mineral: { de: 'Mineralien', en: 'Minerals' },
   Liquid: { de: 'Flüssigkeiten', en: 'Liquids' },
   Standard: { de: 'Standard', en: 'Standard' },
+  Electronics: { de: 'Elektronik', en: 'Electronics' },
+  Industrial: { de: 'Industriezeile', en: 'Industrial' },
 }
 
 // Register custom node types
