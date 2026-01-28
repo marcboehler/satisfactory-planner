@@ -786,5 +786,79 @@
       { "itemId": "electromagnetic-control-rod", "amount": 6 },
       { "itemId": "heat-sink", "amount": 10 }
     ]
+  },
+  {
+    "id": "empty-fluid-tank",
+    "output": "empty-fluid-tank",
+    "outputAmount": 1,
+    "cycleTime": 1,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "aluminum-casing", "amount": 1 }]
+  },
+  {
+    "id": "pressure-conversion-cube",
+    "output": "pressure-conversion-cube",
+    "outputAmount": 1,
+    "cycleTime": 60,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "fused-modular-frame", "amount": 1 },
+      { "itemId": "radio-control-unit", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-water",
+    "output": "packaged-water",
+    "outputAmount": 2,
+    "cycleTime": 2,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "water", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-alumina-solution",
+    "output": "packaged-alumina-solution",
+    "outputAmount": 2,
+    "cycleTime": 1,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "alumina-solution", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-sulfuric-acid",
+    "output": "packaged-sulfuric-acid",
+    "outputAmount": 2,
+    "cycleTime": 2,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "sulfuric-acid", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-nitric-acid",
+    "output": "packaged-nitric-acid",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "nitric-acid", "amount": 1 },
+      { "itemId": "empty-canister", "amount": 1 }
+    ]
+  },
+  {
+    "id": "packaged-nitrogen-gas",
+    "output": "packaged-nitrogen-gas",
+    "outputAmount": 1,
+    "cycleTime": 1,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "nitrogen-gas", "amount": 4 },
+      { "itemId": "empty-fluid-tank", "amount": 1 }
+    ]
   }
 ]
