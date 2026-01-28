@@ -572,5 +572,18 @@
       { "itemId": "reanimated-sam", "amount": 1 },
       { "itemId": "wire", "amount": 1 }
     ]
+  },
+  {
+    "id": "superposition-oscillator",
+    "output": "superposition-oscillator",
+    "outputAmount": 2,
+    "cycleTime": 12,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "crystal-oscillator", "amount": 2 },
+      { "itemId": "alclad-aluminum-sheet", "amount": 2 },
+      { "itemId": "singularity-cell", "amount": 1 },
+      { "itemId": "dark-matter-residue", "amount": 5 }
+    ]
   }
 ]

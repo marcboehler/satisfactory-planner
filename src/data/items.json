@@ -424,29 +424,52 @@
     "id": "computer",
     "de": "Computer",
     "en": "Computer",
-    "category": "Electronics",
+    "category": "Computer",
     "icon": "https://satisfactory.wiki.gg/images/thumb/7/79/Computer.png/64px-Computer.png"
   },
   {
     "id": "supercomputer",
     "de": "Supercomputer",
     "en": "Supercomputer",
-    "category": "Electronics",
+    "category": "Computer",
     "icon": "https://satisfactory.wiki.gg/images/thumb/e/e0/Supercomputer.png/64px-Supercomputer.png"
   },
   {
     "id": "radio-control-unit",
     "de": "Funksteuereinheit",
     "en": "Radio Control Unit",
-    "category": "Electronics",
+    "category": "Computer",
     "icon": "https://satisfactory.wiki.gg/images/thumb/a/ac/Radio_Control_Unit.png/64px-Radio_Control_Unit.png"
   },
   {
     "id": "crystal-oscillator",
-    "de": "Kristalloszillator",
+    "de": "Quarzoszillator",
     "en": "Crystal Oscillator",
-    "category": "Electronics",
+    "category": "Computer",
     "icon": "https://satisfactory.wiki.gg/images/thumb/7/75/Crystal_Oscillator.png/64px-Crystal_Oscillator.png"
+  },
+  {
+    "id": "singularity-cell",
+    "de": "Singularitätszelle",
+    "en": "Singularity Cell",
+    "category": "Computer",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/98/Singularity_Cell.png/64px-Singularity_Cell.png"
+  },
+  {
+    "id": "dark-matter-residue",
+    "de": "Dunkle-Materie-Rückstand",
+    "en": "Dark Matter Residue",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#4c1d95",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3f/Dark_Matter_Residue.png/64px-Dark_Matter_Residue.png"
+  },
+  {
+    "id": "superposition-oscillator",
+    "de": "Überlagerungsoszillator",
+    "en": "Superposition Oscillator",
+    "category": "Computer",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0e/Superposition_Oscillator.png/64px-Superposition_Oscillator.png"
   },
   {
     "id": "reanimated-sam",
