@@ -735,8 +735,8 @@
     "cycleTime": 30,
     "building": "Assembler",
     "inputs": [
-      { "itemId": "stator", "amount": 3 },
-      { "itemId": "ai-limiter", "amount": 2 }
+      { "itemId": "stator", "amount": 2 },
+      { "itemId": "high-speed-connector", "amount": 1 }
     ]
   },
   {
@@ -749,7 +749,8 @@
       { "itemId": "uranium", "amount": 10 },
       { "itemId": "concrete", "amount": 3 },
       { "itemId": "sulfuric-acid", "amount": 8 }
-    ]
+    ],
+    "byproduct": { "itemId": "uranium-waste", "amount": 10 }
   },
   {
     "id": "encased-plutonium-cell",
@@ -758,8 +759,8 @@
     "cycleTime": 12,
     "building": "Assembler",
     "inputs": [
-      { "itemId": "concrete", "amount": 2 },
-      { "itemId": "electromagnetic-control-rod", "amount": 2 }
+      { "itemId": "plutonium-pellet", "amount": 2 },
+      { "itemId": "concrete", "amount": 20 }
     ]
   },
   {
@@ -1013,6 +1014,53 @@
       { "itemId": "encased-uranium-cell", "amount": 20 },
       { "itemId": "smokeless-powder", "amount": 10 },
       { "itemId": "ai-limiter", "amount": 6 }
+    ]
+  },
+  {
+    "id": "non-fissile-uranium",
+    "output": "non-fissile-uranium",
+    "outputAmount": 20,
+    "cycleTime": 24,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "uranium-waste", "amount": 15 },
+      { "itemId": "silica", "amount": 10 },
+      { "itemId": "nitric-acid", "amount": 6 },
+      { "itemId": "sulfuric-acid", "amount": 6 }
+    ]
+  },
+  {
+    "id": "plutonium-pellet",
+    "output": "plutonium-pellet",
+    "outputAmount": 30,
+    "cycleTime": 60,
+    "building": "ParticleAccelerator",
+    "inputs": [
+      { "itemId": "non-fissile-uranium", "amount": 100 },
+      { "itemId": "uranium-waste", "amount": 25 }
+    ]
+  },
+  {
+    "id": "ficsonium",
+    "output": "ficsonium",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "plutonium-waste", "amount": 1 },
+      { "itemId": "reanimated-sam", "amount": 1 }
+    ]
+  },
+  {
+    "id": "ficsonium-fuel-rod",
+    "output": "ficsonium-fuel-rod",
+    "outputAmount": 1,
+    "cycleTime": 24,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "ficsonium", "amount": 1 },
+      { "itemId": "electromagnetic-control-rod", "amount": 1 },
+      { "itemId": "quickwire", "amount": 10 }
     ]
   }
 ]

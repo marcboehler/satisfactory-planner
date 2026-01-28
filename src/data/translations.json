@@ -55,6 +55,10 @@
     "BiomassCollector": {
       "de": "Biomassesammler",
       "en": "Biomass Collector"
+    },
+    "ParticleAccelerator": {
+      "de": "Teilchenbeschleuniger",
+      "en": "Particle Accelerator"
     }
   },
   "items": {

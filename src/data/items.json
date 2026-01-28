@@ -665,35 +665,35 @@
     "id": "encased-uranium-cell",
     "de": "Ummantelte Uranzelle",
     "en": "Encased Uranium Cell",
-    "category": "Fuel",
+    "category": "Nuclear",
     "icon": "https://satisfactory.wiki.gg/images/thumb/2/2a/Encased_Uranium_Cell.png/64px-Encased_Uranium_Cell.png"
   },
   {
     "id": "encased-plutonium-cell",
     "de": "Umhüllte Plutoniumzelle",
     "en": "Encased Plutonium Cell",
-    "category": "Fuel",
+    "category": "Nuclear",
     "icon": "https://satisfactory.wiki.gg/images/thumb/c/c2/Encased_Plutonium_Cell.png/64px-Encased_Plutonium_Cell.png"
   },
   {
     "id": "electromagnetic-control-rod",
     "de": "Elektromagnetischer Steuerstab",
     "en": "Electromagnetic Control Rod",
-    "category": "Fuel",
+    "category": "Nuclear",
     "icon": "https://satisfactory.wiki.gg/images/thumb/1/11/Electromagnetic_Control_Rod.png/64px-Electromagnetic_Control_Rod.png"
   },
   {
     "id": "uranium-fuel-rod",
     "de": "Uranbrennstab",
     "en": "Uranium Fuel Rod",
-    "category": "Fuel",
+    "category": "Nuclear",
     "icon": "https://satisfactory.wiki.gg/images/thumb/4/44/Uranium_Fuel_Rod.png/64px-Uranium_Fuel_Rod.png"
   },
   {
     "id": "plutonium-fuel-rod",
     "de": "Plutoniumbrennstab",
     "en": "Plutonium Fuel Rod",
-    "category": "Fuel",
+    "category": "Nuclear",
     "icon": "https://satisfactory.wiki.gg/images/thumb/a/ab/Plutonium_Fuel_Rod.png/64px-Plutonium_Fuel_Rod.png"
   },
   {
@@ -842,5 +842,47 @@
     "en": "Nuke Nobelisk",
     "category": "Ammo",
     "icon": "https://satisfactory.wiki.gg/images/thumb/3/38/Nuke_Nobelisk.png/64px-Nuke_Nobelisk.png"
+  },
+  {
+    "id": "uranium-waste",
+    "de": "Uranabfall",
+    "en": "Uranium Waste",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/52/Uranium_Waste.png/64px-Uranium_Waste.png"
+  },
+  {
+    "id": "non-fissile-uranium",
+    "de": "Unspaltbares Uran",
+    "en": "Non-fissile Uranium",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/d2/Non-fissile_Uranium.png/64px-Non-fissile_Uranium.png"
+  },
+  {
+    "id": "plutonium-pellet",
+    "de": "Plutoniumpellet",
+    "en": "Plutonium Pellet",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/a8/Plutonium_Pellet.png/64px-Plutonium_Pellet.png"
+  },
+  {
+    "id": "plutonium-waste",
+    "de": "Plutoniumabfall",
+    "en": "Plutonium Waste",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/f/f3/Plutonium_Waste.png/64px-Plutonium_Waste.png"
+  },
+  {
+    "id": "ficsonium",
+    "de": "Ficsonium",
+    "en": "Ficsonium",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/c7/Ficsonium.png/64px-Ficsonium.png"
+  },
+  {
+    "id": "ficsonium-fuel-rod",
+    "de": "Ficsonium-Brennstab",
+    "en": "Ficsonium Fuel Rod",
+    "category": "Nuclear",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0b/Ficsonium_Fuel_Rod.png/64px-Ficsonium_Fuel_Rod.png"
   }
 ]
