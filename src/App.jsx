@@ -439,9 +439,14 @@ function isLiquid(itemId) {
   return item && item.isLiquid === true
 }
 
-// Check if item is a base liquid/gas source (water, crude oil, nitrogen gas - extracted, not produced)
+// Check if item is a base liquid/gas source (water, crude oil, nitrogen gas, dark matter - extracted, not produced)
 function isLiquidSource(itemId) {
-  return itemId === 'water' || itemId === 'crude-oil' || itemId === 'nitrogen-gas'
+  return itemId === 'water' || itemId === 'crude-oil' || itemId === 'nitrogen-gas' || itemId === 'dark-matter-residue'
+}
+
+// Check if item is a special resource (like Singularity Cell - obtained from special sources)
+function isSpecialResource(itemId) {
+  return itemId === 'singularity-cell'
 }
 
 // Helper to translate miner-specific strings
@@ -683,13 +688,15 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
 
   const recipe = getRecipeForItem(itemId)
 
-  if (!recipe || isOre(itemId) || isLiquidSource(itemId)) {
-    // Base case: ore, liquid source, or no recipe found - create an extractor node
+  if (!recipe || isOre(itemId) || isLiquidSource(itemId) || isSpecialResource(itemId)) {
+    // Base case: ore, liquid source, special resource, or no recipe found - create an extractor node
     const nodeId = `node-${nodeIdCounter.value++}`
     let building = 'Miner'
     if (itemId === 'water') building = 'WaterExtractor'
     else if (itemId === 'crude-oil') building = 'OilExtractor'
     else if (itemId === 'nitrogen-gas') building = 'ResourceWellExtractor'
+    else if (itemId === 'dark-matter-residue') building = 'ResourceWellExtractor'
+    else if (itemId === 'singularity-cell') building = 'Converter'
 
     result.nodes.push({
       id: nodeId,
@@ -699,6 +706,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
       depth: depth,
       isOre: isOre(itemId),
       isLiquidSource: isLiquidSource(itemId),
+      isSpecialResource: isSpecialResource(itemId),
       isExtractor: true,
     })
     return result
@@ -891,7 +899,7 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Industrial']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
@@ -899,6 +907,7 @@ const categoryTranslations = {
   Liquid: { de: 'Flüssigkeiten', en: 'Liquids' },
   Standard: { de: 'Standard', en: 'Standard' },
   Electronics: { de: 'Elektronik', en: 'Electronics' },
+  Computer: { de: 'Computer', en: 'Computer' },
   Industrial: { de: 'Industriezeile', en: 'Industrial' },
 }
 
