@@ -585,5 +585,206 @@
       { "itemId": "singularity-cell", "amount": 1 },
       { "itemId": "dark-matter-residue", "amount": 5 }
     ]
+  },
+  {
+    "id": "biomass-leaves",
+    "output": "biomass",
+    "outputAmount": 5,
+    "cycleTime": 5,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "leaves", "amount": 10 }]
+  },
+  {
+    "id": "biomass-wood",
+    "output": "biomass",
+    "outputAmount": 20,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "wood", "amount": 4 }]
+  },
+  {
+    "id": "solid-biofuel",
+    "output": "solid-biofuel",
+    "outputAmount": 4,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "biomass", "amount": 8 }]
+  },
+  {
+    "id": "compacted-coal",
+    "output": "compacted-coal",
+    "outputAmount": 5,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "coal", "amount": 5 },
+      { "itemId": "sulfur", "amount": 5 }
+    ]
+  },
+  {
+    "id": "empty-canister",
+    "output": "empty-canister",
+    "outputAmount": 4,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "plastic", "amount": 2 }]
+  },
+  {
+    "id": "packaged-oil",
+    "output": "packaged-oil",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "crude-oil", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-heavy-oil-residue",
+    "output": "packaged-heavy-oil-residue",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "heavy-oil-residue", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-fuel",
+    "output": "packaged-fuel",
+    "outputAmount": 2,
+    "cycleTime": 3,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "fuel", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-liquid-biofuel",
+    "output": "packaged-liquid-biofuel",
+    "outputAmount": 2,
+    "cycleTime": 3,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "liquid-biofuel", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "packaged-turbofuel",
+    "output": "packaged-turbofuel",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "turbofuel", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "rocket-fuel",
+    "output": "rocket-fuel",
+    "outputAmount": 10,
+    "cycleTime": 6,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "turbofuel", "amount": 6 },
+      { "itemId": "nitric-acid", "amount": 1 }
+    ]
+  },
+  {
+    "id": "ionized-fuel",
+    "output": "ionized-fuel",
+    "outputAmount": 16,
+    "cycleTime": 24,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "rocket-fuel", "amount": 16 },
+      { "itemId": "electromagnetic-control-rod", "amount": 1 }
+    ]
+  },
+  {
+    "id": "packaged-rocket-fuel",
+    "output": "packaged-rocket-fuel",
+    "outputAmount": 1,
+    "cycleTime": 1,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "rocket-fuel", "amount": 2 },
+      { "itemId": "empty-canister", "amount": 1 }
+    ]
+  },
+  {
+    "id": "packaged-ionized-fuel",
+    "output": "packaged-ionized-fuel",
+    "outputAmount": 2,
+    "cycleTime": 3,
+    "building": "Packager",
+    "inputs": [
+      { "itemId": "ionized-fuel", "amount": 4 },
+      { "itemId": "empty-canister", "amount": 2 }
+    ]
+  },
+  {
+    "id": "electromagnetic-control-rod",
+    "output": "electromagnetic-control-rod",
+    "outputAmount": 2,
+    "cycleTime": 30,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "stator", "amount": 3 },
+      { "itemId": "ai-limiter", "amount": 2 }
+    ]
+  },
+  {
+    "id": "encased-uranium-cell",
+    "output": "encased-uranium-cell",
+    "outputAmount": 5,
+    "cycleTime": 12,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "uranium", "amount": 10 },
+      { "itemId": "concrete", "amount": 3 },
+      { "itemId": "sulfuric-acid", "amount": 8 }
+    ]
+  },
+  {
+    "id": "encased-plutonium-cell",
+    "output": "encased-plutonium-cell",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "concrete", "amount": 2 },
+      { "itemId": "electromagnetic-control-rod", "amount": 2 }
+    ]
+  },
+  {
+    "id": "uranium-fuel-rod",
+    "output": "uranium-fuel-rod",
+    "outputAmount": 1,
+    "cycleTime": 150,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "encased-uranium-cell", "amount": 50 },
+      { "itemId": "encased-industrial-beam", "amount": 3 },
+      { "itemId": "electromagnetic-control-rod", "amount": 5 }
+    ]
+  },
+  {
+    "id": "plutonium-fuel-rod",
+    "output": "plutonium-fuel-rod",
+    "outputAmount": 1,
+    "cycleTime": 240,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "encased-plutonium-cell", "amount": 30 },
+      { "itemId": "encased-industrial-beam", "amount": 18 },
+      { "itemId": "electromagnetic-control-rod", "amount": 6 },
+      { "itemId": "heat-sink", "amount": 10 }
+    ]
   }
 ]

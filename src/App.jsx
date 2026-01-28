@@ -56,6 +56,8 @@ const BUILDING_IMAGES = {
   'ResourceWellExtractor': 'https://satisfactory.wiki.gg/images/thumb/3/39/Resource_Well_Pressurizer.png/200px-Resource_Well_Pressurizer.png',
   'Refinery': 'https://satisfactory.wiki.gg/images/thumb/f/fc/Refinery.png/200px-Refinery.png',
   'Blender': 'https://satisfactory.wiki.gg/images/thumb/5/5a/Blender.png/200px-Blender.png',
+  'Packager': 'https://satisfactory.wiki.gg/images/thumb/3/3e/Packager.png/200px-Packager.png',
+  'BiomassCollector': 'https://satisfactory.wiki.gg/images/thumb/4/43/Miner_Mk.1.png/200px-Miner_Mk.1.png',
 }
 
 // Pipe tiers for liquids (m³/min)
@@ -449,6 +451,12 @@ function isSpecialResource(itemId) {
   return itemId === 'singularity-cell'
 }
 
+// Check if item is a biomass resource (leaves, wood, mycelia, flower petals)
+function isBiomass(itemId) {
+  const item = getItem(itemId)
+  return item && item.isBiomass === true
+}
+
 // Helper to translate miner-specific strings
 function translateMiner(key, lang) {
   const miner = translations.miner[key]
@@ -688,8 +696,8 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
 
   const recipe = getRecipeForItem(itemId)
 
-  if (!recipe || isOre(itemId) || isLiquidSource(itemId) || isSpecialResource(itemId)) {
-    // Base case: ore, liquid source, special resource, or no recipe found - create an extractor node
+  if (!recipe || isOre(itemId) || isLiquidSource(itemId) || isSpecialResource(itemId) || isBiomass(itemId)) {
+    // Base case: ore, liquid source, special resource, biomass, or no recipe found - create an extractor node
     const nodeId = `node-${nodeIdCounter.value++}`
     let building = 'Miner'
     if (itemId === 'water') building = 'WaterExtractor'
@@ -697,6 +705,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
     else if (itemId === 'nitrogen-gas') building = 'ResourceWellExtractor'
     else if (itemId === 'dark-matter-residue') building = 'ResourceWellExtractor'
     else if (itemId === 'singularity-cell') building = 'Converter'
+    else if (isBiomass(itemId)) building = 'BiomassCollector'
 
     result.nodes.push({
       id: nodeId,
@@ -707,6 +716,7 @@ function calculateProductionChain(itemId, targetAmount = 1, depth = 0, nodeIdCou
       isOre: isOre(itemId),
       isLiquidSource: isLiquidSource(itemId),
       isSpecialResource: isSpecialResource(itemId),
+      isBiomass: isBiomass(itemId),
       isExtractor: true,
     })
     return result
@@ -899,7 +909,7 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial', 'Fuel']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
@@ -909,6 +919,7 @@ const categoryTranslations = {
   Electronics: { de: 'Elektronik', en: 'Electronics' },
   Computer: { de: 'Computer', en: 'Computer' },
   Industrial: { de: 'Industriezeile', en: 'Industrial' },
+  Fuel: { de: 'Treibstoff', en: 'Fuel' },
 }
 
 // Register custom node types

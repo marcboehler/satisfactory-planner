@@ -533,5 +533,167 @@
     "en": "Turbo Motor",
     "category": "Industrial",
     "icon": "https://satisfactory.wiki.gg/images/thumb/c/c5/Turbo_Motor.png/64px-Turbo_Motor.png"
+  },
+  {
+    "id": "leaves",
+    "de": "Blätter",
+    "en": "Leaves",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5b/Leaves.png/64px-Leaves.png",
+    "isBiomass": true
+  },
+  {
+    "id": "mycelia",
+    "de": "Myzelium",
+    "en": "Mycelia",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/55/Mycelia.png/64px-Mycelia.png",
+    "isBiomass": true
+  },
+  {
+    "id": "flower-petals",
+    "de": "Blütenblätter",
+    "en": "Flower Petals",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5a/Flower_Petals.png/64px-Flower_Petals.png",
+    "isBiomass": true
+  },
+  {
+    "id": "wood",
+    "de": "Holz",
+    "en": "Wood",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/55/Wood.png/64px-Wood.png",
+    "isBiomass": true
+  },
+  {
+    "id": "biomass",
+    "de": "Biomasse",
+    "en": "Biomass",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0a/Biomass.png/64px-Biomass.png"
+  },
+  {
+    "id": "solid-biofuel",
+    "de": "Fester Biotreibstoff",
+    "en": "Solid Biofuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/e/e9/Solid_Biofuel.png/64px-Solid_Biofuel.png"
+  },
+  {
+    "id": "compacted-coal",
+    "de": "Verdichtete Kohle",
+    "en": "Compacted Coal",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/d1/Compacted_Coal.png/64px-Compacted_Coal.png"
+  },
+  {
+    "id": "empty-canister",
+    "de": "Leerer Kanister",
+    "en": "Empty Canister",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/0c/Empty_Canister.png/64px-Empty_Canister.png"
+  },
+  {
+    "id": "packaged-oil",
+    "de": "Verpacktes Öl",
+    "en": "Packaged Oil",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/52/Packaged_Oil.png/64px-Packaged_Oil.png"
+  },
+  {
+    "id": "packaged-heavy-oil-residue",
+    "de": "Abgefüllter Schwerölrückstand",
+    "en": "Packaged Heavy Oil Residue",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/7/72/Packaged_Heavy_Oil_Residue.png/64px-Packaged_Heavy_Oil_Residue.png"
+  },
+  {
+    "id": "packaged-fuel",
+    "de": "Abgefüllter Treibstoff",
+    "en": "Packaged Fuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/d0/Packaged_Fuel.png/64px-Packaged_Fuel.png"
+  },
+  {
+    "id": "packaged-liquid-biofuel",
+    "de": "Abgefüllter flüssiger Biotreibstoff",
+    "en": "Packaged Liquid Biofuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/8/8d/Packaged_Liquid_Biofuel.png/64px-Packaged_Liquid_Biofuel.png"
+  },
+  {
+    "id": "packaged-turbofuel",
+    "de": "Abgefüllter Turbotreibstoff",
+    "en": "Packaged Turbofuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/1/14/Packaged_Turbofuel.png/64px-Packaged_Turbofuel.png"
+  },
+  {
+    "id": "rocket-fuel",
+    "de": "Raketentreibstoff",
+    "en": "Rocket Fuel",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#f97316",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/9f/Rocket_Fuel.png/64px-Rocket_Fuel.png"
+  },
+  {
+    "id": "ionized-fuel",
+    "de": "Ionisierter Treibstoff",
+    "en": "Ionized Fuel",
+    "category": "Liquid",
+    "isLiquid": true,
+    "color": "#06b6d4",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/d4/Ionized_Fuel.png/64px-Ionized_Fuel.png"
+  },
+  {
+    "id": "packaged-rocket-fuel",
+    "de": "Abgefüllter Raketentreibstoff",
+    "en": "Packaged Rocket Fuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/8/8f/Packaged_Rocket_Fuel.png/64px-Packaged_Rocket_Fuel.png"
+  },
+  {
+    "id": "packaged-ionized-fuel",
+    "de": "Abgefüllter ionisierter Treibstoff",
+    "en": "Packaged Ionized Fuel",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/cb/Packaged_Ionized_Fuel.png/64px-Packaged_Ionized_Fuel.png"
+  },
+  {
+    "id": "encased-uranium-cell",
+    "de": "Ummantelte Uranzelle",
+    "en": "Encased Uranium Cell",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/2a/Encased_Uranium_Cell.png/64px-Encased_Uranium_Cell.png"
+  },
+  {
+    "id": "encased-plutonium-cell",
+    "de": "Umhüllte Plutoniumzelle",
+    "en": "Encased Plutonium Cell",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/c2/Encased_Plutonium_Cell.png/64px-Encased_Plutonium_Cell.png"
+  },
+  {
+    "id": "electromagnetic-control-rod",
+    "de": "Elektromagnetischer Steuerstab",
+    "en": "Electromagnetic Control Rod",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/1/11/Electromagnetic_Control_Rod.png/64px-Electromagnetic_Control_Rod.png"
+  },
+  {
+    "id": "uranium-fuel-rod",
+    "de": "Uranbrennstab",
+    "en": "Uranium Fuel Rod",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/4/44/Uranium_Fuel_Rod.png/64px-Uranium_Fuel_Rod.png"
+  },
+  {
+    "id": "plutonium-fuel-rod",
+    "de": "Plutoniumbrennstab",
+    "en": "Plutonium Fuel Rod",
+    "category": "Fuel",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/ab/Plutonium_Fuel_Rod.png/64px-Plutonium_Fuel_Rod.png"
   }
 ]
