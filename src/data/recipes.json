@@ -550,5 +550,27 @@
       { "itemId": "motor", "amount": 4 },
       { "itemId": "rubber", "amount": 24 }
     ]
+  },
+  {
+    "id": "reanimated-sam",
+    "output": "reanimated-sam",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "sam", "amount": 1 },
+      { "itemId": "wire", "amount": 1 }
+    ]
+  },
+  {
+    "id": "sam-fluctuator",
+    "output": "sam-fluctuator",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Converter",
+    "inputs": [
+      { "itemId": "reanimated-sam", "amount": 1 },
+      { "itemId": "wire", "amount": 1 }
+    ]
   }
 ]
