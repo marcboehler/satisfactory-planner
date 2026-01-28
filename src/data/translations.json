@@ -47,6 +47,14 @@
     "ResourceWellExtractor": {
       "de": "Ressourcenbrunnen-Extraktor",
       "en": "Resource Well Extractor"
+    },
+    "Packager": {
+      "de": "Verpacker",
+      "en": "Packager"
+    },
+    "BiomassCollector": {
+      "de": "Biomassesammler",
+      "en": "Biomass Collector"
     }
   },
   "items": {
