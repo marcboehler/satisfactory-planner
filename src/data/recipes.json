@@ -860,5 +860,159 @@
       { "itemId": "nitrogen-gas", "amount": 4 },
       { "itemId": "empty-fluid-tank", "amount": 1 }
     ]
+  },
+  {
+    "id": "black-powder",
+    "output": "black-powder",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "coal", "amount": 2 },
+      { "itemId": "sulfur", "amount": 1 }
+    ]
+  },
+  {
+    "id": "smokeless-powder",
+    "output": "smokeless-powder",
+    "outputAmount": 2,
+    "cycleTime": 6,
+    "building": "Refinery",
+    "inputs": [
+      { "itemId": "black-powder", "amount": 2 },
+      { "itemId": "heavy-oil-residue", "amount": 1 }
+    ]
+  },
+  {
+    "id": "iron-rebar",
+    "output": "iron-rebar",
+    "outputAmount": 1,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "iron-rod", "amount": 1 }]
+  },
+  {
+    "id": "stun-rebar",
+    "output": "stun-rebar",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-rebar", "amount": 1 },
+      { "itemId": "quickwire", "amount": 5 }
+    ]
+  },
+  {
+    "id": "shatter-rebar",
+    "output": "shatter-rebar",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-rebar", "amount": 2 },
+      { "itemId": "quartz-crystal", "amount": 12 }
+    ]
+  },
+  {
+    "id": "explosive-rebar",
+    "output": "explosive-rebar",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-rebar", "amount": 2 },
+      { "itemId": "smokeless-powder", "amount": 2 }
+    ]
+  },
+  {
+    "id": "rifle-ammo",
+    "output": "rifle-ammo",
+    "outputAmount": 15,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "copper-sheet", "amount": 3 },
+      { "itemId": "smokeless-powder", "amount": 2 }
+    ]
+  },
+  {
+    "id": "homing-rifle-ammo",
+    "output": "homing-rifle-ammo",
+    "outputAmount": 20,
+    "cycleTime": 24,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "rifle-ammo", "amount": 20 },
+      { "itemId": "high-speed-connector", "amount": 1 }
+    ]
+  },
+  {
+    "id": "turbo-rifle-ammo",
+    "output": "turbo-rifle-ammo",
+    "outputAmount": 50,
+    "cycleTime": 12,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "rifle-ammo", "amount": 25 },
+      { "itemId": "aluminum-casing", "amount": 3 },
+      { "itemId": "turbofuel", "amount": 3 }
+    ]
+  },
+  {
+    "id": "nobelisk",
+    "output": "nobelisk",
+    "outputAmount": 1,
+    "cycleTime": 6,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "steel-beam", "amount": 2 },
+      { "itemId": "black-powder", "amount": 2 }
+    ]
+  },
+  {
+    "id": "gas-nobelisk",
+    "output": "gas-nobelisk",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "nobelisk", "amount": 1 },
+      { "itemId": "biomass", "amount": 10 }
+    ]
+  },
+  {
+    "id": "pulse-nobelisk",
+    "output": "pulse-nobelisk",
+    "outputAmount": 5,
+    "cycleTime": 60,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "nobelisk", "amount": 5 },
+      { "itemId": "crystal-oscillator", "amount": 1 }
+    ]
+  },
+  {
+    "id": "cluster-nobelisk",
+    "output": "cluster-nobelisk",
+    "outputAmount": 1,
+    "cycleTime": 24,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "nobelisk", "amount": 1 },
+      { "itemId": "smokeless-powder", "amount": 4 }
+    ]
+  },
+  {
+    "id": "nuke-nobelisk",
+    "output": "nuke-nobelisk",
+    "outputAmount": 1,
+    "cycleTime": 120,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "nobelisk", "amount": 5 },
+      { "itemId": "encased-uranium-cell", "amount": 20 },
+      { "itemId": "smokeless-powder", "amount": 10 },
+      { "itemId": "ai-limiter", "amount": 6 }
+    ]
   }
 ]

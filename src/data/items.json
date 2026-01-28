@@ -744,5 +744,103 @@
     "en": "Packaged Nitrogen Gas",
     "category": "Container",
     "icon": "https://satisfactory.wiki.gg/images/thumb/c/c8/Packaged_Nitrogen_Gas.png/64px-Packaged_Nitrogen_Gas.png"
+  },
+  {
+    "id": "black-powder",
+    "de": "Schwarzpulver",
+    "en": "Black Powder",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/af/Black_Powder.png/64px-Black_Powder.png"
+  },
+  {
+    "id": "smokeless-powder",
+    "de": "Rauchloses Pulver",
+    "en": "Smokeless Powder",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/f/f6/Smokeless_Powder.png/64px-Smokeless_Powder.png"
+  },
+  {
+    "id": "iron-rebar",
+    "de": "Armierungsbolzen",
+    "en": "Iron Rebar",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/a/a1/Iron_Rebar.png/64px-Iron_Rebar.png"
+  },
+  {
+    "id": "stun-rebar",
+    "de": "Betäubungsbolzen",
+    "en": "Stun Rebar",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/2/20/Stun_Rebar.png/64px-Stun_Rebar.png"
+  },
+  {
+    "id": "shatter-rebar",
+    "de": "Splitterbolzen",
+    "en": "Shatter Rebar",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/3e/Shatter_Rebar.png/64px-Shatter_Rebar.png"
+  },
+  {
+    "id": "explosive-rebar",
+    "de": "Explosionsbolzen",
+    "en": "Explosive Rebar",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/ca/Explosive_Rebar.png/64px-Explosive_Rebar.png"
+  },
+  {
+    "id": "rifle-ammo",
+    "de": "Gewehrmunition",
+    "en": "Rifle Ammo",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/1/1a/Rifle_Ammo.png/64px-Rifle_Ammo.png"
+  },
+  {
+    "id": "homing-rifle-ammo",
+    "de": "Zielsuch-Gewehrmunition",
+    "en": "Homing Rifle Ammo",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/7/74/Homing_Rifle_Ammo.png/64px-Homing_Rifle_Ammo.png"
+  },
+  {
+    "id": "turbo-rifle-ammo",
+    "de": "Turbo-Gewehrmunition",
+    "en": "Turbo Rifle Ammo",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/b/bc/Turbo_Rifle_Ammo.png/64px-Turbo_Rifle_Ammo.png"
+  },
+  {
+    "id": "nobelisk",
+    "de": "Nobelisk",
+    "en": "Nobelisk",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/59/Nobelisk.png/64px-Nobelisk.png"
+  },
+  {
+    "id": "gas-nobelisk",
+    "de": "Gas-Nobelisk",
+    "en": "Gas Nobelisk",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/5/5f/Gas_Nobelisk.png/64px-Gas_Nobelisk.png"
+  },
+  {
+    "id": "pulse-nobelisk",
+    "de": "Impuls-Nobelisk",
+    "en": "Pulse Nobelisk",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/e/ed/Pulse_Nobelisk.png/64px-Pulse_Nobelisk.png"
+  },
+  {
+    "id": "cluster-nobelisk",
+    "de": "Splitter-Nobelisk",
+    "en": "Cluster Nobelisk",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/dc/Cluster_Nobelisk.png/64px-Cluster_Nobelisk.png"
+  },
+  {
+    "id": "nuke-nobelisk",
+    "de": "Nuklear-Nobelisk",
+    "en": "Nuke Nobelisk",
+    "category": "Ammo",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/3/38/Nuke_Nobelisk.png/64px-Nuke_Nobelisk.png"
   }
 ]
