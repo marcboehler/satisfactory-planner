@@ -359,5 +359,196 @@
       { "itemId": "ficsite-ingot", "amount": 1 },
       { "itemId": "sam", "amount": 4 }
     ]
+  },
+  {
+    "id": "wire",
+    "output": "wire",
+    "outputAmount": 2,
+    "cycleTime": 4,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "copper-ingot", "amount": 1 }]
+  },
+  {
+    "id": "cable",
+    "output": "cable",
+    "outputAmount": 1,
+    "cycleTime": 2,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "wire", "amount": 2 }]
+  },
+  {
+    "id": "quickwire",
+    "output": "quickwire",
+    "outputAmount": 5,
+    "cycleTime": 5,
+    "building": "Constructor",
+    "inputs": [{ "itemId": "caterium-ingot", "amount": 1 }]
+  },
+  {
+    "id": "circuit-board",
+    "output": "circuit-board",
+    "outputAmount": 1,
+    "cycleTime": 8,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "copper-sheet", "amount": 2 },
+      { "itemId": "plastic", "amount": 4 }
+    ]
+  },
+  {
+    "id": "ai-limiter",
+    "output": "ai-limiter",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "copper-sheet", "amount": 5 },
+      { "itemId": "quickwire", "amount": 20 }
+    ]
+  },
+  {
+    "id": "high-speed-connector",
+    "output": "high-speed-connector",
+    "outputAmount": 1,
+    "cycleTime": 16,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "quickwire", "amount": 56 },
+      { "itemId": "cable", "amount": 10 },
+      { "itemId": "circuit-board", "amount": 1 }
+    ]
+  },
+  {
+    "id": "computer",
+    "output": "computer",
+    "outputAmount": 1,
+    "cycleTime": 24,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "circuit-board", "amount": 10 },
+      { "itemId": "cable", "amount": 9 },
+      { "itemId": "plastic", "amount": 18 },
+      { "itemId": "screw", "amount": 52 }
+    ]
+  },
+  {
+    "id": "supercomputer",
+    "output": "supercomputer",
+    "outputAmount": 1,
+    "cycleTime": 32,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "computer", "amount": 2 },
+      { "itemId": "ai-limiter", "amount": 2 },
+      { "itemId": "high-speed-connector", "amount": 3 },
+      { "itemId": "plastic", "amount": 28 }
+    ]
+  },
+  {
+    "id": "radio-control-unit",
+    "output": "radio-control-unit",
+    "outputAmount": 2,
+    "cycleTime": 48,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "aluminum-casing", "amount": 32 },
+      { "itemId": "crystal-oscillator", "amount": 1 },
+      { "itemId": "computer", "amount": 1 }
+    ]
+  },
+  {
+    "id": "crystal-oscillator",
+    "output": "crystal-oscillator",
+    "outputAmount": 2,
+    "cycleTime": 120,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "quartz-crystal", "amount": 36 },
+      { "itemId": "cable", "amount": 28 },
+      { "itemId": "reinforced-iron-plate", "amount": 5 }
+    ]
+  },
+  {
+    "id": "rotor",
+    "output": "rotor",
+    "outputAmount": 1,
+    "cycleTime": 15,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "iron-rod", "amount": 5 },
+      { "itemId": "screw", "amount": 25 }
+    ]
+  },
+  {
+    "id": "stator",
+    "output": "stator",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "steel-pipe", "amount": 3 },
+      { "itemId": "wire", "amount": 8 }
+    ]
+  },
+  {
+    "id": "motor",
+    "output": "motor",
+    "outputAmount": 1,
+    "cycleTime": 12,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "rotor", "amount": 2 },
+      { "itemId": "stator", "amount": 2 }
+    ]
+  },
+  {
+    "id": "heat-sink",
+    "output": "heat-sink",
+    "outputAmount": 1,
+    "cycleTime": 8,
+    "building": "Assembler",
+    "inputs": [
+      { "itemId": "alclad-aluminum-sheet", "amount": 5 },
+      { "itemId": "copper-sheet", "amount": 3 }
+    ]
+  },
+  {
+    "id": "battery",
+    "output": "battery",
+    "outputAmount": 1,
+    "cycleTime": 3,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "sulfuric-acid", "amount": 3 },
+      { "itemId": "alumina-solution", "amount": 2 },
+      { "itemId": "aluminum-casing", "amount": 1 }
+    ],
+    "byproduct": { "itemId": "water", "amount": 2 }
+  },
+  {
+    "id": "cooling-system",
+    "output": "cooling-system",
+    "outputAmount": 1,
+    "cycleTime": 10,
+    "building": "Blender",
+    "inputs": [
+      { "itemId": "heat-sink", "amount": 2 },
+      { "itemId": "rubber", "amount": 2 },
+      { "itemId": "water", "amount": 5 },
+      { "itemId": "nitrogen-gas", "amount": 25 }
+    ]
+  },
+  {
+    "id": "turbo-motor",
+    "output": "turbo-motor",
+    "outputAmount": 1,
+    "cycleTime": 32,
+    "building": "Manufacturer",
+    "inputs": [
+      { "itemId": "cooling-system", "amount": 4 },
+      { "itemId": "radio-control-unit", "amount": 2 },
+      { "itemId": "motor", "amount": 4 },
+      { "itemId": "rubber", "amount": 24 }
+    ]
   }
 ]

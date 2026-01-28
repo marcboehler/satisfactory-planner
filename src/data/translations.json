@@ -43,6 +43,10 @@
     "Blender": {
       "de": "Mischer",
       "en": "Blender"
+    },
+    "ResourceWellExtractor": {
+      "de": "Ressourcenbrunnen-Extraktor",
+      "en": "Resource Well Extractor"
     }
   },
   "items": {
