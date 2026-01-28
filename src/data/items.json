@@ -695,5 +695,54 @@
     "en": "Plutonium Fuel Rod",
     "category": "Fuel",
     "icon": "https://satisfactory.wiki.gg/images/thumb/a/ab/Plutonium_Fuel_Rod.png/64px-Plutonium_Fuel_Rod.png"
+  },
+  {
+    "id": "empty-fluid-tank",
+    "de": "Leerer Flüssigkeitstank",
+    "en": "Empty Fluid Tank",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/d/db/Empty_Fluid_Tank.png/64px-Empty_Fluid_Tank.png"
+  },
+  {
+    "id": "pressure-conversion-cube",
+    "de": "Druckumwandlungsblock",
+    "en": "Pressure Conversion Cube",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/f/fb/Pressure_Conversion_Cube.png/64px-Pressure_Conversion_Cube.png"
+  },
+  {
+    "id": "packaged-water",
+    "de": "Verpacktes Wasser",
+    "en": "Packaged Water",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/98/Packaged_Water.png/64px-Packaged_Water.png"
+  },
+  {
+    "id": "packaged-alumina-solution",
+    "de": "Abgefüllte Aluoxid-Lösung",
+    "en": "Packaged Alumina Solution",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/f/f4/Packaged_Alumina_Solution.png/64px-Packaged_Alumina_Solution.png"
+  },
+  {
+    "id": "packaged-sulfuric-acid",
+    "de": "Abgefüllte Schwefelsäure",
+    "en": "Packaged Sulfuric Acid",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/9/96/Packaged_Sulfuric_Acid.png/64px-Packaged_Sulfuric_Acid.png"
+  },
+  {
+    "id": "packaged-nitric-acid",
+    "de": "Abgefüllte Salpetersäure",
+    "en": "Packaged Nitric Acid",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/0/05/Packaged_Nitric_Acid.png/64px-Packaged_Nitric_Acid.png"
+  },
+  {
+    "id": "packaged-nitrogen-gas",
+    "de": "Abgefülltes Stickstoffgas",
+    "en": "Packaged Nitrogen Gas",
+    "category": "Container",
+    "icon": "https://satisfactory.wiki.gg/images/thumb/c/c8/Packaged_Nitrogen_Gas.png/64px-Packaged_Nitrogen_Gas.png"
   }
 ]

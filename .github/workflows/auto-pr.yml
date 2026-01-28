@@ -3,10 +3,8 @@ name: Auto Create Pull Request
 on:
   push:
     branches:
-      - 'claude/**'
-      - 'feature/**'
-      - 'fix/**'
-      - 'layout/**'
+      - '**'
+      - '!main'
 
 jobs:
   create-pr:
