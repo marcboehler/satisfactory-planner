@@ -58,6 +58,7 @@ const BUILDING_IMAGES = {
   'Blender': 'https://satisfactory.wiki.gg/images/thumb/5/5a/Blender.png/200px-Blender.png',
   'Packager': 'https://satisfactory.wiki.gg/images/thumb/3/3e/Packager.png/200px-Packager.png',
   'BiomassCollector': 'https://satisfactory.wiki.gg/images/thumb/4/43/Miner_Mk.1.png/200px-Miner_Mk.1.png',
+  'ParticleAccelerator': 'https://satisfactory.wiki.gg/images/thumb/c/c5/Particle_Accelerator.png/200px-Particle_Accelerator.png',
 }
 
 // Pipe tiers for liquids (m³/min)
@@ -909,7 +910,7 @@ function groupItemsByCategory(itemsList) {
 }
 
 // Category order and translations
-const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial', 'Fuel', 'Container', 'Ammo']
+const categoryOrder = ['Ore', 'Ingot', 'Mineral', 'Liquid', 'Standard', 'Electronics', 'Computer', 'Industrial', 'Fuel', 'Container', 'Ammo', 'Nuclear']
 const categoryTranslations = {
   Ore: { de: 'Erze', en: 'Ores' },
   Ingot: { de: 'Barren', en: 'Ingots' },
@@ -922,6 +923,7 @@ const categoryTranslations = {
   Fuel: { de: 'Treibstoff', en: 'Fuel' },
   Container: { de: 'Behälter', en: 'Containers' },
   Ammo: { de: 'Munition', en: 'Ammo' },
+  Nuclear: { de: 'Nuklear', en: 'Nuclear' },
 }
 
 // Register custom node types
