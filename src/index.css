@@ -263,6 +263,64 @@ html, body, #root {
   font-weight: 600;
 }
 
+/* Search container */
+.search-container {
+  position: relative;
+  padding: 0.75rem;
+  background: #151515;
+  border-bottom: 1px solid #333;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  background: #1a1a1a;
+  border: 1px solid #fa9549;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 0.85rem;
+}
+
+.search-input::placeholder {
+  color: #666;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(250, 149, 73, 0.3);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.search-clear:hover {
+  color: #fa9549;
+  background: rgba(250, 149, 73, 0.1);
+}
+
 /* Material grid */
 .material-grid {
   flex: 1;

@@ -14,7 +14,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import dagre from 'dagre'
-import { Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Menu, X, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import translations from './data/translations.json'
 import items from './data/items.json'
 import recipes from './data/recipes.json'
@@ -949,6 +949,7 @@ export default function App() {
   const [targetAmount, setTargetAmount] = useState(100)
   const [minerSettings, setMinerSettings] = useState({})
   const [sidebarOpen, setSidebarOpen] = useState(getInitialSidebarState)
+  const [searchTerm, setSearchTerm] = useState('')
 
   // Handlers for miner settings changes
   const handleTierChange = useCallback((nodeId, newTier) => {
@@ -1118,6 +1119,50 @@ export default function App() {
   // Group items for display
   const groupedItems = useMemo(() => groupItemsByCategory(items), [])
 
+  // Filter items based on search term with prioritization
+  const filteredGroupedItems = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return groupedItems
+    }
+
+    const term = searchTerm.toLowerCase().trim()
+    const result = {}
+
+    for (const category of categoryOrder) {
+      const categoryItems = groupedItems[category] || []
+      const filtered = categoryItems.filter(item => {
+        const name = item[language].toLowerCase()
+        return name.includes(term)
+      })
+
+      // Sort: items starting with search term first, then by name
+      filtered.sort((a, b) => {
+        const aName = a[language].toLowerCase()
+        const bName = b[language].toLowerCase()
+        const aStarts = aName.startsWith(term)
+        const bStarts = bName.startsWith(term)
+
+        if (aStarts && !bStarts) return -1
+        if (!aStarts && bStarts) return 1
+        return aName.localeCompare(bName)
+      })
+
+      if (filtered.length > 0) {
+        result[category] = filtered
+      }
+    }
+
+    return result
+  }, [groupedItems, searchTerm, language])
+
+  // Get categories that have items (for filtering empty categories during search)
+  const visibleCategories = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return categoryOrder
+    }
+    return categoryOrder.filter(category => filteredGroupedItems[category]?.length > 0)
+  }, [searchTerm, filteredGroupedItems])
+
   return (
     <div className="app">
       <header className="header">
@@ -1187,14 +1232,33 @@ export default function App() {
               )}
             </div>
           )}
+          <div className="search-container">
+            <Search size={16} className="search-icon" />
+            <input
+              type="text"
+              className="search-input"
+              placeholder={language === 'de' ? 'Material suchen...' : 'Search material...'}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button
+                className="search-clear"
+                onClick={() => setSearchTerm('')}
+                aria-label="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
           <div className="material-grid">
-            {categoryOrder.map(category => (
+            {visibleCategories.map(category => (
               <div key={category} className="category-section">
                 <h3 className="category-title">
                   {categoryTranslations[category][language]}
                 </h3>
                 <div className="category-items">
-                  {(groupedItems[category] || []).map(item => (
+                  {(filteredGroupedItems[category] || []).map(item => (
                     <button
                       key={item.id}
                       className={`material-btn ${targetItem === item.id ? 'active' : ''}`}
